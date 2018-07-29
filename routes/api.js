@@ -22,8 +22,9 @@ router.get('/:region/:school_code', (req, res) => {
       ]
     });
 
-    require('../modules/logger')({
+    logger({
       level: 'info',
+      method: 'GET',
       optional_var: ymd
     });
   
@@ -40,8 +41,9 @@ router.post('/', (req, res) => {
     date: req.body.ymd.date
   };
   parseMenu(req.body.region, req.body.school_code, ymd, (MONTHLY_TABLE) => {
-    require('../modules/logger')({
+    logger({
       level: 'info',
+      method: 'POST',
       optional_var: ymd
     });
 
