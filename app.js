@@ -23,7 +23,7 @@ app.get('*', (req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.redirect('https://github.com/5d-jh/school-menu-api-documentation');
+  res.redirect('https://github.com/5d-jh/school-menu-api');
 });
 
 app.use('/api', require('./routes/api'));
