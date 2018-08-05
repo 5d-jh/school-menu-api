@@ -13,7 +13,7 @@ router.get('/:region/:school_code', (req, res) => {
   var ymd = {
     year: req.query.year,
     month: req.query.month,
-    date: req.query.date
+    day: req.query.day
   };
   parseMenu(req.params.region, req.params.school_code, ymd, (MONTHLY_TABLE) => {
     logger({
@@ -32,7 +32,7 @@ router.post('/', (req, res) => {
   var ymd = {
     year: req.body.ymd.year,
     month: req.body.ymd.month,
-    date: req.body.ymd.date
+    day: req.body.ymd.day
   };
   parseMenu(req.body.region, req.body.school_code, ymd, (MONTHLY_TABLE) => {
     logger({
