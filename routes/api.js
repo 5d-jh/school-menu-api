@@ -16,12 +16,6 @@ router.get('/:region/:school_code', (req, res) => {
     date: req.query.date
   };
   parseMenu(req.params.region, req.params.school_code, ymd, (MONTHLY_TABLE) => {
-    MONTHLY_TABLE.push({
-      notice: [
-        '이제 POST 요청을 지원합니다. 자세한 사항은 문서(https://github.com/5d-jh/school-menu-api-documentation)를 참고하세요.'
-      ]
-    });
-
     logger({
       level: 'info',
       method: 'GET',
