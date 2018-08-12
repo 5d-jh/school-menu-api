@@ -18,14 +18,18 @@ app.get('*', (req, res, next) => {
   if ((req.get('X-Forwarded-Proto') === 'http') && (process.env.NODE_ENV == 'production')) {
     res.redirect(`https://${req.get('host')}${req.url}`);
   } else {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
   }
 });
 
 app.get('/', (req, res) => {
   res.redirect('https://github.com/5d-jh/school-menu-api');
+});
+
+app.all('/api/*', (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
 });
 
 app.use('/api', require('./routes/api'));
