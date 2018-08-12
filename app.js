@@ -2,7 +2,10 @@
 const express = require('express');
 const process = require('process');
 const os = require('os');
+const cors = require('cors');
 const app = express();
+
+app.use(cors());
 
 console.log(process.env.NODE_ENV);
 
@@ -24,11 +27,6 @@ app.get('*', (req, res, next) => {
 
 app.get('/', (req, res) => {
   res.redirect('https://github.com/5d-jh/school-menu-api');
-});
-
-app.all('/api/*', (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
 });
 
 app.use('/api', require('./routes/api'));
