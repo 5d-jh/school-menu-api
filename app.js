@@ -18,6 +18,8 @@ app.get('*', (req, res, next) => {
   if ((req.get('X-Forwarded-Proto') === 'http') && (process.env.NODE_ENV == 'production')) {
     res.redirect(`https://${req.get('host')}${req.url}`);
   } else {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
   }
 });
