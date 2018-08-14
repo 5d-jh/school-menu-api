@@ -9,7 +9,7 @@ function removeBlank(arr) {
 }
 
 module.exports = function (region, school_code, ymd, callback) { 
-  var NOMENU_MSG = "급식이 없습니다.";
+  var NOMENU_MSG = new Array("급식이 없습니다.");
   var MONTHLY_TABLE = new Array();
 
   var date = new Date();
