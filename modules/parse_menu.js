@@ -15,7 +15,7 @@ module.exports = function (region, school_code, ymd, callback) { 
   var date = new Date();
   var YEAR = ymd.year || date.getFullYear();
   var MONTH = ymd.month || date.getMonth() + 1;
-  var DAY = ymd.day
+  var DATE = ymd.date
   if (MONTH < 10) { MONTH = '0' + MONTH }
   var url = `https://stu.${region}.go.kr/sts_sci_md00_001.do?schulCode=${school_code}&schulCrseScCode=4&ay=${YEAR}&mm=${MONTH}`;
 
@@ -31,7 +31,7 @@ module.exports = function (region, school_code, ymd, callback) { 
       text = text.split(/\[조식\]|\[중식\]|\[석식\]/);
       if (text != ' ') {
         MONTHLY_TABLE.push({
-          day: text[0].replace('<br>', ''),
+          date: text[0].replace('<br>', ''),
           breakfast: text[1] ? removeBlank(text[1].split('<br>')) : NOMENU_MSG,
           lunch: text[2] ? removeBlank(text[2].split('<br>')) : NOMENU_MSG,
           dinner: text[3] ? removeBlank(text[3].split('<br>')) : NOMENU_MSG,
@@ -39,8 +39,8 @@ module.exports = function (region, school_code, ymd, callback) { 
       }
     });
 
-    if (DAY) {
-      MONTHLY_TABLE = [MONTHLY_TABLE[DAY-1]];
+    if (DATE) {
+      MONTHLY_TABLE = [MONTHLY_TABLE[DATE-1]];
       callback(MONTHLY_TABLE);
     } else {
       callback(MONTHLY_TABLE);
