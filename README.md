@@ -104,6 +104,29 @@ request.post(url, body, (request, res) => {
 });
 </pre>
 
+ > Python
+ <pre>
+import requests
+import json
+
+url = 'https://schoolmenukr.ml/api'
+body = {
+    "region": "sen",
+    "school_code": "A123456789",
+    "ymd": {
+        "year": "2018",
+        "month": "5"
+    }
+})
+headers = {
+  "Content-Type": "application/json"
+}
+
+response = requests.post(url, data=json.dumps(body), headers=headers)
+meal_menu = json.loads(response.text)
+print(meal_menu)
+</pre>
+
 ### 응답
  <pre>
 [
