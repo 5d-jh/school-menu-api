@@ -25,19 +25,17 @@ GET/POST 요청을 통하여 어떤 플랫폼에서든 학교 급식을 쉽게 �
 ### 요청 메시지
 <code>https://schoolmenukr.ml/api/</code>로 현재 달의 급식을 볼 수 있습니다.
 <pre>
-{
-    json: {
-        region: '[관할교육청]'.
-        school_code: '[학교 코드]',
-        ymd: {
-            year: [년],
-            month: [월],
-            date: [일]
-        }
+{<span style="color: #2465E6">
+    "region": [String 관할교육청],
+    "school_code": [String 학교 코드],</span>
+    "ymd": {
+        "year": [String 년],
+        "month": [String 월],
+        "date": [String 일]
     }
 }
 </pre>
-ymd는 선택 사항입니다. 예를 들어 ymd 전체를 따로 지정하고 싶지 않다면 ymd 필드를 쓰지 않으면 되며, ymd에서 date를 따로 지정하고 싶지 않다면 ymd 내부의 date 필드를 쓰지 않으면 됩니다.
+파란색으로 처리한 부분은 필수로 입력해야 하는 부분입니다.
 
 ## 관할 교육청
  - 서울: <code>**sen**</code>
