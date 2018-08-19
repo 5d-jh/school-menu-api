@@ -1,13 +1,13 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const router = express.Router();
 
 const parseMenu = require('../modules/parse_menu');
 const logger = require('../modules/logger');
 
-router.use(bodyParser.urlencoded({extended: true}));
-router.use(bodyParser.json());
+router.use(cors());
 
 router.get('/:region/:school_code', (req, res) => {
   var ymd = {
@@ -26,8 +26,7 @@ router.get('/:region/:school_code', (req, res) => {
   });
 });
 
-router.post('/', (req, res) => {
-  console.log(req.body);
+router.post('/', bodyParser.json(), (req, res) => {
   req.body.ymd = req.body.ymd || {year: '', month: '', date: ''};
   var ymd = {
     year: req.body.ymd.year,
@@ -41,7 +40,7 @@ router.post('/', (req, res) => {
       optional_var: ymd
     });
 
-    res.send(MONTHLY_TABLE);
+    res.json(MONTHLY_TABLE);
   });
 });
 

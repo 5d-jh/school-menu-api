@@ -2,10 +2,7 @@
 const express = require('express');
 const process = require('process');
 const os = require('os');
-const cors = require('cors');
 const app = express();
-
-app.use(cors());
 
 console.log(process.env.NODE_ENV);
 
