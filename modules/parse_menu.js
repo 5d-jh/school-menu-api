@@ -20,7 +20,7 @@ module.exports = function (region, school_code, ymd, callback) { 
   var url = `https://stu.${region}.go.kr/sts_sci_md00_001.do?schulCode=${school_code}&schulCrseScCode=4&ay=${YEAR}&mm=${MONTH}`;
 
   request(url, ($err, $res, $html) => {
-    if ($err) throw err;
+    if ($err) throw $err;
 
     var $ = cheerio.load($html, {
       decodeEntities: false
