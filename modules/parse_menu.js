@@ -8,16 +8,27 @@ function removeBlank(arr) {
   return arr;
 }
 
-module.exports = function (region, school_code, ymd, callback) { 
+const schoolTypes = {
+  "kindergarten": "1",
+  "elementary": "2",
+  "middle": "3",
+  "high": "4"
+};
+
+module.exports = function (region, schoolCode, schoolType, ymd, callback) { 
+  let err = null;
+
   const NOMENU_MSG = new Array("급식이 없습니다.");
   let MONTHLY_TABLE = new Array();
+  
+  const schoolTypeNum = schoolTypes[schoolType] || callback([], "오류: 알 수 없는 학교 유형");
 
   const date = new Date();
   let YEAR = ymd.year || date.getFullYear();
   let MONTH = ymd.month || date.getMonth() + 1;
   let DATE = ymd.date;
   if (MONTH < 10) { MONTH = '0' + MONTH }
-  const url = `https://stu.${region}.go.kr/sts_sci_md00_001.do?schulCode=${school_code}&schulCrseScCode=4&ay=${YEAR}&mm=${MONTH}`;
+  const url = `https://stu.${region}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolTypeNum}&ay=${YEAR}&mm=${MONTH}`;
 
   request(url, ($err, $res, $html) => {
     if ($err) throw $err;
@@ -41,9 +52,7 @@ module.exports = function (region, school_code, ymd, callback) { 
 
     if (DATE) {
       MONTHLY_TABLE = [MONTHLY_TABLE[DATE-1]];
-      callback(MONTHLY_TABLE);
-    } else {
-      callback(MONTHLY_TABLE);
     }
+    callback(MONTHLY_TABLE, err);
   });
 }
