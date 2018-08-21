@@ -21,7 +21,7 @@ module.exports = function (region, schoolCode, schoolType, ymd, callback) { 
   const NOMENU_MSG = new Array("급식이 없습니다.");
   let MONTHLY_TABLE = new Array();
   
-  const schoolTypeNum = schoolTypes[schoolType] || callback([], "오류: 알 수 없는 학교 유형");
+  const schoolTypeNum = schoolTypes[schoolType] || callback([], new Error("오류: 알 수 없는 학교 유형"));
 
   const date = new Date();
   let YEAR = ymd.year || date.getFullYear();

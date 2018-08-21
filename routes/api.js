@@ -7,9 +7,26 @@ const router = express.Router();
 const parseMenu = require('../modules/parse_menu');
 const logger = require('../modules/logger');
 
-router.use(cors());
+const logErrors = (err, req, res, next) => {
+  logger({
+    filename: 'error',
+    err_info: err,
+    req_info: req
+  });
+  next(err)
+}
+const errorHandler = (err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+  res.status(400).send(err);
+}
 
-router.get('/:schoolType/:region/:schoolCode', (req, res) => {
+router.use(cors());
+router.use(logErrors);
+router.use(errorHandler);
+
+router.get('/:schoolType/:region/:schoolCode', (req, res, next) => {
   const ymd = {
     year: req.query.year,
     month: req.query.month,
@@ -17,16 +34,17 @@ router.get('/:schoolType/:region/:schoolCode', (req, res) => {
   };
 
   parseMenu(req.params.region, req.params.schoolCode, req.params.schoolType, ymd, (MONTHLY_TABLE, err) => {
-    if (err) throw err;
+    if (err) return next(err);
 
     MONTHLY_TABLE.push({
       notice: ["8월 24일 이후 URL, body의 구조 변경이 있습니다: https://github.com/5d-jh/school-menu-api"]
     });
 
     logger({
+      filename: 'GET200',
       level: 'info',
-      method: 'GET',
-      optional_var: ymd
+      req_query: req.query,
+      req_params: req.params
     });
   
     res.json(MONTHLY_TABLE);
@@ -46,9 +64,9 @@ router.post('/', bodyParser.json(), (req, res) => {
     });
 
     logger({
+      filename: 'POST200',
       level: 'info',
-      method: 'POST',
-      optional_var: ymd
+      req_body: req.body
     });
 
     res.json(MONTHLY_TABLE);
