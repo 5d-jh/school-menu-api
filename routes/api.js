@@ -10,7 +10,7 @@ const logger = require('../modules/logger');
 router.use(cors());
 
 router.get('/:region/:school_code', (req, res) => {
-  var ymd = {
+  const ymd = {
     year: req.query.year,
     month: req.query.month,
     date: req.query.date

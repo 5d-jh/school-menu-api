@@ -9,20 +9,20 @@ function removeBlank(arr) {
 }
 
 module.exports = function (region, school_code, ymd, callback) { 
-  var NOMENU_MSG = new Array("급식이 없습니다.");
-  var MONTHLY_TABLE = new Array();
+  const NOMENU_MSG = new Array("급식이 없습니다.");
+  let MONTHLY_TABLE = new Array();
 
-  var date = new Date();
-  var YEAR = ymd.year || date.getFullYear();
-  var MONTH = ymd.month || date.getMonth() + 1;
-  var DATE = ymd.date
+  const date = new Date();
+  let YEAR = ymd.year || date.getFullYear();
+  let MONTH = ymd.month || date.getMonth() + 1;
+  let DATE = ymd.date;
   if (MONTH < 10) { MONTH = '0' + MONTH }
-  var url = `https://stu.${region}.go.kr/sts_sci_md00_001.do?schulCode=${school_code}&schulCrseScCode=4&ay=${YEAR}&mm=${MONTH}`;
+  const url = `https://stu.${region}.go.kr/sts_sci_md00_001.do?schulCode=${school_code}&schulCrseScCode=4&ay=${YEAR}&mm=${MONTH}`;
 
   request(url, ($err, $res, $html) => {
     if ($err) throw $err;
 
-    var $ = cheerio.load($html, {
+    const $ = cheerio.load($html, {
       decodeEntities: false
     });
 

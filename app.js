@@ -6,7 +6,7 @@ const app = express();
 
 console.log(process.env.NODE_ENV);
 
-var port;
+let port;
 os.type() === 'Darwin' ? port = 8080 : port = process.env.PORT || 80
 app.listen(port, () => {
   if (process.env.NODE_ENV != 'production') {
