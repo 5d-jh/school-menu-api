@@ -34,7 +34,7 @@ router.get('/:schoolType/:region/:schoolCode', (req, res, next) => {
   };
 
   parseMenu(req.params.region, req.params.schoolCode, req.params.schoolType, ymd, (MONTHLY_TABLE, err) => {
-    if (err) return next(err);
+    if (err) throw err;
 
     MONTHLY_TABLE.push({
       notice: ["8월 24일 이후 URL, body의 구조 변경이 있습니다: https://github.com/5d-jh/school-menu-api"]
@@ -58,7 +58,8 @@ router.post('/', bodyParser.json(), (req, res) => {
     month: req.body.ymd.month,
     date: req.body.ymd.date
   };
-  parseMenu(req.body.region, req.body.school_code, req.params.schoolType, ymd, (MONTHLY_TABLE) => {
+  parseMenu(req.body.region, req.body.school_code, req.body.school_type, ymd, (MONTHLY_TABLE, err) => {
+    if (err) throw err;
     MONTHLY_TABLE.push({
       notice: ["8월 24일 이후 URL, body의 구조 변경이 있습니다: https://github.com/5d-jh/school-menu-api"]
     });
