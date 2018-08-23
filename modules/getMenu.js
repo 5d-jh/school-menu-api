@@ -22,7 +22,6 @@ class GetMenu {
     this.region = region;
     this.code = code;
     this.date = date || new Date();
-    this.monthlyTable = [];
   }
 
   initSchool(callback) {
@@ -57,16 +56,22 @@ class GetMenu {
       if (!table) {
         console.debug('2', table);
         
-        this.neis(monthlyTable => {
-          this.monthlyTable = monthlyTable;
+        this.neis(fetchedTable => {
           menu.school_id = this.schoolId;
-          menu.menu = this.monthlyTable;
+          menu.menu = fetchedTable;
           menu.save(err => {
             if (err) reject(err);
             this.database(callback);
           });
         });
       } else {
+        let date = this.date.getDate();
+        if (date) {
+          table = {
+            menu: table.menu[date-1]
+          }
+        }
+        
         callback(table);
       }
     });
@@ -88,12 +93,12 @@ class GetMenu {
         decodeEntities: false
       });
       
-      let _monthlyTable = [];
+      let table = [];
       $('td div').each(function (i) {
         var text = $(this).html();
         text = text.split(/\[조식\]|\[중식\]|\[석식\]/);
         if (text != ' ') {
-          _monthlyTable.push({
+          table.push({
             date: text[0].replace('<br>', ''),
             breakfast: text[1] ? removeBlank(text[1].split('<br>')) : NOMENU_MSG,
             lunch: text[2] ? removeBlank(text[2].split('<br>')) : NOMENU_MSG,
@@ -102,9 +107,9 @@ class GetMenu {
         }
       });
 
-      // if (date) {
-      //   _monthlyTable = [_monthlyTable[date-1]];
-      // }
+      if (date) {
+        table = [table[date-1]];
+      }
 
       callback(_monthlyTable);
     });

@@ -5,11 +5,15 @@ const router = express.Router();
 const GetMenu = require('../modules/getMenu');
 
 router.get('/api/:type/:region/:code', (req, res) => {
-  const getMenu = new GetMenu(req.params.type, req.params.region, req.params.code);
+  let nowdate = new Date();
+  let year = req.query.year || nowdate.getFullYear();
+  let month = req.query.month || nowdate.getMonth() + 1;
+  let date = new Date(year, month, req.query.date);
+  const getMenu = new GetMenu(req.params.type, req.params.region, req.params.code, date);
   getMenu.initSchool(() => {
-    getMenu.database(monthlyTable => {
+    getMenu.database(table => {
       let responseJson = {
-        menu: monthlyTable.menu,
+        menu: table.menu,
         server_message: [""]
       }
       res.json(responseJson);
