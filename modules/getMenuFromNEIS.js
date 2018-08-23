@@ -15,7 +15,7 @@ const schoolTypes = {
   "high": "4"
 };
 
-module.exports = function (region, schoolCode, schoolType, ymd, callback) { 
+module.exports = function (region, schoolCode, schoolType, ymd) {
   let err = null;
 
   const NOMENU_MSG = new Array("급식이 없습니다.");
@@ -30,10 +30,11 @@ module.exports = function (region, schoolCode, schoolType, ymd, callback) { 
   if (MONTH < 10) { MONTH = '0' + MONTH }
   const url = `https://stu.${region}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolTypeNum}&ay=${YEAR}&mm=${MONTH}`;
 
-  request(url, ($err, $res, $html) => {
-    if ($err) throw $err;
+  request(url, (err, res, html) => {
+    if (err) throw err;
+    if (res.statusCode != 200) reject(res.statusCode);
 
-    const $ = cheerio.load($html, {
+    const $ = cheerio.load(html, {
       decodeEntities: false
     });
 
@@ -53,6 +54,6 @@ module.exports = function (region, schoolCode, schoolType, ymd, callback) { 
     if (DATE) {
       MONTHLY_TABLE = [MONTHLY_TABLE[DATE-1]];
     }
-    callback(MONTHLY_TABLE, err);
+    resolve(MONTHLY_TABLE);
   });
 }
