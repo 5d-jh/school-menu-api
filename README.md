@@ -3,15 +3,15 @@
 ### 2018년 8월 24일 이후 변경사항
  * 고등학교 외에도 유치원, 초등학교, 중학교를 지원할 예정입니다.
    * 학교유형: kindergarten(유치원), elementary(초등학교), middle(중학교), high(고등학교)
+ * 학교 코드만으로 관할 교육청을 구별할 수 있으므로 관할 교육청이 제외됩니다.
  * **이로 인해 요청 URL과 body가 댜음과 같이 변경됩니다:**
  <pre>
  GET
- https://schoolmenukr.ml/api/[학교유형]/[관할교육청]/[학교코드]</pre>
+ https://schoolmenukr.ml/api/[학교유형]/[학교코드]</pre>
  <pre>
  POST
  {
     "school_type": "학교 유형",
-    "region": "관할교육청",
     "school_code": "학교 코드" [,
     "ymd": {
         ["year": "년"][,

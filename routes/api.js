@@ -26,14 +26,18 @@ router.use(cors());
 router.use(logErrors);
 router.use(errorHandler);
 
-router.get('/:schoolType/:region/:schoolCode', (req, res, next) => {
+const regions = {B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use", J: "goe",
+                 K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"};
+
+router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const ymd = {
     year: req.query.year,
     month: req.query.month,
     date: req.query.date
   };
+  const region = regions[req.params.schoolCode[0]];
 
-  parseMenu(req.params.region, req.params.schoolCode, req.params.schoolType, ymd, (MONTHLY_TABLE, err) => {
+  parseMenu(region, req.params.schoolCode, req.params.schoolType, ymd, (MONTHLY_TABLE, err) => {
     if (err) throw err;
 
     MONTHLY_TABLE.push({
@@ -58,7 +62,10 @@ router.post('/', bodyParser.json(), (req, res) => {
     month: req.body.ymd.month,
     date: req.body.ymd.date
   };
-  parseMenu(req.body.region, req.body.school_code, req.body.school_type, ymd, (MONTHLY_TABLE, err) => {
+
+  const region = regions[req.body.school_code[0]];
+
+  parseMenu(region, req.body.school_code, req.body.school_type, ymd, (MONTHLY_TABLE, err) => {
     if (err) throw err;
     MONTHLY_TABLE.push({
       notice: ["8월 24일 이후 URL, body의 구조 변경이 있습니다: https://github.com/5d-jh/school-menu-api"]
