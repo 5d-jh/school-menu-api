@@ -89,11 +89,11 @@ router.post('/', bodyParser.json(), (req, res, next) => {
   const nowdate = new Date();
   let date = {
     year: req.body.ymd.year || nowdate.getFullYear(),
-    month: req.query.ymd.month || nowdate.getMonth() + 1,
-    date: req.query.ymd.date
+    month: req.body.ymd.month || nowdate.getMonth() + 1,
+    date: req.body.ymd.date
   };
 
-  const getMenu = new GetMenu(req.params.schoolType, region, req.params.schoolCode, date);
+  const getMenu = new GetMenu(req.body.school_type, region, req.body.school_code, date);
   getMenu.initSchool((err) => {
     if (err) return next(err);
     getMenu.database((table, err) => {
