@@ -21,7 +21,7 @@ db.once('open', () => {
   console.log('Connected to mongod');
 });
 
-mongoose.connect('mongodb://localhost/schoolmenu_test');
+mongoose.connect('mongodb://localhost/schoolmenu');
 
 app.get('*', (req, res, next) => {
   if ((req.get('X-Forwarded-Proto') === 'http') && (process.env.NODE_ENV == 'production')) {
