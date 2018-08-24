@@ -107,10 +107,6 @@ class GetMenu {
         }
       });
       
-      if (date) {
-        table = [table[date-1]];
-      }
-      
       callback(table);
     });
   }
