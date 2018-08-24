@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const router = express.Router();
 
-const parseMenu = require('../modules/getMenuFromNEIS');
+const parseMenu = require('../modules/parse_menu');
 const logger = require('../modules/logger');
 
 const logErrors = (err, req, res, next) => {
