@@ -47,13 +47,50 @@ router.get(blacklist, (req, res, next) => {
 router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const region = regions[req.params.schoolCode[0]];
 
-  let nowdate = new Date();
-  let year = req.query.year || nowdate.getFullYear();
-  let month = req.query.month || nowdate.getMonth() + 1;
-  let date = {
+  const nowdate = new Date();
+  const year = req.query.year || nowdate.getFullYear();
+  const month = req.query.month || nowdate.getMonth() + 1;
+  const date = {
     year: year,
     month: month,
     date: req.query.date
+  };
+
+  let responseJSON = {
+    menu: [],
+    server_message: [""]
+  };
+
+  const getMenu = new GetMenu(req.params.schoolType, region, req.params.schoolCode, date);
+  if (req.query.nodb == "true") {
+    console.debug("no database")
+    getMenu.neis(fetchedTable => {
+      responseJSON.menu = fetchedTable;
+      res.json(responseJSON);
+    });
+  } else {
+    getMenu.initSchool((err) => {
+      if (err) return next(err);
+      getMenu.database((table, err) => {
+        if (err) return next(err);
+
+        responseJSON.menu = table.menu;
+        res.json(responseJSON);
+      });
+    });
+  }
+  
+});
+
+router.post('/', bodyParser.json(), (req, res, next) => {
+  req.body.ymd = req.body.ymd || {year: '', month: '', date: ''};
+  const region = regions[req.body.school_code[0]];
+
+  const nowdate = new Date();
+  let date = {
+    year: req.body.ymd.year || nowdate.getFullYear(),
+    month: req.query.ymd.month || nowdate.getMonth() + 1,
+    date: req.query.ymd.date
   };
 
   const getMenu = new GetMenu(req.params.schoolType, region, req.params.schoolCode, date);
@@ -61,41 +98,13 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     if (err) return next(err);
     getMenu.database((table, err) => {
       if (err) return next(err);
-      let responseJson = {
+      let responseJSON = {
         menu: table.menu,
         server_message: [""]
       }
-      res.json(responseJson);
+      res.json(responseJSON);
     });
   });
-});
-
-router.post('/', bodyParser.json(), (req, res, next) => {
-  req.body.ymd = req.body.ymd || {year: '', month: '', date: ''};
-  var ymd = {
-    year: req.body.ymd.year,
-    month: req.body.ymd.month,
-    date: req.body.ymd.date
-  };
-
-  const region = regions[req.body.school_code[0]];
-
-  parseMenu(region, req.body.school_code, req.body.school_type, ymd, (MONTHLY_TABLE, err) => {
-    if (err) return next(err);
-
-    let responseJSON = {
-      menu: MONTHLY_TABLE,
-      server_message: []
-    };
-
-    logger({
-      filename: 'POST200',
-      level: 'info',
-      req_body: req.body
-    });
-
-    res.json(responseJSON);
-    });
 });
 
 module.exports = router;
