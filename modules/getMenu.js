@@ -113,12 +113,15 @@ class GetMenu {
         var text = $(this).html();
         text = text.split(/\[조식\]|\[중식\]|\[석식\]/);
         if (text != ' ') {
-          table.push({
-            date: text[0].replace('<br>', ''),
-            breakfast: text[1] ? removeBlank(text[1].split('<br>')) : NOMENU_MSG,
-            lunch: text[2] ? removeBlank(text[2].split('<br>')) : NOMENU_MSG,
-            dinner: text[3] ? removeBlank(text[3].split('<br>')) : NOMENU_MSG,
-          });
+          if (text[0].replace('<br>', '') != '') {
+            table.push({
+              date: text[0].replace('<br>', ''),
+              breakfast: text[1] ? removeBlank(text[1].split('<br>')) : NOMENU_MSG,
+              lunch: text[2] ? removeBlank(text[2].split('<br>')) : NOMENU_MSG,
+              dinner: text[3] ? removeBlank(text[3].split('<br>')) : NOMENU_MSG,
+            });
+          }
+          
         }
       });
       
