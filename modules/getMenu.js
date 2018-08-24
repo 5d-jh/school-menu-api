@@ -31,7 +31,7 @@ class GetMenu {
     school.code = this.code;
 
     School.findOne({code: this.code}, (err, schoolData) => {
-      if (err) reject(err);
+      if (err) return callback(err);
       if (!schoolData) {
         school.save(err => {
           if (err) reject(err);
@@ -52,7 +52,7 @@ class GetMenu {
     console.debug('1', {school_id: String(this.schoolId)});
 
     Menu.findOne({school_id: String(this.schoolId), year: this.date.year, month: this.date.month}, (err, table) => {
-      if (err) reject(err);
+      if (err) return callback(null, err);
       if (!table) {
         this.neis(fetchedTable => {
           menu.school_id = this.schoolId;
@@ -79,7 +79,6 @@ class GetMenu {
     const NOMENU_MSG = "급식이 없습니다.";
     let year = this.date.year;
     let month = this.date.month;
-    let date = this.date.date;
     if (month < 10) { month = '0' + month }
     const url = `https://stu.${this.region}.go.kr/sts_sci_md00_001.do?schulCode=${this.code}&schulCrseScCode=${this.type}&ay=${year}&mm=${month}`;
     

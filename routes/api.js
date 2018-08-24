@@ -15,15 +15,23 @@ const logErrors = (err, req, res, next) => {
   });
   next(err)
 }
+function clientErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(400).send({ error: 'Something failed!' });
+  } else {
+    next(err);
+  }
+}
 const errorHandler = (err, req, res, next) => {
   if (res.headersSent) {
     return next(err);
   }
-  res.status(400).send(err);
+  res.status(400).send('서버 요류..');
 }
 
 router.use(cors());
 router.use(logErrors);
+router.use(clientErrorHandler);
 router.use(errorHandler);
 
 const regions = {B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use", J: "goe",
@@ -49,8 +57,10 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   };
 
   const getMenu = new GetMenu(req.params.schoolType, region, req.params.schoolCode, date);
-  getMenu.initSchool(() => {
-    getMenu.database(table => {
+  getMenu.initSchool((err) => {
+    if (err) return next(err);
+    getMenu.database((table, err) => {
+      if (err) return next(err);
       let responseJson = {
         menu: table.menu,
         server_message: [""]
@@ -60,7 +70,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   });
 });
 
-router.post('/', bodyParser.json(), (req, res) => {
+router.post('/', bodyParser.json(), (req, res, next) => {
   req.body.ymd = req.body.ymd || {year: '', month: '', date: ''};
   var ymd = {
     year: req.body.ymd.year,
@@ -71,7 +81,7 @@ router.post('/', bodyParser.json(), (req, res) => {
   const region = regions[req.body.school_code[0]];
 
   parseMenu(region, req.body.school_code, req.body.school_type, ymd, (MONTHLY_TABLE, err) => {
-    if (err) throw err;
+    if (err) return next(err);
 
     let responseJSON = {
       menu: MONTHLY_TABLE,
