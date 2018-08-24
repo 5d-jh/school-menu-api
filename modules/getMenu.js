@@ -10,6 +10,17 @@ function removeBlank(arr) {
   return arr;
 }
 
+function isAllSame(arr) {
+  for (let i = 0; i < arr.length-1; i++) {
+    let pre = [arr[i].breakfast, arr[i].lunch, arr[i].dinner];
+    let post = [arr[i+1].breakfast, arr[i+1].lunch, arr[i+1].dinner];
+    if (JSON.stringify(pre) != JSON.stringify(post)) {
+      return false
+    }
+  }
+  return true
+}
+
 class GetMenu {
   constructor(type, region, code, date) {
     const schoolTypes = {
@@ -55,6 +66,11 @@ class GetMenu {
       if (err) return callback(null, err);
       if (!table) {
         this.neis(fetchedTable => {
+          if (isAllSame(fetchedTable)) {
+            console.debug('Menus are all same. Abort saving.');
+            return callback({menu: fetchedTable});
+          }
+
           menu.school_id = this.schoolId;
           menu.menu = fetchedTable;
           menu.save(err => {
