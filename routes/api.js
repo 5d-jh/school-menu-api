@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const router = express.Router();
 
-const parseMenu = require('../modules/parse_menu');
+const GetMenu = require('../modules/getMenu');
 const logger = require('../modules/logger');
 
 const logErrors = (err, req, res, next) => {
@@ -37,29 +37,26 @@ router.get(blacklist, (req, res, next) => {
 });
 
 router.get('/:schoolType/:schoolCode', (req, res, next) => {
-  const ymd = {
-    year: req.query.year,
-    month: req.query.month,
-    date: req.query.date
-  };
   const region = regions[req.params.schoolCode[0]];
 
-  parseMenu(region, req.params.schoolCode, req.params.schoolType, ymd, (MONTHLY_TABLE, err) => {
-    if (err) throw err;
+  let nowdate = new Date();
+  let year = req.query.year || nowdate.getFullYear();
+  let month = req.query.month || nowdate.getMonth() + 1;
+  let date = {
+    year: year,
+    month: month,
+    date: req.query.date
+  };
 
-    let responseJSON = {
-      menu: MONTHLY_TABLE,
-      server_message: []
-    };
-
-    logger({
-      filename: 'GET200',
-      level: 'info',
-      req_query: req.query,
-      req_params: req.params
+  const getMenu = new GetMenu(req.params.schoolType, region, req.params.schoolCode, date);
+  getMenu.initSchool(() => {
+    getMenu.database(table => {
+      let responseJson = {
+        menu: table.menu,
+        server_message: [""]
+      }
+      res.json(responseJson);
     });
-  
-    res.json(responseJSON);
   });
 });
 
@@ -88,7 +85,7 @@ router.post('/', bodyParser.json(), (req, res) => {
     });
 
     res.json(responseJSON);
-  });
+    });
 });
 
 module.exports = router;

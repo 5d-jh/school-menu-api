@@ -1,5 +1,5 @@
 const request = require('request');
-const cheerio = require('cheerio');
+const jsdom = require('jsdom');
 //models
 const School = require('../models/school');
 const Menu = require('../models/menu');
@@ -21,7 +21,7 @@ class GetMenu {
     this.type = schoolTypes[type];
     this.region = region;
     this.code = code;
-    this.date = date || new Date();
+    this.date = date;
   }
 
   initSchool(callback) {
@@ -47,15 +47,13 @@ class GetMenu {
 
   database(callback) {
     const menu = new Menu();
-    menu.year = this.date.getFullYear();
-    menu.month = this.date.getMonth() + 1;
+    menu.year = this.date.year;
+    menu.month = this.date.month;
     console.debug('1', {school_id: String(this.schoolId)});
 
-    Menu.findOne({school_id: String(this.schoolId)}, (err, table) => {
+    Menu.findOne({school_id: String(this.schoolId), year: this.date.year, month: this.date.month}, (err, table) => {
       if (err) reject(err);
       if (!table) {
-        console.debug('2', table);
-        
         this.neis(fetchedTable => {
           menu.school_id = this.schoolId;
           menu.menu = fetchedTable;
@@ -65,7 +63,7 @@ class GetMenu {
           });
         });
       } else {
-        let date = this.date.getDate();
+        let date = this.date.date;
         if (date) {
           table = {
             menu: table.menu[date-1]
@@ -79,22 +77,24 @@ class GetMenu {
   
   neis(callback) {
     const NOMENU_MSG = "급식이 없습니다.";
-    let year = this.date.getFullYear();
-    let month = this.date.getMonth() + 1;
-    let date = this.date.getDate()
+    let year = this.date.year;
+    let month = this.date.month;
+    let date = this.date.date;
     if (month < 10) { month = '0' + month }
     const url = `https://stu.${this.region}.go.kr/sts_sci_md00_001.do?schulCode=${this.code}&schulCrseScCode=${this.type}&ay=${year}&mm=${month}`;
     
+    console.debug(url);
     request(url, (err, res, html) => {
       console.debug('fetching from neis...');
       if (err) throw err;
 
-      const $ = cheerio.load(html, {
-        decodeEntities: false
-      });
-      
+      const { JSDOM } = jsdom;
+      const { window } = new JSDOM(html);
+      const $ = require('jquery')(window);
+    
       let table = [];
-      $('td div').each(function (i) {
+      
+      $('td div').each(function () {
         var text = $(this).html();
         text = text.split(/\[조식\]|\[중식\]|\[석식\]/);
         if (text != ' ') {
@@ -106,12 +106,12 @@ class GetMenu {
           });
         }
       });
-
+      
       if (date) {
         table = [table[date-1]];
       }
-
-      callback(_monthlyTable);
+      
+      callback(table);
     });
   }
 }
