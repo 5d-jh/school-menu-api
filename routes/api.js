@@ -75,6 +75,13 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
         if (err) return next(err);
 
         responseJSON.menu = table.menu;
+
+        logger({
+          filename: 'GET200',
+          req_params: req.params,
+          req_query: req.query
+        });
+
         res.json(responseJSON);
       });
     });
@@ -102,6 +109,12 @@ router.post('/', bodyParser.json(), (req, res, next) => {
         menu: table.menu,
         server_message: [""]
       }
+
+      logger({
+        filename: 'POST200',
+        req_body: req.body
+      });
+
       res.json(responseJSON);
     });
   });
