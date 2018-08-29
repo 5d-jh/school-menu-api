@@ -22,12 +22,6 @@ router.use(cors());
 const regions = {B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use", J: "goe",
                  K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"};
 
-router.get('/errortest', (req, res, next) => {
-  const err = new Error('Error Test!!');
-  err.status = 400;
-  return next(err);
-});
-
 const blacklist = /sen|ice|pen|gen|dje|sje|use|goe|kwe|cbe|cne|gbe|gne|jbe|jne|jje/;
 router.get(blacklist, (req, res, next) => {
   const err = new Error("해당 주소는 더이상 유효하지 않습니다. 변경된 인터페이스를 확인해 주세요: https://github.com/5d-jh/school-menu-api");
