@@ -24,7 +24,7 @@ const regions = {B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: 
 
 const blacklist = /sen|ice|pen|gen|dje|sje|use|goe|kwe|cbe|cne|gbe|gne|jbe|jne|jje/;
 router.get(blacklist, (req, res, next) => {
-  const err = new Error("해당 주소는 더이상 유효하지 않습니다. 변경된 인터페이스를 확인해 주세요: https://github.com/5d-jh/school-menu-api");
+  const err = new Error("해당 주소는 더이상 유효하지 않습니다. 변경된 인터페이스를 확인해 주세요. https://github.com/5d-jh/school-menu-api");
   err.status = 400;
   return next(err);
 });
@@ -32,7 +32,7 @@ router.get(blacklist, (req, res, next) => {
 router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const region = regions[req.params.schoolCode[0]];
   if (!region) {
-    const err = new Error('지역이 적절하지 않습니다. 학교 코드를 다시 확인해 주세요.');
+    const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요. https://github.com/5d-jh/school-menu-api');
     err.status = 400;
     return next(err)
   }
@@ -103,7 +103,9 @@ router.post('/', bodyParser.json(), (req, res, next) => {
 router.use(function (err, req, res, next) {
   console.error(err.stack);
   logger.log('error', {
-    message: err.message
+    message: err.message,
+    body: req.body,
+    query: req.query
   });
   res.status(err.status || 500);
   res.json({server_message: [err.message || 'error occurred']});
