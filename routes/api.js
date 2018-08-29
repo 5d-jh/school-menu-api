@@ -1,51 +1,47 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
+const winston = require('winston');
 const cors = require('cors');
 const router = express.Router();
 
 const GetMenu = require('../modules/getMenu');
-const logger = require('../modules/logger');
 
-const logErrors = (err, req, res, next) => {
-  logger({
-    filename: 'error',
-    err_info: err,
-    req_info: req
-  });
-  next(err)
-}
-function clientErrorHandler(err, req, res, next) {
-  if (req.xhr) {
-    res.status(400).send({ error: 'Something failed!' });
-  } else {
-    next(err);
-  }
-}
-const errorHandler = (err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err);
-  }
-  res.status(400).send('서버 요류..');
-}
+const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.prettyPrint()
+  ),
+  transports: [
+    new winston.transports.File({ filename: `./logs/error.log` })
+  ]
+});
 
 router.use(cors());
-router.use(logErrors);
-router.use(clientErrorHandler);
-router.use(errorHandler);
 
 const regions = {B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use", J: "goe",
                  K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"};
 
+router.get('/errortest', (req, res, next) => {
+  const err = new Error('Error Test!!');
+  err.status = 400;
+  return next(err);
+});
+
 const blacklist = /sen|ice|pen|gen|dje|sje|use|goe|kwe|cbe|cne|gbe|gne|jbe|jne|jje/;
 router.get(blacklist, (req, res, next) => {
-  res.status(400).json({
-    server_message: ["해당 주소는 더이상 유효하지 않습니다. 변경된 인터페이스를 확인해 주세요: https://github.com/5d-jh/school-menu-api"]
-  });
+  const err = new Error("해당 주소는 더이상 유효하지 않습니다. 변경된 인터페이스를 확인해 주세요: https://github.com/5d-jh/school-menu-api");
+  err.status = 400;
+  return next(err);
 });
 
 router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const region = regions[req.params.schoolCode[0]];
+  if (!region) {
+    const err = new Error('지역이 적절하지 않습니다. 학교 코드를 다시 확인해 주세요.');
+    err.status = 400;
+    return next(err)
+  }
 
   const nowdate = new Date();
   const year = req.query.year || nowdate.getFullYear();
@@ -63,25 +59,20 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
 
   const getMenu = new GetMenu(req.params.schoolType, region, req.params.schoolCode, date);
   if (req.query.nodb == "true") {
-    console.debug("no database")
-    getMenu.neis(fetchedTable => {
+    getMenu.neis((fetchedTable, err) => {
+      if (err) return next(err);
+
       responseJSON.menu = fetchedTable;
       res.json(responseJSON);
     });
   } else {
     getMenu.initSchool((err) => {
       if (err) return next(err);
+
       getMenu.database((table, err) => {
         if (err) return next(err);
 
         responseJSON.menu = table.menu;
-
-        logger({
-          filename: 'GET200',
-          req_params: req.params,
-          req_query: req.query
-        });
-
         res.json(responseJSON);
       });
     });
@@ -110,14 +101,19 @@ router.post('/', bodyParser.json(), (req, res, next) => {
         server_message: [""]
       }
 
-      logger({
-        filename: 'POST200',
-        req_body: req.body
-      });
-
       res.json(responseJSON);
     });
   });
+});
+
+router.use(function (err, req, res, next) {
+  console.error(err.stack);
+  logger.log('error', {
+    message: err.message
+  });
+  res.status(err.status || 500);
+  res.json({server_message: [err.message || 'error occurred']});
+  next(err);
 });
 
 module.exports = router;

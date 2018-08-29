@@ -46,7 +46,7 @@ class GetMenu {
       if (err) return callback(err);
       if (!schoolData) {
         school.save(err => {
-          if (err) reject(err);
+          if (err) return callback(err);
           console.debug('saving school..');
           this.initSchool(callback);
         });
@@ -75,7 +75,7 @@ class GetMenu {
           menu.school_id = this.schoolId;
           menu.menu = fetchedTable;
           menu.save(err => {
-            if (err) reject(err);
+            if (err) return callback(null, err);
             this.database(callback);
           });
         });
@@ -102,7 +102,7 @@ class GetMenu {
     console.debug(url);
     request(url, (err, res, html) => {
       console.debug('fetching from neis...');
-      if (err) throw err;
+      if (err) return callback(null, err);
 
       const { JSDOM } = jsdom;
       const { window } = new JSDOM(html);
