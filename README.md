@@ -41,7 +41,7 @@ GET/POST 요청을 통하여 어떤 플랫폼에서든 학교 급식을 쉽게 �
     }]
 }
 </pre>
-region과 school_code의 값은 필수로 입력해야 합니다. 대괄호 친 부분은 선택사항 입니다.
+school_type과 school_code의 값은 필수로 입력해야 합니다. 대괄호 친 부분은 선택사항 입니다.
 
 ## 예시
 ### GET
@@ -90,7 +90,7 @@ import json
 
 url = 'https://schoolmenukr.ml/api'
 body = {
-    "region": "high",
+    "school_type": "high",
     "school_code": "X123456789",
     "ymd": {
         "year": "2018",
