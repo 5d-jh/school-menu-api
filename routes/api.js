@@ -19,8 +19,20 @@ const logger = winston.createLogger({
 
 router.use(cors());
 
-const regions = {B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use", J: "goe",
-                 K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"};
+const regions = {A: "national", B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use",
+                 J: "goe", K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"};
+const nationalHigh = {
+  "A000003488": "kwe",
+  "A000003490": "dge",
+  "A000003495": "gne",
+  "A000003496": "cne",
+  "A000003509": "pen",
+  "A000003561": "sen",
+  "A000003516": "gen",
+  "A000003520": "jbe",
+  "A000003566": "jje",
+  "A000003569": "cbe"
+}
 
 const blacklist = /sen|ice|pen|gen|dje|sje|use|goe|kwe|cbe|cne|gbe|gne|jbe|jne|jje/;
 router.get(blacklist, (req, res, next) => {
@@ -30,11 +42,15 @@ router.get(blacklist, (req, res, next) => {
 });
 
 router.get('/:schoolType/:schoolCode', (req, res, next) => {
-  const region = regions[req.params.schoolCode[0]];
+  const schoolCode = req.params.schoolCode
+  let region = regions[schoolCode[0]];
   if (!region) {
     const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요. https://github.com/5d-jh/school-menu-api');
     err.status = 400;
     return next(err)
+  }
+  if (region === "national") {
+    region = nationalHigh[schoolCode];
   }
 
   const nowdate = new Date();
@@ -51,8 +67,8 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     server_message: [""]
   };
 
-  const getMenu = new GetMenu(req.params.schoolType, region, req.params.schoolCode, date);
-  if (req.query.nodb == "true") {
+  const getMenu = new GetMenu(req.params.schoolType, region, schoolCode, date);
+  if (req.query.nodb) {
     getMenu.neis((fetchedTable, err) => {
       if (err) return next(err);
 
