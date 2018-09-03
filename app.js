@@ -3,6 +3,7 @@ const express = require('express');
 const process = require('process');
 const mongoose = require('mongoose');
 const os = require('os');
+const fs = require('fs');
 const app = express();
 
 console.log(process.env.NODE_ENV);
@@ -36,3 +37,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', require('./routes/api'));
+
+const accessKey = String(-Math.round(Math.log(Math.random())*100000));
+fs.writeFile('key.txt', accessKey, (err) => {
+  if (err) throw err;
+  console.log('key.txt saved');
+});
+app.use('/database', require('./routes/database')(accessKey));
