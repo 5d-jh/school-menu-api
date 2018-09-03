@@ -22,13 +22,19 @@ module.exports = (accessKey) => {
   
         School.insertMany(req.body.datas, (err) => {
           if (err) return next(err);
-          res.status(200)
+          res.status(200);
+          res.json({
+            server_message: ["Uploaded successfully"]
+          });
         });
       } catch (err) {
         return next(err)
       }
     } else {
       res.status(403);
+      res.json({
+        server_message: ["Invalid access key"]
+      });
     }
   });
 
