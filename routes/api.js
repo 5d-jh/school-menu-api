@@ -42,7 +42,7 @@ router.get(blacklist, (req, res, next) => {
 });
 
 router.get('/:schoolType/:schoolCode', (req, res, next) => {
-  const schoolCode = req.params.schoolCode
+  const schoolCode = req.params.schoolCode;
   let region = regions[schoolCode[0]];
   if (!region) {
     const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요. https://github.com/5d-jh/school-menu-api');
@@ -67,27 +67,24 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     server_message: [""]
   };
 
+  const nodb = req.query.nodb == "true" ? true : false;
+
   const getMenu = new GetMenu(req.params.schoolType, region, schoolCode, date);
-  if (req.query.nodb) {
-    getMenu.neis((fetchedTable, err) => {
+  if (nodb) {
+    getMenu.fromNEIS((monthlyTable, err) => {
       if (err) return next(err);
 
-      responseJSON.menu = fetchedTable;
+      responseJSON.menu = monthlyTable;
+      res.json(responseJSON);
+    })
+  } else {
+    getMenu.fromDB((monthlyTable, err) => {
+      if (err) return next(err);
+  
+      responseJSON.menu = monthlyTable;
       res.json(responseJSON);
     });
-  } else {
-    getMenu.initSchool((err) => {
-      if (err) return next(err);
-
-      getMenu.database((table, err) => {
-        if (err) return next(err);
-
-        responseJSON.menu = table.menu;
-        res.json(responseJSON);
-      });
-    });
   }
-  
 });
 
 router.post('/', bodyParser.json(), (req, res, next) => {
@@ -101,18 +98,17 @@ router.post('/', bodyParser.json(), (req, res, next) => {
     date: req.body.ymd.date
   };
 
-  const getMenu = new GetMenu(req.body.school_type, region, req.body.school_code, date);
-  getMenu.initSchool((err) => {
-    if (err) return next(err);
-    getMenu.database((table, err) => {
-      if (err) return next(err);
-      let responseJSON = {
-        menu: table.menu,
-        server_message: [""]
-      }
+  let responseJSON = {
+    menu: [],
+    server_message: [""]
+  };
 
-      res.json(responseJSON);
-    });
+  const getMenu = new GetMenu(req.body.school_type, region, req.body.school_code, date);
+  getMenu.fromDB((monthlyTable, err) => {
+    if (err) return next(err);
+
+    responseJSON.menu = monthlyTable;
+    res.json(responseJSON);
   });
 });
 

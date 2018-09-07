@@ -1,9 +1,7 @@
-
 const request = require('request');
 const jsdom = require('jsdom');
 //models
-const School = require('../models/school');
-const Menu = require('../models/menu');
+const School = require('../models/schoolMenu');
 
 function removeBlank(arr) {
   arr.splice(arr.indexOf(''), 1);
@@ -22,7 +20,7 @@ function isAllSame(arr) {
   return true
 }
 
-class GetMenu {
+module.exports = class {
   constructor(type, region, code, date) {
     const schoolTypes = {
       "elementary": "2",
@@ -35,64 +33,36 @@ class GetMenu {
     this.date = date;
   }
 
-  initSchool(callback) {
-    const school = new School();
-    school.type = this.type;
-    school.region = this.region;
-    school.code = this.code;
-
-    if (!school.type) return callback(new Error('지원하지 않는 학교 유형입니다.'));
-
-    School.findOne({code: this.code}, (err, schoolData) => {
-      if (err) return callback(err);
-      if (!schoolData) {
-        school.save(err => {
-          if (err) return callback(err);
-          
-          this.initSchool(callback);
-        });
-      } else {
-        this.schoolId = schoolData._id;
-        callback();
-      }
-    });
-  }
-
-  database(callback) {
-    const menu = new Menu();
-    menu.year = this.date.year;
-    menu.month = this.date.month;
-
-    Menu.findOne({school_id: String(this.schoolId), year: this.date.year, month: this.date.month}, (err, table) => {
+  fromDB(callback) {
+    School.findOne({schoolCode: this.code, menuYear: this.date.year, menuMonth: this.date.month}, (err, data) => {
       if (err) return callback(null, err);
-      if (!table) {
-        this.neis(fetchedTable => {
+      if (!data) {
+        this.fromNEIS(fetchedTable => {
           if (isAllSame(fetchedTable)) {
             console.debug('Menus are all same. Abort saving.');
             return callback({menu: fetchedTable});
           }
 
-          menu.school_id = this.schoolId;
-          menu.menu = fetchedTable;
-          menu.save(err => {
-            if (err) return callback(null, err);
-            this.database(callback);
+          const school = new School({
+            schoolCode: this.code,
+            schoolRegion: this.region,
+            schoolType: Number(this.type),
+            menuTable: fetchedTable,
+            menuYear: Number(this.date.year),
+            menuMonth: Number(this.date.month)
           });
-        });
+          school.save(err => {
+            if (err) return callback(null, err);
+            this.fromDB(callback);
+          });
+        })
       } else {
-        let date = this.date.date;
-        if (date) {
-          table = {
-            menu: table.menu[date-1]
-          }
-        }
-        
-        callback(table);
+        callback(data.menuTable);
       }
     });
   }
-  
-  neis(callback) {
+
+  fromNEIS(callback) {
     const NOMENU_MSG = ["급식이 없습니다."];
     let year = this.date.year;
     let month = this.date.month;
@@ -130,5 +100,3 @@ class GetMenu {
     });
   }
 }
-
-module.exports = GetMenu;
