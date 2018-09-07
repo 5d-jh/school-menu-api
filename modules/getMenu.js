@@ -25,7 +25,6 @@ function isAllSame(arr) {
 class GetMenu {
   constructor(type, region, code, date) {
     const schoolTypes = {
-      "kindergarten": "1",
       "elementary": "2",
       "middle": "3",
       "high": "4"
@@ -39,7 +38,7 @@ class GetMenu {
   initSchool(callback) {
     const school = new School();
     school.type = this.type;
-    school.retgon = this.region;
+    school.region = this.region;
     school.code = this.code;
 
     School.findOne({code: this.code}, (err, schoolData) => {
@@ -47,7 +46,7 @@ class GetMenu {
       if (!schoolData) {
         school.save(err => {
           if (err) return callback(err);
-          console.debug('saving school..');
+          
           this.initSchool(callback);
         });
       } else {
@@ -61,7 +60,6 @@ class GetMenu {
     const menu = new Menu();
     menu.year = this.date.year;
     menu.month = this.date.month;
-    console.debug('1', {school_id: String(this.schoolId)});
 
     Menu.findOne({school_id: String(this.schoolId), year: this.date.year, month: this.date.month}, (err, table) => {
       if (err) return callback(null, err);
