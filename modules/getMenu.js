@@ -57,7 +57,10 @@ module.exports = class {
           });
         })
       } else {
-        callback(data.menuTable);
+        let date = this.date.date;
+        if (date) {
+          callback(data.menuTable[date-1]);
+        }
       }
     });
   }
@@ -67,11 +70,11 @@ module.exports = class {
     let year = this.date.year;
     let month = this.date.month;
     if (month < 10) { month = '0' + month }
+
     const url = `https://stu.${this.region}.go.kr/sts_sci_md00_001.do?schulCode=${this.code}&schulCrseScCode=${this.type}&ay=${year}&mm=${month}`;
-    
     console.debug(url);
+
     request(url, (err, res, html) => {
-      console.debug('fetching from neis...');
       if (err) return callback(null, err);
 
       const { JSDOM } = jsdom;
