@@ -41,6 +41,8 @@ class GetMenu {
     school.region = this.region;
     school.code = this.code;
 
+    if (!school.type) return callback(new Error('지원하지 않는 학교 유형입니다.'));
+
     School.findOne({code: this.code}, (err, schoolData) => {
       if (err) return callback(err);
       if (!schoolData) {
