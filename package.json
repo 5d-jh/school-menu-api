@@ -1,13 +1,17 @@
 {
-  "name": "school-meal-api",
+  "name": "school-menu-api",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "subacc09@daum.net",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/5d-jh/school-menu-api.git"
+  },
+  "author": "jeonghyen0126@gmail.com",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
@@ -15,7 +19,6 @@
     "jquery": "^3.3.1",
     "jsdom": "^12.0.0",
     "mongoose": "^5.2.9",
-    "node-fetch": "^2.2.0",
     "request": "^2.88.0",
     "winston": "^3.0.0"
   }
