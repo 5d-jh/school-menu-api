@@ -37,10 +37,3 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', require('./routes/api'));
-
-const accessKey = String(-Math.round(Math.log(Math.random())*100000));
-fs.writeFile('key.txt', accessKey, (err) => {
-  if (err) throw err;
-  console.log('key.txt saved');
-});
-app.use('/database', require('./routes/database')(accessKey));
