@@ -101,7 +101,7 @@ router.post('/', bodyParser.json(), (req, res, next) => {
 
   let responseJSON = {
     menu: [],
-    server_message: [""]
+    server_message: require('./serverMessage.json').content
   };
 
   const getMenu = new GetMenu(req.body.school_type, region, req.body.school_code, date);
