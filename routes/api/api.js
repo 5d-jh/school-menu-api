@@ -1,3 +1,4 @@
+// /api/
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -5,7 +6,7 @@ const winston = require('winston');
 const cors = require('cors');
 const router = express.Router();
 
-const GetMenu = require('../modules/getMenu');
+const GetMenu = require('../../modules/getMenu');
 
 const logger = winston.createLogger({
   format: winston.format.combine(
