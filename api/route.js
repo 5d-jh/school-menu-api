@@ -65,7 +65,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
 
   let responseJSON = {
     menu: [],
-    server_message: [""]
+    server_message: require('./serverMessage.json').content
   };
 
   const nodb = req.query.nodb == "true" ? true : false;
