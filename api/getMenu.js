@@ -1,7 +1,7 @@
 const request = require('request');
 const jsdom = require('jsdom');
 //models
-const School = require('../models/schoolMenu');
+const School = require('./model');
 
 function removeBlank(arr) {
   arr.splice(arr.indexOf(''), 1);

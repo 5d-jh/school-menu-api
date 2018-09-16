@@ -6,7 +6,7 @@ const winston = require('winston');
 const cors = require('cors');
 const router = express.Router();
 
-const GetMenu = require('../../modules/getMenu');
+const GetMenu = require('./getMenu');
 
 const logger = winston.createLogger({
   format: winston.format.combine(

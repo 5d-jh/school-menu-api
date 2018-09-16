@@ -36,4 +36,4 @@ app.get('/', (req, res) => {
   res.redirect('https://github.com/5d-jh/school-menu-api');
 });
 
-app.use('/api', require('./routes/api'));
+app.use('/api', require('./api/route'));
