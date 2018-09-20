@@ -1,7 +1,6 @@
 // /api/
 'use strict';
 const express = require('express');
-const bodyParser = require('body-parser');
 const winston = require('winston');
 const cors = require('cors');
 const router = express.Router();
@@ -86,31 +85,6 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
       res.json(responseJSON);
     });
   }
-});
-
-router.post('/', bodyParser.json(), (req, res, next) => {
-  req.body.ymd = req.body.ymd || {year: '', month: '', date: ''};
-  const region = regions[req.body.school_code[0]];
-
-  const nowdate = new Date();
-  let date = {
-    year: req.body.ymd.year || nowdate.getFullYear(),
-    month: req.body.ymd.month || nowdate.getMonth() + 1,
-    date: req.body.ymd.date
-  };
-
-  let responseJSON = {
-    menu: [],
-    server_message: require('./serverMessage.json').content
-  };
-
-  const getMenu = new GetMenu(req.body.school_type, region, req.body.school_code, date);
-  getMenu.fromDB((monthlyTable, err) => {
-    if (err) return next(err);
-
-    responseJSON.menu = monthlyTable;
-    res.json(responseJSON);
-  });
 });
 
 router.use(function (err, req, res, next) {
