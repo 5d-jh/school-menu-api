@@ -45,7 +45,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const schoolCode = req.params.schoolCode;
   let region = regions[schoolCode[0]];
   if (!region) {
-    const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요. https://github.com/5d-jh/school-menu-api');
+    const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요.');
     err.status = 400;
     return next(err)
   }
@@ -87,7 +87,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   }
 });
 
-router.use(function (err, req, res, next) {
+router.use((err, req, res, next) => {
   console.error(err.stack);
   logger.log('error', {
     message: err.message,

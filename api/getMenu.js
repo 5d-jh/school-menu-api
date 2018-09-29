@@ -38,8 +38,10 @@ module.exports = class {
       if (err) return callback(null, err);
       if (!data) {
         this.fromNEIS(fetchedTable => {
+          if (fetchedTable === null) {
+            return callback(null, new Error('식단표를 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.')); 
+          }
           if (isAllSame(fetchedTable)) {
-            console.debug('Menus are all same. Abort saving.');
             return callback({menu: fetchedTable});
           }
 
