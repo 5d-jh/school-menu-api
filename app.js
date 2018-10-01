@@ -3,13 +3,11 @@ const express = require('express');
 const process = require('process');
 const mongoose = require('mongoose');
 const os = require('os');
-const fs = require('fs');
 const app = express();
 
 console.log(process.env.NODE_ENV);
 
-let port;
-os.type() === 'Darwin' ? port = 8080 : port = process.env.PORT || 80
+const port = os.type() === 'Darwin' ? 8080 : process.env.PORT || 80
 app.listen(port, () => {
   if (process.env.NODE_ENV != 'production') {
     console.log(`http://localhost:${port}`);

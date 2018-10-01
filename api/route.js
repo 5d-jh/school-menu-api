@@ -19,6 +19,20 @@ const logger = winston.createLogger({
 
 router.use(cors());
 
+function removeAllergyInfo (month, hideAllergyInfo) {
+  if (hideAllergyInfo) {
+    for (const day in month) {
+      month[day] = {
+        breakfast: month[day].breakfast.map(menu => menu.replace(/\d|[.]/g, '')),
+        lunch: month[day].lunch.map(menu => menu.replace(/\d|[.]/g, '')),
+        dinner: month[day].dinner.map(menu => menu.replace(/\d|[.]/g, ''))
+      };
+    }
+  }
+  
+  return month;
+}
+
 const regions = {A: "national", B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use",
                  J: "goe", K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"};
 const nationalHigh = {
@@ -68,20 +82,22 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   };
 
   const nodb = req.query.nodb == "true" ? true : false;
+  const hideAllergyInfo = req.query.hideAllergy == "true" ? true : false;
 
   const getMenu = new GetMenu(req.params.schoolType, region, schoolCode, date);
   if (nodb) {
     getMenu.fromNEIS((monthlyTable, err) => {
       if (err) return next(err);
 
-      responseJSON.menu = monthlyTable;
+      responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
       res.json(responseJSON);
     })
   } else {
     getMenu.fromDB((monthlyTable, err) => {
       if (err) return next(err);
   
-      responseJSON.menu = monthlyTable;
+      
+      responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
       res.json(responseJSON);
     });
   }

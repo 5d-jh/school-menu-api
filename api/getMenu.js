@@ -11,9 +11,9 @@ function removeBlank(arr) {
 
 function isAllSame(arr) {
   for (let i = 0; i < arr.length-1; i++) {
-    let pre = [arr[i].breakfast, arr[i].lunch, arr[i].dinner];
-    let post = [arr[i+1].breakfast, arr[i+1].lunch, arr[i+1].dinner];
-    if (JSON.stringify(pre) != JSON.stringify(post)) {
+    let former = [arr[i].breakfast, arr[i].lunch, arr[i].dinner];
+    let latter = [arr[i+1].breakfast, arr[i+1].lunch, arr[i+1].dinner];
+    if (JSON.stringify(former) != JSON.stringify(latter)) {
       return false
     }
   }
@@ -34,7 +34,7 @@ module.exports = class {
   }
 
   fromDB(callback) {
-    School.findOne({schoolCode: this.code, menuYear: this.date.year, menuMonth: this.date.month}, (err, data) => {
+    School.findOne({schoolCode: this.code, menuYear: this.date.year, menuMonth: this.date.month}).lean().exec((err, data) => {
       if (err) return callback(null, err);
       if (!data) {
         this.fromNEIS(fetchedTable => {
@@ -92,6 +92,7 @@ module.exports = class {
         text = text.split(/\[조식\]|\[중식\]|\[석식\]/);
         if (text != ' ') {
           if (text[0].replace('<br>', '') != '') {
+            //식단표에 수정을 가하는 코드를 작성할 경우 이 줄 다음부터 작성
             table.push({
               date: text[0].replace('<br>', ''),
               breakfast: text[1] ? removeBlank(text[1].split('<br>')) : NOMENU_MSG,
