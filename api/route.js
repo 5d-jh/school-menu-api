@@ -81,26 +81,16 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     server_message: require('./serverMessage.json').content
   };
 
-  const nodb = req.query.nodb == "true" ? true : false;
-  const hideAllergyInfo = req.query.hideAllergy == "true" ? true : false;
+  const nodb = req.query.nodb === "true" ? true : false;
+  const hideAllergyInfo = req.query.hideAllergy === "true" ? true : false;
 
   const getMenu = new GetMenu(req.params.schoolType, region, schoolCode, date);
-  if (nodb) {
-    getMenu.fromNEIS((monthlyTable, err) => {
-      if (err) return next(err);
+  getMenu[nodb ? 'fromNEIS' : 'fromDB']((monthlyTable, err) => {
+    if (err) return next(err);
 
-      responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
-      res.json(responseJSON);
-    })
-  } else {
-    getMenu.fromDB((monthlyTable, err) => {
-      if (err) return next(err);
-  
-      
-      responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
-      res.json(responseJSON);
-    });
-  }
+    responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
+    res.json(responseJSON);
+  });
 });
 
 router.use((err, req, res, next) => {

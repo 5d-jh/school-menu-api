@@ -76,7 +76,6 @@ module.exports = class {
     if (month < 10) { month = '0' + month }
 
     const url = `https://stu.${this.region}.go.kr/sts_sci_md00_001.do?schulCode=${this.code}&schulCrseScCode=${this.type}&ay=${year}&mm=${month}`;
-    console.debug(url);
 
     request(url, (err, res, html) => {
       if (err) return callback(null, err);

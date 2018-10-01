@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const os = require('os');
 const app = express();
 
-console.log(process.env.NODE_ENV);
+console.debug(process.env.NODE_ENV);
 
 const port = os.type() === 'Darwin' ? 8080 : process.env.PORT || 80
 app.listen(port, () => {
