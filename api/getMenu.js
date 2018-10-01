@@ -70,7 +70,7 @@ module.exports = class {
   }
 
   fromNEIS(callback) {
-    const NOMENU_MSG = ["급식이 없습니다."];
+    const NOMENU_MSG = [];
     let year = this.date.year;
     let month = this.date.month;
     if (month < 10) { month = '0' + month }
