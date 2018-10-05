@@ -88,15 +88,19 @@ module.exports = class {
       
       $('td div').each(function () {
         var text = $(this).html();
-        text = text.split(/\[조식\]|\[중식\]|\[석식\]/);
+        
         if (text != ' ') {
           if (text[0].replace('<br>', '') != '') {
+            const date = text.split(/\[조식\]|\[중식\]|\[석식\]/);
+            const breakfast = /\[조식\](.*?)\[/g.exec(text) ? /\[조식\](.*?)\[/g.exec(text)[1] : '';
+            const lunch = /\[중식\](.*?)\[/g.exec(text) ? /\[중식\](.*?)\[/g.exec(text)[1] : '';
+            const dinner = text.match(/\[석식\](.*)/) ? text.match(/\[석식\](.*)/)[1] : '';
             //식단표에 수정을 가하는 코드를 작성할 경우 이 줄 다음부터 작성
             table.push({
-              date: text[0].replace('<br>', ''),
-              breakfast: text[1] ? removeBlank(text[1].split('<br>')) : NOMENU_MSG,
-              lunch: text[2] ? removeBlank(text[2].split('<br>')) : NOMENU_MSG,
-              dinner: text[3] ? removeBlank(text[3].split('<br>')) : NOMENU_MSG,
+              date: date[0].replace('<br>', ''),
+              breakfast: breakfast ? removeBlank(breakfast.split('<br>')) : NOMENU_MSG,
+              lunch: lunch ? removeBlank(lunch.split('<br>')) : NOMENU_MSG,
+              dinner: dinner ? removeBlank(dinner.split('<br>')) : NOMENU_MSG,
             });
           }
           
