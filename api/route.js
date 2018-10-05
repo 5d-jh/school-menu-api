@@ -23,6 +23,7 @@ function removeAllergyInfo (month, hideAllergyInfo) {
   if (hideAllergyInfo) {
     for (const day in month) {
       month[day] = {
+        date: month[day].date,
         breakfast: month[day].breakfast.map(menu => menu.replace(/\d|[.]/g, '')),
         lunch: month[day].lunch.map(menu => menu.replace(/\d|[.]/g, '')),
         dinner: month[day].dinner.map(menu => menu.replace(/\d|[.]/g, ''))
@@ -67,13 +68,12 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     region = nationalHigh[schoolCode];
   }
 
-  const nowdate = new Date();
-  const year = req.query.year || nowdate.getFullYear();
-  const month = req.query.month || nowdate.getMonth() + 1;
+  const currentDate = new Date();
+  const year = req.query.year || currentDate.getFullYear();
+  const month = req.query.month || currentDate.getMonth() + 1;
   const date = {
     year: year,
-    month: month,
-    date: req.query.date
+    month: month
   };
 
   let responseJSON = {
@@ -88,6 +88,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   getMenu[nodb ? 'fromNEIS' : 'fromDB']((monthlyTable, err) => {
     if (err) return next(err);
 
+    monthlyTable = req.query.date ? monthlyTable[Number(req.query.date)-1] : monthlyTable;
     responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
     res.json(responseJSON);
   });

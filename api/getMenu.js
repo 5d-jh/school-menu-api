@@ -59,12 +59,7 @@ module.exports = class {
           });
         })
       } else {
-        let date = this.date.date;
-        if (date) {
-          callback(data.menuTable[date-1]);
-        } else {
-          callback(data.menuTable);
-        }
+        callback(data.menuTable);
       }
     });
   }
