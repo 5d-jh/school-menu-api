@@ -88,7 +88,7 @@ module.exports = class {
       $('td div').each(function () {
         const text = $(this).html();
 
-        if (text != ' ') {
+        if (text) {
           if (text[0].replace('<br>', '') != '') {
             const date = text.split(/\[조식\]|\[중식\]|\[석식\]/);
             const breakfast = /\[조식\](.*?)\[/g.exec(text) ? /\[조식\](.*?)\[/g.exec(text)[1] : '';
