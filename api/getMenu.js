@@ -4,9 +4,13 @@ const jsdom = require('jsdom');
 const School = require('./model');
 
 function removeBlank(arr) {
-  arr.splice(arr.indexOf(''), 1);
-  arr.splice(arr.indexOf(' '), 1);
-  return arr;
+  let blankRemovedArr = [];
+  for (const i in arr) {
+    if (arr[i]) {
+      blankRemovedArr.push(arr[i])
+    }
+  }
+  return blankRemovedArr;
 }
 
 function isAllSame(arr) {
@@ -82,8 +86,8 @@ module.exports = class {
       let table = [];
       
       $('td div').each(function () {
-        var text = $(this).html();
-        
+        const text = $(this).html();
+
         if (text != ' ') {
           if (text[0].replace('<br>', '') != '') {
             const date = text.split(/\[조식\]|\[중식\]|\[석식\]/);
