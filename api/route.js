@@ -1,21 +1,9 @@
-// /api/
 'use strict';
 const express = require('express');
-const winston = require('winston');
 const cors = require('cors');
 const router = express.Router();
 
 const GetMenu = require('./getMenu');
-
-const logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.prettyPrint()
-  ),
-  transports: [
-    new winston.transports.File({ filename: `./logs/error.log` })
-  ]
-});
 
 router.use(cors());
 
@@ -94,16 +82,5 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   });
 });
 
-router.use((err, req, res, next) => {
-  console.error(err.stack);
-  logger.log('error', {
-    message: err.message,
-    body: req.body,
-    query: req.query
-  });
-  res.status(err.status || 500);
-  res.json({server_message: [err.message || 'error occurred']});
-  next(err);
-});
 
 module.exports = router;

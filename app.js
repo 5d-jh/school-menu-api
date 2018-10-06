@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const process = require('process');
+const winston = require('winston');
 const mongoose = require('mongoose');
 const os = require('os');
 const app = express();
@@ -35,3 +36,24 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api', require('./api/route'));
+
+const logger = winston.createLogger({
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.prettyPrint()
+  ),
+  transports: [
+    new winston.transports.File({ filename: `./logs/error.log` })
+  ]
+});
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  logger.log('error', {
+    message: err.message,
+    body: req.body,
+    query: req.query
+  });
+  res.status(err.status || 500);
+  res.json({server_message: [err.message || 'error occurred']});
+  next(err);
+});
