@@ -35,7 +35,18 @@ app.get('/', (req, res) => {
   res.redirect('https://github.com/5d-jh/school-menu-api');
 });
 
+let requestLog = {};
+app.use('/api', (req, res, next) => {
+  const date = new Date();
+  const hour = date.getHours();
+  requestLog[hour] ? requestLog[hour] ++ : requestLog[hour] = 1;
+  next();
+});
 app.use('/api', require('./api/route'));
+
+app.use('/usage', (req, res, next) => {
+  res.json(requestLog);
+});
 
 const logger = winston.createLogger({
   format: winston.format.combine(
