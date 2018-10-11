@@ -87,14 +87,15 @@ module.exports = class {
       
       $('td div').each(function () {
         const text = $(this).html();
-
+        console.debug(text)
         if (text.match(/\d/g)) {
           if (text[0].replace('<br>', '') != '') {
             const date = text.split(/\[조식\]|\[중식\]|\[석식\]/);
-            const breakfast = /\[조식\](.*?)\[/g.exec(text) ? /\[조식\](.*?)\[/g.exec(text)[1] : '';
-            const lunch = /\[중식\](.*?)\[/g.exec(text) ? /\[중식\](.*?)\[/g.exec(text)[1] : '';
+            const breakfast = /\[조식\](.*?)(\[|$)/g.exec(text) ? /\[조식\](.*?)(\[|$)/g.exec(text)[1] : '';
+            const lunch = /\[중식\](.*?)(\[|$)/g.exec(text) ? /\[중식\](.*?)(\[|$)/g.exec(text)[1] : '';
             const dinner = text.match(/\[석식\](.*)/) ? text.match(/\[석식\](.*)/)[1] : '';
             //식단표에 수정을 가하는 코드를 작성할 경우 이 줄 다음부터 작성
+            console.debug(lunch)
             table.push({
               date: date[0].replace('<br>', ''),
               breakfast: breakfast ? removeBlank(breakfast.split('<br>')) : NOMENU_MSG,
