@@ -8,8 +8,8 @@ const GetMenu = require('./getMenu');
 router.use(cors());
 
 function removeAllergyInfo (month, hideAllergyInfo) {
-  month = Array.isArray(month) ? month : [month];
   if (hideAllergyInfo) {
+    month = Array.isArray(month) ? month : [month];
     for (const day in month) {
       if (month[day].breakfast != undefined) {
         month[day] = {
@@ -20,6 +20,7 @@ function removeAllergyInfo (month, hideAllergyInfo) {
         };
       }
     }
+    month = month[0]
   }
   
   return month;
