@@ -8,14 +8,17 @@ const GetMenu = require('./getMenu');
 router.use(cors());
 
 function removeAllergyInfo (month, hideAllergyInfo) {
+  month = Array.isArray(month) ? month : [month];
   if (hideAllergyInfo) {
     for (const day in month) {
-      month[day] = {
-        date: month[day].date,
-        breakfast: month[day].breakfast.map(menu => menu.replace(/\d|[.]/g, '')),
-        lunch: month[day].lunch.map(menu => menu.replace(/\d|[.]/g, '')),
-        dinner: month[day].dinner.map(menu => menu.replace(/\d|[.]/g, ''))
-      };
+      if (month[day].breakfast != undefined) {
+        month[day] = {
+          date: month[day].date,
+          breakfast: month[day].breakfast.map(menu => menu.replace(/\d|[.]/g, '')),
+          lunch: month[day].lunch.map(menu => menu.replace(/\d|[.]/g, '')),
+          dinner: month[day].dinner.map(menu => menu.replace(/\d|[.]/g, ''))
+        };
+      }
     }
   }
   
