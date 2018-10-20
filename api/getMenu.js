@@ -3,7 +3,7 @@ const jsdom = require('jsdom');
 //models
 const School = require('./model');
 
-function removeBlank(arr) {
+const removeBlank = (arr) => {
   let blankRemovedArr = [];
   for (const i in arr) {
     if (arr[i]) {
@@ -13,7 +13,7 @@ function removeBlank(arr) {
   return blankRemovedArr;
 }
 
-function isAllSame(arr) {
+const isAllSame = (arr) => {
   for (let i = 0; i < arr.length-1; i++) {
     let former = [arr[i].breakfast, arr[i].lunch, arr[i].dinner];
     let latter = [arr[i+1].breakfast, arr[i+1].lunch, arr[i+1].dinner];
@@ -25,13 +25,36 @@ function isAllSame(arr) {
 }
 
 module.exports = class {
-  constructor(type, region, code, date) {
+  constructor(type, code, date) {
     const schoolTypes = {
       "elementary": "2",
       "middle": "3",
       "high": "4"
     };
     this.type = schoolTypes[type];
+
+    const regions = {A: "national", B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use",
+                 J: "goe", K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"};
+    const nationalHigh = {
+      "A000003488": "kwe",
+      "A000003490": "dge",
+      "A000003495": "gne",
+      "A000003496": "cne",
+      "A000003509": "pen",
+      "A000003561": "sen",
+      "A000003516": "gen",
+      "A000003520": "jbe",
+      "A000003566": "jje",
+      "A000003569": "cbe"
+    };
+    let region = regions[code[0]];
+    if (!region) {
+      const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요.');
+      err.status = 400;
+      throw err;
+    }
+    if (region === "national") region = nationalHigh[code];
+
     this.region = region;
     this.code = code;
     this.date = date;

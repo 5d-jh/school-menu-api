@@ -57,7 +57,7 @@ const logger = winston.createLogger({
     new winston.transports.File({ filename: `./logs/error.log` })
   ]
 });
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => { //오류 응답 미들웨어
   console.error(err.stack);
   logger.log('error', {
     message: err.message,
@@ -65,6 +65,6 @@ app.use((err, req, res, next) => {
     query: req.query
   });
   res.status(err.status || 500);
-  res.json({server_message: [err.message || 'error occurred']});
+  res.json({menu: [], server_message: [err.message || 'error occurred']});
   next(err);
 });
