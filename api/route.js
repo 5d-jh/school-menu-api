@@ -60,11 +60,12 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     
     res.json(responseJSON);
     
-    responseJSON.server_message.push('임시저장된 식단표 입니다.')
+    
 
     module.exports.cache = {
       response: responseJSON,
       schoolCode: schoolCode,
+      month: month,
       timeCached: new Date()
     };
     next();

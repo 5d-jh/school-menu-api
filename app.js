@@ -2,7 +2,6 @@
 const express = require('express');
 const process = require('process');
 const winston = require('winston');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const os = require('os');
 const app = express();
@@ -17,14 +16,6 @@ app.listen(port, () => {
     console.log(`http://localhost:${port}`);
   }
 });
-
-const db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', () => {
-  console.log('Connected to mongod');
-});
-
-mongoose.connect('mongodb://localhost/schoolmenu');
 
 app.use(cors());
 
@@ -54,8 +45,11 @@ app.use('/api/:schoolType/:schoolCode', (req, res, next) => { //캐시에 요청
   for (const i in responseJSONCache) {
     if (responseJSONCache[i].schoolCode === req.params.schoolCode) {
       let responseJSON = responseJSONCache[i].response;
+      responseJSON.server_message.push('임시저장된 식단표 입니다.');
+      res.json(responseJSON);
+      responseJSON.server_message.pop();
 
-      return res.json(responseJSON);
+      return;
     }
   }
   next()

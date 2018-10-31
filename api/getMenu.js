@@ -1,7 +1,5 @@
 const request = require('request');
 const jsdom = require('jsdom');
-//models
-const School = require('./model');
 
 const removeBlank = (arr) => {
   let blankRemovedArr = [];
