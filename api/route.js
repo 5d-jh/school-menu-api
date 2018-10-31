@@ -5,7 +5,7 @@ const router = express.Router();
 
 const GetMenu = require('./getMenu');
 
-
+const responseJSONCache = [];
 
 const removeAllergyInfo = (month, hideAllergyInfo) => {
   let singleDay = false;
@@ -43,10 +43,21 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     month: month
   };
 
-  let responseJSON = {
-    menu: [],
-    server_message: require('./serverMessage.json').content
-  };
+  
+
+  for (const i in responseJSONCache) {
+    if ((responseJSONCache[i].year == year) && (responseJSONCache[i].month == month) && (responseJSONCache[i].schoolCode == schoolCode)) {
+      const responseJSON = responseJSONCache[i].response;
+
+      const timeRemaining = (30000 - (new Date() - responseJSONCache[i].timeCached)) / 1000;
+      responseJSON.server_message.push(`임시저장된 식단입니다. ${timeRemaining}초 뒤 삭제됩니다.`);
+
+      res.json(responseJSON);
+
+      responseJSON.server_message.pop();
+      return;
+    }
+  }
 
   // const nodb = req.query.nodb === "true" ? true : false;
   const hideAllergyInfo = req.query.hideAllergy === "true" ? true : false;
@@ -55,20 +66,31 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   getMenu.fromNEIS((monthlyTable, err) => {
     if (err) return next(err);
 
-    monthlyTable = req.query.date ? monthlyTable[Number(req.query.date)-1] : monthlyTable;
-    responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
-    
-    res.json(responseJSON);
-    
-    
+    const responseJSON = {
+      menu: [],
+      server_message: require('./serverMessage.json').content
+    };
 
-    module.exports.cache = {
+    responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
+
+    const cacheIndex = responseJSONCache.length
+    responseJSONCache.push({
       response: responseJSON,
       schoolCode: schoolCode,
+      year: year,
       month: month,
-      timeCached: new Date()
-    };
-    next();
+      timeCached: new Date(),
+      selfDestroyTrigger: () => {
+        setTimeout(() => {
+          responseJSONCache.splice(cacheIndex, 1);
+        }, 30000);
+      }
+    });
+    responseJSONCache[cacheIndex].selfDestroyTrigger();
+    console.log(responseJSONCache.length)
+
+    responseJSON.menu = req.query.date ? responseJSON.menu[Number(req.query.date)-1] : responseJSON.menu;
+    res.json(responseJSON);
   });
 });
 
