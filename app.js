@@ -3,8 +3,11 @@ const express = require('express');
 const process = require('process');
 const winston = require('winston');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const os = require('os');
 const app = express();
+
+const apiRoute = require('./api/route');
 
 console.debug(process.env.NODE_ENV);
 
@@ -23,6 +26,8 @@ db.once('open', () => {
 
 mongoose.connect('mongodb://localhost/schoolmenu');
 
+app.use(cors());
+
 app.get('*', (req, res, next) => {
   if ((req.get('X-Forwarded-Proto') === 'http') && (process.env.NODE_ENV == 'production')) {
     res.redirect(`https://${req.get('host')}${req.url}`);
@@ -36,13 +41,36 @@ app.get('/', (req, res) => {
 });
 
 let requestLog = {};
+let responseJSONCache = [];
+
 app.use('/api', (req, res, next) => {
   const date = new Date();
   const hour = date.getHours();
   requestLog[hour] ? requestLog[hour] ++ : requestLog[hour] = 1;
   next();
 });
-app.use('/api', require('./api/route'));
+
+app.use('/api/:schoolType/:schoolCode', (req, res, next) => { //캐시에 요청한 학교가 있는지 확인
+  for (const i in responseJSONCache) {
+    if (responseJSONCache[i].schoolCode === req.params.schoolCode) {
+      let responseJSON = responseJSONCache[i].response;
+
+      return res.json(responseJSON);
+    }
+  }
+  next()
+});
+app.use('/api', apiRoute.router); //API 요청
+app.use('/api', (req, res, next) => { //API 요청 후 임시저장
+  const cacheIndex = responseJSONCache.length
+  apiRoute.cache.selfDestroyTrigger = () => {
+    setTimeout(() => {
+      responseJSONCache.splice(cacheIndex, 1);
+    }, 30000);
+  }
+  responseJSONCache.push(apiRoute.cache);
+  responseJSONCache[cacheIndex].selfDestroyTrigger();
+})
 
 app.use('/usage', (req, res, next) => {
   res.json(requestLog);

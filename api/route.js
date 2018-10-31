@@ -1,11 +1,11 @@
 'use strict';
 const express = require('express');
-const cors = require('cors');
+
 const router = express.Router();
 
 const GetMenu = require('./getMenu');
 
-router.use(cors());
+
 
 const removeAllergyInfo = (month, hideAllergyInfo) => {
   let singleDay = false;
@@ -48,17 +48,27 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     server_message: require('./serverMessage.json').content
   };
 
-  const nodb = req.query.nodb === "true" ? true : false;
+  // const nodb = req.query.nodb === "true" ? true : false;
   const hideAllergyInfo = req.query.hideAllergy === "true" ? true : false;
 
   const getMenu = new GetMenu(req.params.schoolType, schoolCode, date);
-  getMenu[nodb ? 'fromNEIS' : 'fromDB']((monthlyTable, err) => {
+  getMenu.fromNEIS((monthlyTable, err) => {
     if (err) return next(err);
 
     monthlyTable = req.query.date ? monthlyTable[Number(req.query.date)-1] : monthlyTable;
     responseJSON.menu = removeAllergyInfo(monthlyTable, hideAllergyInfo);
+    
     res.json(responseJSON);
+    
+    responseJSON.server_message.push('임시저장된 식단표 입니다.')
+
+    module.exports.cache = {
+      response: responseJSON,
+      schoolCode: schoolCode,
+      timeCached: new Date()
+    };
+    next();
   });
 });
 
-module.exports = router;
+module.exports.router = router
