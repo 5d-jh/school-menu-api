@@ -26,7 +26,7 @@ module.exports = class {
       selfDestroyTrigger: () => {
         setTimeout(() => {
           this.cachedResponses.splice(cacheIndex, 1);
-        }, 3.6e+6);
+        }, 345600000/*4일*/);
       }
     });
 
