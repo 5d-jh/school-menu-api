@@ -11,17 +11,6 @@ const removeBlank = (arr) => {
   return blankRemovedArr;
 }
 
-const isAllSame = (arr) => {
-  for (let i = 0; i < arr.length-1; i++) {
-    let former = [arr[i].breakfast, arr[i].lunch, arr[i].dinner];
-    let latter = [arr[i+1].breakfast, arr[i+1].lunch, arr[i+1].dinner];
-    if (JSON.stringify(former) != JSON.stringify(latter)) {
-      return false
-    }
-  }
-  return true
-}
-
 module.exports = class {
   constructor(type, code, date) {
     const schoolTypes = {
@@ -56,37 +45,6 @@ module.exports = class {
     this.region = region;
     this.code = code;
     this.date = date;
-  }
-
-  fromDB(callback) {
-    School.findOne({schoolCode: this.code, menuYear: this.date.year, menuMonth: this.date.month}).lean().exec((err, data) => {
-      if (err) return callback(null, err);
-      if (!data) {
-        this.fromNEIS(fetchedTable => {
-          if (fetchedTable === null) {
-            return callback(null, new Error('식단표를 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.')); 
-          }
-          if (isAllSame(fetchedTable)) {
-            return callback({menu: fetchedTable});
-          }
-
-          const school = new School({
-            schoolCode: this.code,
-            schoolRegion: this.region,
-            schoolType: Number(this.type),
-            menuTable: fetchedTable,
-            menuYear: Number(this.date.year),
-            menuMonth: Number(this.date.month)
-          });
-          school.save(err => {
-            if (err) return callback(null, err);
-            this.fromDB(callback);
-          });
-        })
-      } else {
-        callback(data.menuTable);
-      }
-    });
   }
 
   fromNEIS(callback) {
