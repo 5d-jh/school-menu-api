@@ -56,7 +56,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     responseJSON.menu = date.date ? responseJSON.menu[Number(date.date)-1] : responseJSON.menu;
     responseJSON.menu = removeAllergyInfo(responseJSON.menu, hideAllergyInfo);
 
-    const timeRemaining = (345600000 - (new Date() - timeCached)) / 1000
+    const timeRemaining = (responseJSONCache.cacheTime - (new Date() - timeCached)) / 1000
     responseJSON.server_message.push(`${Math.round(timeRemaining)}초 후 식단이 새로 갱신됩니다.`)
 
     res.json(responseJSON);
