@@ -32,9 +32,7 @@ const removeAllergyInfo = (month, hideAllergyInfo) => {
   return month;
 }
 
-const responseJSONCache = new ResponseJSONCache();
-
-router.get('/:schoolType/:schoolCode', (req, res, next) => {
+const responseRouter = (req, res, next) => {
   const schoolCode = req.params.schoolCode;
   const schoolType = req.params.schoolType;
 
@@ -67,9 +65,15 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
 
       responseJSONCache.cacheMenu(schoolCode, monthlyMenu, date.year, date.month);
 
-      res.redirect(req.originalUrl);
+      responseRouter(req, res, next);
     });
   }
+}
+
+const responseJSONCache = new ResponseJSONCache();
+
+router.get('/:schoolType/:schoolCode', (req, res, next) => {
+  responseRouter(req, res, next);
 });
 
 module.exports.router = router
