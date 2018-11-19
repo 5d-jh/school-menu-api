@@ -1,0 +1,15 @@
+service: school-menu-api
+
+provider:
+  name: aws
+  runbime: nodejs8.10
+  region: ap-northeast-2
+
+functions:
+  api:
+    handler: lambda.handler
+    events:
+      - http:
+          method: GET
+          cors: true
+          path: /{proxy+}

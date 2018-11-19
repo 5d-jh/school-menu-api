@@ -2,7 +2,7 @@
   "name": "school-menu-api",
   "version": "3.0.1",
   "description": "학교급식 API : 학교 급식 쉽게 불러오기",
-  "main": "app.js",
+  "main": "lambda.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,6 +13,7 @@
   "author": "jeonghyun0126@outlook.com",
   "license": "MIT",
   "dependencies": {
+    "aws-serverless-express": "^3.3.5",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "jquery": "^3.3.1",

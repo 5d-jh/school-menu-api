@@ -3,19 +3,9 @@ const express = require('express');
 const process = require('process');
 const winston = require('winston');
 const cors = require('cors');
-const os = require('os');
 const app = express();
 
 const apiRoute = require('./api/route');
-
-console.debug(process.env.NODE_ENV);
-
-const port = os.type() === 'Darwin' ? 8080 : process.env.PORT || 80
-app.listen(port, () => {
-  if (process.env.NODE_ENV != 'production') {
-    console.log(`http://localhost:${port}`);
-  }
-});
 
 app.use(cors());
 
@@ -66,3 +56,5 @@ app.use((err, req, res, next) => { //오류 응답 미들웨어
   res.json({menu: [], server_message: [err.message || 'error occurred']});
   next(err);
 });
+
+module.exports = app;
