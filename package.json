@@ -1,6 +1,6 @@
 {
   "name": "school-menu-api",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "학교급식 API : 학교 급식 쉽게 불러오기",
   "main": "lambda.js",
   "scripts": {
