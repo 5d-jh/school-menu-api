@@ -5,7 +5,7 @@ const router = express.Router();
 
 const GetMenu = require('./getMenu');
 
-const ResponseJSONCache = require('./ResponseJSONCache');
+const responseCache = require('./responseCache');
 
 const removeAllergyInfo = (month, hideAllergyInfo) => {
   let singleDay = false;
@@ -32,6 +32,7 @@ const removeAllergyInfo = (month, hideAllergyInfo) => {
   return month;
 }
 
+
 const responseRouter = (req, res, next) => {
   const schoolCode = req.params.schoolCode;
   const schoolType = req.params.schoolType;
@@ -45,17 +46,15 @@ const responseRouter = (req, res, next) => {
 
   const hideAllergyInfo = req.query.hideAllergy === "true" ? true : false;
 
-  const _responseJSON = responseJSONCache.getCachedMenu(schoolCode, date.year, date.month);
+  const responseJSON = responseCache.getCache(schoolCode, date.year, date.month);
 
-  if (_responseJSON) {
-    const responseJSON = _responseJSON[0];
-    const timeCached = _responseJSON[1];
+  if (responseJSON) {
 
     responseJSON.menu = date.date ? responseJSON.menu[Number(date.date)-1] : responseJSON.menu;
     responseJSON.menu = removeAllergyInfo(responseJSON.menu, hideAllergyInfo);
 
-    const timeRemaining = (responseJSONCache.cacheTime - (new Date() - timeCached)) / 1000
-    responseJSON.server_message.push(`${Math.round(timeRemaining)}초 후 식단이 새로 갱신됩니다.`)
+    // const timeRemaining = (responseJSONCache.cacheTime - (new Date() - timeCached)) / 1000
+    // responseJSON.server_message.push(`${Math.round(timeRemaining)}초 후 식단이 새로 갱신됩니다.`)
 
     res.json(responseJSON);
   } else {
@@ -63,17 +62,18 @@ const responseRouter = (req, res, next) => {
     getMenu.fromNEIS((monthlyMenu, err) => {
       if (err) return next(err);
 
-      responseJSONCache.cacheMenu(schoolCode, monthlyMenu, date.year, date.month);
+      responseCache.cacheMenu(schoolCode, monthlyMenu, date.year, date.month);
 
       responseRouter(req, res, next);
     });
   }
 }
 
-const responseJSONCache = new ResponseJSONCache();
-
 router.get('/:schoolType/:schoolCode', (req, res, next) => {
-  responseRouter(req, res, next);
+  // responseRouter(req, res, next);
+  responseCache.getCache(req.params.schoolType, req.params.schoolCode, 2018, 11, (schoolMenuCache) => {
+    res.json(schoolMenuCache);
+  });
 });
 
 module.exports.router = router
