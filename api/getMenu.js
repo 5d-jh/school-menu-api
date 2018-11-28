@@ -11,17 +11,16 @@ const removeBlank = (arr) => {
   return blankRemovedArr;
 }
 
-module.exports = class {
-  constructor(type, code, date) {
-    const schoolTypes = {
+module.exports = (schoolType, schoolCode, menuDate) => {
+  return new Promise((resolve, reject) => {
+    schoolType = {
       "elementary": "2",
       "middle": "3",
       "high": "4"
-    };
-    this.type = schoolTypes[type];
+    }[schoolType];
 
-    const regions = {A: "national", B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use",
-                 J: "goe", K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"};
+    const schoolRegion = {A: "national", B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use",
+                  J: "goe", K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"}[schoolCode[0]];
     const nationalHigh = {
       "A000003488": "kwe",
       "A000003490": "dge",
@@ -34,29 +33,22 @@ module.exports = class {
       "A000003566": "jje",
       "A000003569": "cbe"
     };
-    let region = regions[code[0]];
-    if (!region) {
+    if (!schoolRegion) {
       const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요.');
       err.status = 400;
       throw err;
     }
-    if (region === "national") region = nationalHigh[code];
-
-    this.region = region;
-    this.code = code;
-    this.date = date;
-  }
-
-  fromNEIS(callback) {
+    if (schoolRegion === "national") schoolRegion = nationalHigh[code];
+  
     const NOMENU_MSG = [];
-    let year = this.date.year;
-    let month = this.date.month;
+    let year = menuDate.year;
+    let month = menuDate.month;
     if (month < 10) { month = '0' + month }
 
-    const url = `https://stu.${this.region}.go.kr/sts_sci_md00_001.do?schulCode=${this.code}&schulCrseScCode=${this.type}&ay=${year}&mm=${month}`;
+    const url = `https://stu.${schoolRegion}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolType}&ay=${year}&mm=${month}`;
 
     request(url, (err, res, html) => {
-      if (err) return callback(null, err);
+      if (err) throw err;
 
       const { JSDOM } = jsdom;
       const { window } = new JSDOM(html);
@@ -81,11 +73,10 @@ module.exports = class {
               dinner: dinner ? removeBlank(dinner.split('<br>')) : NOMENU_MSG,
             });
           }
-          
         }
       });
-      
-      callback(table);
+
+      resolve(table);
     });
-  }
+  });
 }
