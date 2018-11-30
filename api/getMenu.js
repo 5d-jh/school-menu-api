@@ -38,7 +38,6 @@ module.exports = (schoolType, schoolCode, menuDate) => {
       err.status = 400;
       throw err;
     }
-    if (schoolRegion === "national") schoolRegion = nationalHigh[code];
   
     const NOMENU_MSG = [];
     let year = menuDate.year;

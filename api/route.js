@@ -35,7 +35,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const menuMonth = Number(req.query.month) || new Date().getMonth()+1;
 
   responseCache.getCache(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth, (schoolMenuCache, err) => {
-    if (err) throw err;
+    if (err) return next(err);
 
     if (!schoolMenuCache.schoolMenu) {
       return res.redirect(req.originalUrl);
