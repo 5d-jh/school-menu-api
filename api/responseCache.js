@@ -41,7 +41,7 @@ const getCache = (schoolType, schoolCode, menuYear, menuMonth, callback) => {
         
       });
     })
-    .catch(err => err);
+    .catch(err => callback(null, err));
   }
 
   const params = {
@@ -63,7 +63,7 @@ const getCache = (schoolType, schoolCode, menuYear, menuMonth, callback) => {
     }
     return err;
   })
-  .catch(err => callback(err));
+  .catch(err => callback(null, err));
 }
 
 module.exports.getCache = getCache;
