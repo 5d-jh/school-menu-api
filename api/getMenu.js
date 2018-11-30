@@ -19,20 +19,30 @@ module.exports = (schoolType, schoolCode, menuDate) => {
       "high": "4"
     }[schoolType];
 
-    const schoolRegion = {A: "national", B: "sen", E: "ice", C: "pen", F: "gen", G: "dje", D: "dge", I: "sje", H: "use",
-                  J: "goe", K: "kwe", M: "cbe", N: "cne", R: "gbe", S: "gne", P: "jbe", Q: "jne", T: "jje"}[schoolCode[0]];
-    const nationalHigh = {
-      "A000003488": "kwe",
-      "A000003490": "dge",
-      "A000003495": "gne",
-      "A000003496": "cne",
-      "A000003509": "pen",
-      "A000003561": "sen",
-      "A000003516": "gen",
-      "A000003520": "jbe",
-      "A000003566": "jje",
-      "A000003569": "cbe"
-    };
+    let schoolRegion;
+    if (schoolCode[0] === 'A') {
+      //국립 고등학교
+      schoolRegion = {
+        "A000003488": "kwe",
+        "A000003490": "dge",
+        "A000003495": "gne",
+        "A000003496": "cne",
+        "A000003509": "pen",
+        "A000003561": "sen",
+        "A000003516": "gen",
+        "A000003520": "jbe",
+        "A000003566": "jje",
+        "A000003569": "cbe"
+      }[schoolCode];
+    } else {
+      schoolRegion = {B: "sen", E: "ice",
+        C: "pen", F: "gen", G: "dje", D: "dge",
+        I: "sje", H: "use", J: "goe", K: "kwe",
+        M: "cbe", N: "cne", R: "gbe", S: "gne",
+        P: "jbe", Q: "jne", T: "jje"
+      }[schoolCode[0]];
+    }
+
     if (!schoolRegion) {
       const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요.');
       err.status = 400;
