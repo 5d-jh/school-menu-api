@@ -50,7 +50,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     const remainingDays = Math.floor(remainingDate / 86400000);
     const remainingHours = Math.floor(remainingDate / (3600000 * (remainingDays+1)));
     let remainingMessage = `${remainingDays}일 ${remainingHours}시간`;
-    if (remainingHours === 0) {
+    if ((remainingDays === remainingHours) === 0) {
       const remainingMins = Math.round(remainingDate / 60000);
       const remainingSecs = Math.ceil((remainingDate / 1000) % remainingMins);
       remainingMessage += ` ${remainingMins}분 ${remainingSecs}초`;
@@ -64,10 +64,11 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     responseJSON.menu = date ? responseJSON.menu[Number(date)-1] : responseJSON.menu;
     responseJSON.menu = removeAllergyInfo(responseJSON.menu, hideAllergyInfo);
 
+    responseJSON.server_message.push(...require('./serverMessage.json').content);
     responseJSON.server_message.push(remainingMessage);
 
     res.json(responseJSON);
   });
 });
 
-module.exports.router = router
+module.exports.router = router;
