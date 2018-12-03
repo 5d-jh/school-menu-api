@@ -12,4 +12,4 @@ functions:
       - http:
           method: GET
           cors: true
-          path: /api/{proxy+}
+          path: /{proxy+}

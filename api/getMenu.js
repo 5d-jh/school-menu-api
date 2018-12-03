@@ -46,7 +46,7 @@ module.exports = (schoolType, schoolCode, menuDate) => {
     if (!schoolRegion) {
       const err = new Error('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요.');
       err.status = 400;
-      throw err;
+      return reject(err);
     }
   
     const NOMENU_MSG = [];
@@ -57,7 +57,7 @@ module.exports = (schoolType, schoolCode, menuDate) => {
     const url = `https://stu.${schoolRegion}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolType}&ay=${year}&mm=${month}`;
 
     request(url, (err, res, html) => {
-      if (err) throw err;
+      if (err) return reject(err);
 
       const { JSDOM } = jsdom;
       const { window } = new JSDOM(html);
