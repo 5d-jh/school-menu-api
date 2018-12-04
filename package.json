@@ -4,7 +4,7 @@
   "description": "학교급식 API : 학교 급식 쉽게 불러오기",
   "main": "lambda.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "NODE_ENV=development supervisor app.local.js"
   },
   "repository": {
     "type": "git",

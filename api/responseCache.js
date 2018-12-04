@@ -1,5 +1,8 @@
+const process = require('process');
 const AWS = require('aws-sdk');
 const AWSConfig = require('./AWSConfig.json');
+
+const NODE_ENV = process.env.NODE_ENV;
 
 AWS.config.update(AWSConfig);
 const S3 = new AWS.S3();
@@ -11,13 +14,13 @@ const getCacheFilename = (schoolCode, menuYear, menuMonth) =>
 
 const cacheMenu = (schoolCode, schoolMenu, menuYear, menuMonth, callback) => {
   const date = new Date();
-  date.setDate(date.getDate() + 6);
+  NODE_ENV === 'development' ? date.setMinutes(date.getMinutes() + 3) : date.setDate(date.getDate() + 6);
   const expiry = date;
 
   const filename = getCacheFilename(schoolCode, menuYear, menuMonth);
 
   const params = {
-    Bucket: 'school-menu-api-caches',
+    Bucket: NODE_ENV === 'development' ? 'school-menu-api-dev' : 'school-menu-api-caches',
     Key: filename,
     Body: JSON.stringify({schoolMenu, expiry})
   };
