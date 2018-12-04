@@ -11,7 +11,7 @@ const removeBlank = (arr) => {
   return blankRemovedArr;
 }
 
-module.exports = (schoolType, schoolCode, menuDate) => {
+module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
   return new Promise((resolve, reject) => {
     schoolType = {
       "elementary": "2",
@@ -50,11 +50,9 @@ module.exports = (schoolType, schoolCode, menuDate) => {
     }
   
     const NOMENU_MSG = [];
-    let year = menuDate.year;
-    let month = menuDate.month;
-    if (month < 10) { month = '0' + month }
+    if (menuMonth < 10) { menuMonth = '0' + menuMonth }
 
-    const url = `https://stu.${schoolRegion}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolType}&ay=${year}&mm=${month}`;
+    const url = `https://stu.${schoolRegion}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolType}&ay=${menuYear}&mm=${menuMonth}`;
 
     request(url, (err, res, html) => {
       if (err) return reject(err);
