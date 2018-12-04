@@ -14,14 +14,18 @@ class ResponseCache {
   constructor(schoolType, schoolCode, menuYear, menuMonth) {
     this.schoolType = schoolType;
     this.schoolCode = schoolCode;
-    this.schoolMenu = [];
     this.menuYear = menuYear;
     this.menuMonth = menuMonth;
+    this.haveData = false;
   }
 
   setExpiry() {
+    if (!this.haveData) {
+      return null;
+    }
+
     const date = new Date();
-    NODE_ENV === 'development' ? date.setMinutes(date.getMinutes() + 3) : date.setDate(date.getDate() + 6);
+    NODE_ENV === 'development' ? date.setMinutes(date.getMinutes() + 2) : date.setDate(date.getDate() + 6);
     return date;
   }
 
@@ -29,15 +33,26 @@ class ResponseCache {
     return this.menuYear.toString()+this.menuMonth.toString()+this.schoolCode+'.json';
   }
 
-  cacheMenu() {
+  checkHaveData(arr) {
+    arr = JSON.parse(JSON.stringify(arr));
+    for (let i = 0; i < arr.length-1; i++) {
+      const front = arr[i].breakfast.length + arr[i].lunch.length + arr[i].dinner.length;
+      const back = arr[i+1].breakfast.length + arr[i+1].lunch.length + arr[i+1].dinner.length;
+      if (front + back !== 0) {
+        this.haveData = true;
+        return;
+      }
+    }
+  }
+
+  cacheMenu(schoolMenu) {
     const expiry = this.setExpiry();
-    const schoolMenu = this.schoolMenu;
 
     const params = {
       Bucket,
       Key: this.getObjKey(this.schoolCode, this.menuYear, this.menuMonth),
       Body: JSON.stringify({schoolMenu, expiry})
-    }
+    };
     S3.putObject(params).promise()
     .catch(err => err);
   }
@@ -46,11 +61,17 @@ class ResponseCache {
     try {
       const schoolMenu = await getMenu(this.schoolType, this.schoolCode, this.menuYear, this.menuMonth);
 
-      if (schoolMenu.length === 0) {
-        throw new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.');
+      this.checkHaveData(schoolMenu);
+
+      if (this.haveData) {
+        this.cacheMenu(schoolMenu);
+      }
+
+      if (schoolMenu.length !== 0) {
+        console.log(schoolMenu)
+        return schoolMenu;
       } else {
-        this.schoolMenu = schoolMenu;
-        this.cacheMenu();
+        throw new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.');
       }
     } catch(err) {
       throw err;
@@ -66,21 +87,19 @@ class ResponseCache {
       const schoolMenuData = await S3.getObject(params).promise().then(data => JSON.parse(data.Body));
 
       if (new Date() > new Date(schoolMenuData.expiry)) {
-        //기한을 넘었을 경우
-        await this.getMenuThenCache();
-        
+        //기한이 넘었을 경우
         const expiry = this.setExpiry();
-        const schoolMenu = this.schoolMenu;
+        const schoolMenu = await this.getMenuThenCache();
         return {schoolMenu, expiry};
       }
+
       return schoolMenuData;
+
     } catch(err) {
       if (err.code === 'NoSuchKey') {
         //오브젝트가 존재하지 않는 경우
-        await this.getMenuThenCache()
-
-        const expiry = this.setExpiry;
-        const schoolMenu = this.schoolMenu;
+        const expiry = this.setExpiry();
+        const schoolMenu = await this.getMenuThenCache();
         return {schoolMenu, expiry};
       } else {
         throw err;

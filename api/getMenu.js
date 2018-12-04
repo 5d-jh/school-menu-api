@@ -1,3 +1,4 @@
+const process = require('process');
 const request = require('request');
 const jsdom = require('jsdom');
 
@@ -53,6 +54,7 @@ module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
     if (menuMonth < 10) { menuMonth = '0' + menuMonth }
 
     const url = `https://stu.${schoolRegion}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolType}&ay=${menuYear}&mm=${menuMonth}`;
+    if (process.env.NODE_ENV === 'development') console.log(url);
 
     request(url, (err, res, html) => {
       if (err) return reject(err);
@@ -61,7 +63,7 @@ module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
       const { window } = new JSDOM(html);
       const $ = require('jquery')(window);
     
-      let table = [];
+      const table = [];
       
       $('td div').each(function () {
         const text = $(this).html();

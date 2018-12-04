@@ -42,16 +42,21 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
       server_message: []
     };
 
-    const remainingTime = new Date(schoolMenuData.expiry).getTime() - new Date().getTime();
-    const remainingDays = Math.floor(remainingTime / 86400000);
-    const remainingHours = Math.floor(remainingTime / (3600000 * (remainingDays+1)));
-    let remainingMessage = `${remainingDays}일 ${remainingHours}시간`;
-    if ((remainingDays && remainingHours) === 0) {
-      const remainingMins = Math.floor(remainingTime / 60000);
-      const remainingSecs = Math.ceil((remainingTime / 1000) % 60);
-      remainingMessage += ` ${remainingMins}분 ${remainingSecs}초`;
-    };
-    remainingMessage += ` 후 식단이 갱신됩니다.`;
+    let remainingMessage;
+    if (!schoolMenuData.expiry) {
+      remainingMessage = `${menuYear}년 ${menuMonth}월에 해당하는 급식이 없는 것으로 간주되어 임시저장하지 않습니다.`;
+    } else {
+      const remainingTime = new Date(schoolMenuData.expiry).getTime() - new Date().getTime();
+      const remainingDays = Math.floor(remainingTime / 86400000);
+      const remainingHours = Math.floor(remainingTime / (3600000 * (remainingDays+1)));
+      remainingMessage = `${remainingDays}일 ${remainingHours}시간`;
+      if ((remainingDays && remainingHours) === 0) {
+        const remainingMins = Math.floor(remainingTime / 60000);
+        const remainingSecs = Math.ceil((remainingTime / 1000) % 60);
+        remainingMessage += ` ${remainingMins}분 ${remainingSecs}초`;
+      };
+      remainingMessage += ` 후 식단이 갱신됩니다.`;
+    }
 
     const hideAllergyInfo = req.query.hideAllergy === "true" ? true : false;
     const date = req.query.date;
