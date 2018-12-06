@@ -3,7 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const ResponseCache = require('./ResponseCache');
+const responseCache = require('./responseCache');
 
 const removeAllergyInfo = (month, hideAllergyInfo) => {
   let singleDay = false;
@@ -34,8 +34,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const menuYear = Number(req.query.year) || new Date().getFullYear();
   const menuMonth = Number(req.query.month) || new Date().getMonth()+1;
 
-  const responseCache = new ResponseCache(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth);
-  responseCache.getCache()
+  responseCache(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth).getCache()
   .then((schoolMenuData) => {
     const responseJSON = {
       menu: schoolMenuData.schoolMenu,
@@ -51,7 +50,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
       const remainingHours = Math.floor(remainingTime / (3600000 * (remainingDays+1)));
       remainingMessage = `${remainingDays}일 ${remainingHours}시간`;
       if ((remainingDays && remainingHours) === 0) {
-        const remainingMins = Math.floor(remainingTime / 60000);
+        const remainingMins = Math.floor((remainingTime / 60000) % 60);
         const remainingSecs = Math.ceil((remainingTime / 1000) % 60);
         remainingMessage += ` ${remainingMins}분 ${remainingSecs}초`;
       };
@@ -59,9 +58,9 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     }
 
     const hideAllergyInfo = req.query.hideAllergy === "true" ? true : false;
-    const date = req.query.date;
+    const menuDate = Number(req.query.date);
 
-    responseJSON.menu = date ? responseJSON.menu[Number(date)-1] : responseJSON.menu;
+    if (menuDate) responseJSON.menu =responseJSON.menu[menuDate-1];
     responseJSON.menu = removeAllergyInfo(responseJSON.menu, hideAllergyInfo);
 
     responseJSON.server_message.push(...require('./serverMessage.json').content);
@@ -70,9 +69,6 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     res.json(responseJSON);
   })
   .catch(err => next(err));
-  /*responseCache.getCache(, (schoolMenuCache, err) => {
-
-  }); */
 });
 
 module.exports.router = router;

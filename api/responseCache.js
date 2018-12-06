@@ -25,7 +25,18 @@ class ResponseCache {
     }
 
     const date = new Date();
-    NODE_ENV === 'development' ? date.setMinutes(date.getMinutes() + 2) : date.setDate(date.getDate() + 6);
+
+    const condition = ((date.getFullYear() < this.menuYear) ||
+      ((date.getMonth()+1 < this.menuMonth)));
+      
+    if (condition) {
+      date.setDate(date.getDate() + 1);
+    } else {
+      NODE_ENV === 'development'
+      ? date.setMinutes(date.getMinutes() + 2)
+      : date.setFullYear(date.getFullYear() + 3);
+    }
+
     return date;
   }
 
@@ -68,7 +79,6 @@ class ResponseCache {
       }
 
       if (schoolMenu.length !== 0) {
-        console.log(schoolMenu)
         return schoolMenu;
       } else {
         throw new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.');
@@ -108,4 +118,6 @@ class ResponseCache {
   }
 }
 
-module.exports = ResponseCache;
+module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
+  return new ResponseCache(schoolType, schoolCode, menuYear, menuMonth);
+}
