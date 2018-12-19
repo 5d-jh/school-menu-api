@@ -53,7 +53,7 @@ print(school_menu)
 ```
 
 ### 응답
-```json
+```
 {
     menu: [
         ...,
@@ -72,7 +72,7 @@ print(school_menu)
 ## 기타 사항
 ### 실행을 위한 추가 작업
  api 폴더 내에 다음 파일이 있어야 합니다. 파일명, 파일 구조는 다음 예제와 동일해야 합니다.
- ```json
+ ```
 //AWSConfig.json
 //AWS SDK를 사용하기 위해 계정 정보를 저장하는 파일입니다.
 {
@@ -82,7 +82,7 @@ print(school_menu)
 }
  ```
 
- ```json
+ ```
 //serverMessage.json
 //공지사항을 저장하는 파일입니다.
 {
