@@ -13,7 +13,7 @@ GET 요청을 통해 학교 식단을 JSON으로 받아 어떤 플랫폼에서�
  * 고등학교 <code>high</code>
 
 ## 학교 코드
-[여기](https://www.meatwatch.go.kr/biz/bm/sel/schoolListPopup.do)에서 학교 코드를 확인할 수 있습니다.
+[여기](http://django-env.9bdvzwaqzf.ap-northeast-2.elasticbeanstalk.com/)에서 학교 코드를 확인할 수 있습니다.
 
 ## 식단 불러오기
 <code>https://<span></span>schoolmenukr.<span></span>ml/api/[학교유형]/[학교코드]</code>로 현재 달의 식단을 불러올 수 있습니다. 응답 데이터는 JSON 입니다.
