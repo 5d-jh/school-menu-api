@@ -25,17 +25,11 @@ class ResponseCache {
     }
 
     const date = new Date();
+    date.setMonth(date.getMonth()+1);
 
-    const condition = ((date.getFullYear() < this.menuYear) ||
-      ((date.getMonth()+1 < this.menuMonth)));
-      
-    if (condition) {
-      date.setDate(date.getDate() + 1);
-    } else {
-      NODE_ENV === 'development'
-      ? date.setMinutes(date.getMinutes() + 2)
-      : date.setFullYear(date.getFullYear() + 3);
-    }
+    const time = date.getTime() - new Date(this.menuYear, this.menuMonth, date.getDate()).getTime();
+
+    time < 0 ? date.setDate(date.getDate() + 1) : date.setFullYear(date.getFullYear() + 3);
 
     return date;
   }
