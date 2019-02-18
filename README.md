@@ -71,25 +71,29 @@ print(school_menu)
 
 ## 기타 사항
 ### 실행을 위한 추가 작업
- api 폴더 내에 다음 파일이 있어야 합니다. 파일명, 파일 구조는 다음 예제와 동일해야 합니다.
- ```
-//AWSConfig.json
-//AWS SDK를 사용하기 위해 계정 정보를 저장하는 파일입니다.
-{
-  "region": "ap-northeast-2",
-  "accessKeyId": "YOUR_ACCESS_KEY_ID",
-  "secretAccessKey": "YOUR_SECRET_ACCESS_KEY"
-}
- ```
+ 프로젝트 내에 다음 파일들이 있어야 합니다. 파일명, 파일 구조는 다음 예제와 동일해야 합니다.
 
- ```
-//serverMessage.json
-//공지사항을 저장하는 파일입니다.
+#### serverMessage.json
+ * 파일명: serverMessage.json
+ * 설명: 공지사항을 저장하는 파일입니다.
+ * 위치: /api
+ * 예시: 
+```json
 {
     "content": ["foo", "bar", ...]
 }
  ```
 
+ #### .env
+ * 파일명: .env
+ * 설명: AWS SDK를 사용하기 위해 계정 정보와 관련된 환경 변수를 저장하는 파일입니다.
+ * 위치: /
+ * 예시: 
+ ```
+AWS_REGION=ap-northeast-2
+AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+ ```
 
 식단 임시 저장을 위해 다음 이름을 가진 AWS S3 버킷을 생성해야 합니다.
  * <code>school-menu-api-dev</code>: NODE_ENV=development 환경에서 사용할 버킷입니다.

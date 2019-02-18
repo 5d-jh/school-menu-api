@@ -1,4 +1,3 @@
 /node_modules
 /api/serverMessage.json
-/api/AWSConfig.json
 /.serverless

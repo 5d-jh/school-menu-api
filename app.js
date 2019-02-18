@@ -4,6 +4,8 @@ const process = require('process');
 const cors = require('cors');
 const app = express();
 
+require('dotenv').config();
+
 const apiRoute = require('./api/route');
 
 process.env.TZ = 'Asia/Seoul';

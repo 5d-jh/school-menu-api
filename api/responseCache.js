@@ -1,11 +1,14 @@
 const process = require('process');
 const AWS = require('aws-sdk');
-const AWSConfig = require('./AWSConfig.json');
 
 const NODE_ENV = process.env.NODE_ENV;
-const Bucket = NODE_ENV === 'development' ? 'school-menu-api-dev' : 'school-menu-api-caches'
+const Bucket = NODE_ENV === 'development' ? 'school-menu-api-dev' : 'school-menu-api-caches';
 
-AWS.config.update(AWSConfig);
+AWS.config.update({
+  region: process.env.AWS_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+});
 const S3 = new AWS.S3();
 
 const getMenu = require('./getMenu');
