@@ -4,11 +4,14 @@ const AWS = require('aws-sdk');
 const NODE_ENV = process.env.NODE_ENV;
 const Bucket = NODE_ENV === 'development' ? 'school-menu-api-dev' : 'school-menu-api-caches';
 
-AWS.config.update({
-  region: process.env.AWS_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-});
+
+// *** AWS Lambda 가 아닌 환경에서 실행할 경우 다음 코드의 주석을 해제합니다. ***
+// AWS.config.update({
+//   region: process.env.AWS_REGION,
+//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+// });
+
 const S3 = new AWS.S3();
 
 const getMenu = require('./getMenu');

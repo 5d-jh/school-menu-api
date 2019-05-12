@@ -84,17 +84,6 @@ print(school_menu)
 }
  ```
 
- #### .env
- * 파일명: .env
- * 설명: AWS SDK를 사용하기 위해 계정 정보와 관련된 환경 변수를 저장하는 파일입니다.
- * 위치: /
- * 예시: 
- ```
-AWS_REGION=ap-northeast-2
-AWS_ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
- ```
-
 식단 임시 저장을 위해 다음 이름을 가진 AWS S3 버킷을 생성해야 합니다.
  * <code>school-menu-api-dev</code>: NODE_ENV=development 환경에서 사용할 버킷입니다.
  * <code>school-menu-api-caches</code>: NODE_ENV=production 환경에서 사용할 버킷입니다.
