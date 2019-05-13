@@ -63,3 +63,4 @@ typings/
 /node_modules
 /api/serverMessage.json
 /.serverless
+.vscode/
