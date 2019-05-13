@@ -1,4 +1,8 @@
 # 학교식단 API
+## 향후 계획
+- [ ] AWS -> Firebase로 플랫폼 이동
+- [ ] 도메인 변경
+
 ## 개요 및 특징
 GET 요청을 통해 학교 식단을 JSON으로 받아 어떤 플랫폼에서든 쉽게 불러올 수 있습니다.
 [school-api](https://github.com/agemor/school-api) 프로젝트가 제작에 큰 도움이 되었습니다.
