@@ -1,6 +1,6 @@
 # 학교식단 API
 ## 향후 계획
-- [ ] AWS -> Firebase로 플랫폼 이동
+- [ ] AWS -> ~Firebase~Azure로 플랫폼 이동
 - [ ] 도메인 변경
 
 ## 개요 및 특징
