@@ -6,19 +6,22 @@ const router = express.Router();
 const responseCache = require('./responseCache');
 
 const removeAllergyInfo = (month, hideAllergyInfo) => {
+  const regex = /\d|[.]|[*]/g;
   let singleDay = false;
+
   if (hideAllergyInfo) {
     if (!Array.isArray(month)) {
       month = [month];
       singleDay = true
     }
+    
     for (const day in month) {
       if (month[day].breakfast != undefined) {
         month[day] = {
           date: month[day].date,
-          breakfast: month[day].breakfast.map(menu => menu.replace(/\d|[.]/g, '')),
-          lunch: month[day].lunch.map(menu => menu.replace(/\d|[.]/g, '')),
-          dinner: month[day].dinner.map(menu => menu.replace(/\d|[.]/g, ''))
+          breakfast: month[day].breakfast.map(menu => menu.replace(regex, '')),
+          lunch: month[day].lunch.map(menu => menu.replace(regex, '')),
+          dinner: month[day].dinner.map(menu => menu.replace(regex, ''))
         };
       }
     }
