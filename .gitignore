@@ -61,6 +61,6 @@ typings/
 .next
 
 /node_modules
-/api/serverMessage.json
 /.serverless
-.vscode/
+/.vscode
+.DS_Store
