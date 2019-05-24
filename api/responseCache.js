@@ -24,15 +24,13 @@ class ResponseCache {
     this.menuMonth = menuMonth;
   }
 
-  setExpiry() {
+  willStore() {
     const date = new Date();
     date.setMonth(date.getMonth()+1);
 
     const time = date.getTime() - new Date(this.menuYear, this.menuMonth, date.getDate()).getTime();
 
-    time < 0 ? date.setDate(date.getDate() + 1) : date.setFullYear(date.getFullYear() + 3);
-
-    return date;
+    return time >= 0;
   }
 
   getObjKey() {
@@ -40,12 +38,10 @@ class ResponseCache {
   }
 
   cacheMenu(schoolMenu) {
-    const expiry = this.setExpiry();
-
     const params = {
       Bucket,
       Key: this.getObjKey(this.schoolCode, this.menuYear, this.menuMonth),
-      Body: JSON.stringify({ schoolMenu, expiry })
+      Body: JSON.stringify({ schoolMenu, isCached: true })
     };
     S3.putObject(params).promise()
     .catch(err => err);
@@ -66,29 +62,35 @@ class ResponseCache {
     }
   }
 
-  async getCache() {
+  async require() {
     try {
       const params = {
         Bucket,
         Key: this.getObjKey(this.schoolCode, this.menuYear, this.menuMonth)
       };
-      const schoolMenuData = await S3.getObject(params).promise().then(data => JSON.parse(data.Body));
+      const schoolMenuData = await S3.getObject(params).promise()
+      .then(data => JSON.parse(data.Body));
 
-      if (new Date() > new Date(schoolMenuData.expiry)) {
-        //기한이 넘었을 경우
-        const expiry = this.setExpiry();
-        const schoolMenu = await this.getMenuThenCache();
-        return {schoolMenu, expiry};
-      }
-
-      return schoolMenuData;
+      return schoolMenuData; //returns { menu, isCached }
 
     } catch(err) {
       if (err.code === 'NoSuchKey') {
         //오브젝트가 존재하지 않는 경우
-        const expiry = this.setExpiry();
-        const schoolMenu = await this.getMenuThenCache();
-        return {schoolMenu, expiry};
+        if (this.willStore()) {
+          //과거 또는 현재 식단을 요쳥한 경우
+          return {  
+            schoolMenu: await this.getMenuThenCache(),
+            isCached: false
+          };
+        }
+
+        //미래 식단을 요청한 경우
+        const { menu } = await getMenu(this.schoolType, this.schoolCode, this.menuYear, this.menuMonth);
+        return {
+          schoolMenu: menu,
+          isCached: false
+        };
+        
       } else {
         throw err;
       }

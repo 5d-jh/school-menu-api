@@ -37,28 +37,12 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const menuYear = Number(req.query.year) || new Date().getFullYear();
   const menuMonth = Number(req.query.month) || new Date().getMonth()+1;
 
-  responseCache(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth).getCache()
+  responseCache(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth).require()
   .then((schoolMenuData) => {
     const responseJSON = {
       menu: schoolMenuData.schoolMenu,
       server_message: []
     };
-
-    let remainingMessage;
-    if (!schoolMenuData.expiry) {
-      remainingMessage = `${menuYear}년 ${menuMonth}월에 해당하는 급식이 없는 것으로 간주되어 임시저장하지 않습니다.`;
-    } else {
-      const remainingTime = new Date(schoolMenuData.expiry).getTime() - new Date().getTime();
-      const remainingDays = Math.floor(remainingTime / 86400000);
-      const remainingHours = Math.floor(remainingTime / (3600000 * (remainingDays+1)));
-      remainingMessage = `${remainingDays}일 ${remainingHours}시간`;
-      if ((remainingDays && remainingHours) === 0) {
-        const remainingMins = Math.floor((remainingTime / 60000) % 60);
-        const remainingSecs = Math.ceil((remainingTime / 1000) % 60);
-        remainingMessage += ` ${remainingMins}분 ${remainingSecs}초`;
-      };
-      remainingMessage += ` 후 식단이 갱신됩니다.`;
-    }
 
     const hideAllergyInfo = req.query.hideAllergy === "true" ? true : false;
     const menuDate = Number(req.query.date);
@@ -67,7 +51,9 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
     responseJSON.menu = removeAllergyInfo(responseJSON.menu, hideAllergyInfo);
 
     responseJSON.server_message.push(...require('./serverMessage.json').content);
-    responseJSON.server_message.push(remainingMessage);
+    responseJSON.server_message.push(
+      schoolMenuData.isCached ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
+    );
 
     res.json(responseJSON);
   })
