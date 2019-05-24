@@ -12,6 +12,21 @@ const removeBlank = (arr) => {
   return blankRemovedArr;
 }
 
+const checkHaveData = (arr) => {
+  arr = JSON.parse(JSON.stringify(arr));
+
+  for (let i = 0; i < arr.length-1; i++) {
+    const front = arr[i].breakfast.length + arr[i].lunch.length + arr[i].dinner.length;
+    const back = arr[i+1].breakfast.length + arr[i+1].lunch.length + arr[i+1].dinner.length;
+    if (front + back !== 0) {
+      return true;
+    }
+  }
+
+  return false;
+
+}
+
 module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
   return new Promise((resolve, reject) => {
     schoolType = {
@@ -85,7 +100,12 @@ module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
         }
       });
 
-      resolve(table);
+      if (table.length == 0) {
+        reject(new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.'));
+      } else {
+        resolve({ hasData: checkHaveData(table), menu: table });
+      }
+      
     });
   });
 }

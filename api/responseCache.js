@@ -22,14 +22,9 @@ class ResponseCache {
     this.schoolCode = schoolCode;
     this.menuYear = menuYear;
     this.menuMonth = menuMonth;
-    this.haveData = false;
   }
 
   setExpiry() {
-    if (!this.haveData) {
-      return null;
-    }
-
     const date = new Date();
     date.setMonth(date.getMonth()+1);
 
@@ -44,25 +39,13 @@ class ResponseCache {
     return this.menuYear.toString()+this.menuMonth.toString()+this.schoolCode+'.json';
   }
 
-  checkHaveData(arr) {
-    arr = JSON.parse(JSON.stringify(arr));
-    for (let i = 0; i < arr.length-1; i++) {
-      const front = arr[i].breakfast.length + arr[i].lunch.length + arr[i].dinner.length;
-      const back = arr[i+1].breakfast.length + arr[i+1].lunch.length + arr[i+1].dinner.length;
-      if (front + back !== 0) {
-        this.haveData = true;
-        return;
-      }
-    }
-  }
-
   cacheMenu(schoolMenu) {
     const expiry = this.setExpiry();
 
     const params = {
       Bucket,
       Key: this.getObjKey(this.schoolCode, this.menuYear, this.menuMonth),
-      Body: JSON.stringify({schoolMenu, expiry})
+      Body: JSON.stringify({ schoolMenu, expiry })
     };
     S3.putObject(params).promise()
     .catch(err => err);
@@ -72,17 +55,12 @@ class ResponseCache {
     try {
       const schoolMenu = await getMenu(this.schoolType, this.schoolCode, this.menuYear, this.menuMonth);
 
-      this.checkHaveData(schoolMenu);
-
-      if (this.haveData) {
-        this.cacheMenu(schoolMenu);
+      if (schoolMenu.hasData) {
+        this.cacheMenu(schoolMenu.menu);
       }
 
-      if (schoolMenu.length !== 0) {
-        return schoolMenu;
-      } else {
-        throw new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.');
-      }
+      return schoolMenu.menu;
+
     } catch(err) {
       throw err;
     }
