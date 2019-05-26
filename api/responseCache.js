@@ -33,36 +33,21 @@ class ResponseCache {
     return time >= 0;
   }
 
-  getObjKey() {
-    return this.menuYear.toString()+this.menuMonth.toString()+this.schoolCode+'.json';
-  }
-
-  async cacheMenu(schoolMenu) {
-    const params = {
-      TableName,
-      Item: {
-        'MenuYM': `${this.menuYear}.${this.menuMonth}`,
-        'SchoolCode': this.schoolCode,
-        'SchoolMenu': schoolMenu
-      }
-    };
-    try {
-      await docCli.put(params, (err, data) => {
-        if (err) console.error(err);
-        else console.log(data);
-      });
-    } catch (err) {
-      throw err;
-    }
-    
-  }
-
   async getMenuThenCache() {
     try {
       const schoolMenu = await getMenu(this.schoolType, this.schoolCode, this.menuYear, this.menuMonth);
 
       if (schoolMenu && schoolMenu.hasData) {
-        this.cacheMenu(schoolMenu.menu);
+        docCli.put({
+          TableName,
+          Item: {
+            'MenuYM': `${this.menuYear}.${this.menuMonth}`,
+            'SchoolCode': this.schoolCode,
+            'SchoolMenu': schoolMenu.menu
+          }
+        }, err => {
+          if (err) throw err;
+        });
       }
 
       return schoolMenu.menu;
