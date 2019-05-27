@@ -37,7 +37,7 @@ router.get('/:schoolType/:schoolCode', (req, res, next) => {
   const menuYear = Number(req.query.year) || new Date().getFullYear();
   const menuMonth = Number(req.query.month) || new Date().getMonth()+1;
 
-  responseCache(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth).require()
+  responseCache(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth)
   .then((schoolMenuData) => {
     const responseJSON = {
       menu: schoolMenuData.schoolMenu,
