@@ -1,6 +1,6 @@
 # 학교식단 API
 ## 개요 및 특징
-GET 요청을 통해 학교 식단을 JSON으로 받아 어떤 플랫폼에서든 쉽게 불러올 수 있습니다.
+[HTTP GET 요청](https://opentutorials.org/course/3385/21674)을 통해 학교 식단을 [JSON](https://opentutorials.org/course/1375/6844)으로 받아 어떤 플랫폼에서든 쉽게 불러올 수 있습니다.
 [school-api](https://github.com/agemor/school-api) 프로젝트가 제작에 큰 도움이 되었습니다.
 
 식단을 한 번 이상 요청 시 요청한 학교, 년, 월별로 식단이 서버에 저장되어 응답 속도가 대폭 개선됩니다.
@@ -80,7 +80,7 @@ print(school_menu)
  * 예시: 
 ```json
 {
-    "content": ["foo", "bar", ...]
+    "content": ["foo", "bar"]
 }
  ```
 
@@ -92,4 +92,4 @@ print(school_menu)
 서버리스가 아닌 일반 환경에서 실행하고 싶으시다면, <code>app.local.js</code>를 실행합니다.
 
 ### 저작권
-해당 소스를 마음대로 수정하거나 재배포 할 수 있습니다. [자세한 정보](https://namu.wiki/w/MIT%20허가서)
+해당 프로젝트는 MIT 라이선스 하에 배포되며, 수정, 복제, 2차 창작, 영리적 사용, 다른 라이선스 하에 재배포 등이 가능합니다. 다만 해당 프로젝트와 관련된 피해에 대해 책임지지 않습니다.
