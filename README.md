@@ -71,25 +71,8 @@ print(school_menu)
 
 ## 기타 사항
 ### 실행을 위한 추가 작업
- 프로젝트 내에 다음 파일들이 있어야 합니다. 파일명, 파일 구조는 다음 예제와 동일해야 합니다.
-
-#### serverMessage.json
- * 파일명: serverMessage.json
- * 설명: 공지사항을 저장하는 파일입니다.
- * 위치: /api
- * 예시: 
-```json
-{
-    "content": ["foo", "bar"]
-}
- ```
-
-식단 임시 저장을 위해 다음 이름을 가진 AWS S3 버킷을 생성해야 합니다.
- * <code>school-menu-api-dev</code>: NODE_ENV=development 환경에서 사용할 버킷입니다.
- * <code>school-menu-api-caches</code>: NODE_ENV=production 환경에서 사용할 버킷입니다.
-
-
-서버리스가 아닌 일반 환경에서 실행하고 싶으시다면, <code>app.local.js</code>를 실행합니다.
+ * AWS DynamoDB에 `SchoolMenu`, `SchoolMenu_dev`테이블이 있어야 합니다.
+ * 로컬 환경에서 실행하려면 `app.local.js`를 실행하세요.
 
 ### 저작권
 해당 프로젝트는 MIT 라이선스 하에 배포되며, 수정, 복제, 2차 창작, 영리적 사용, 다른 라이선스 하에 재배포 등이 가능합니다. 다만 해당 프로젝트와 관련된 피해에 대해 책임지지 않습니다.
