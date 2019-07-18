@@ -1,4 +1,6 @@
-# 학교식단 API
+# 학교식단 API 
+[![Build Status](https://travis-ci.org/5d-jh/school-menu-api.svg?branch=master)](https://travis-ci.org/5d-jh/school-menu-api)
+
 ## 개요 및 특징
 [HTTP GET 요청](https://opentutorials.org/course/3385/21674)을 통해 학교 식단을 [JSON](https://opentutorials.org/course/1375/6844)으로 받아 어떤 플랫폼에서든 쉽게 불러올 수 있습니다.
 [school-api](https://github.com/agemor/school-api) 프로젝트가 제작에 큰 도움이 되었습니다.

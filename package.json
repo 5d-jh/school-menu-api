@@ -4,7 +4,7 @@
   "description": "학교급식 API : 학교 급식 쉽게 불러오기",
   "main": "lambda.js",
   "scripts": {
-    "dev": "NODE_ENV=development supervisor app.local.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,8 @@
     "jquery": "^3.4.1",
     "jsdom": "^12.2.0",
     "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4"
   }
 }

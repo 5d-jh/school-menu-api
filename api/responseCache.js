@@ -1,15 +1,10 @@
 const process = require('process');
 const AWS = require('aws-sdk');
 
+require('dotenv').config();
+
 const NODE_ENV = process.env.NODE_ENV;
 const TableName = NODE_ENV === 'development' ? 'SchoolMenu_dev' : 'SchoolMenu';
-
-// *** AWS Lambda 가 아닌 환경에서 실행할 경우 다음 코드의 주석을 해제합니다. ***
-// AWS.config.update({
-//   region: process.env.AWS_REGION,
-//   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-//   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-// });
 
 const docCli = new AWS.DynamoDB.DocumentClient();
 
