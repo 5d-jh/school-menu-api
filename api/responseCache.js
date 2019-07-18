@@ -1,8 +1,6 @@
 const process = require('process');
 const AWS = require('aws-sdk');
 
-require('dotenv').config();
-
 const NODE_ENV = process.env.NODE_ENV;
 const TableName = NODE_ENV === 'development' ? 'SchoolMenu_dev' : 'SchoolMenu';
 
