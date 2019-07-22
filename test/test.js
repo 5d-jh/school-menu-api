@@ -17,4 +17,16 @@ describe('responseCache', function() {
       done();
     });
   });
+
+  it('does not save menu when receive future date', done => {
+    responseCache('high', 'K100000460', new Date().getFullYear()+1, 7)
+    .then(data => {
+      assert.strictEqual(data.isCached, false);
+      done();
+    })
+    .catch(err => {
+      assert.ifError(err);
+      done();
+    })
+  });
 });
