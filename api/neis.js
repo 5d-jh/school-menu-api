@@ -2,32 +2,14 @@ const process = require('process');
 const request = require('request');
 const jsdom = require('jsdom');
 
-const removeBlank = (arr) => {
-  let blankRemovedArr = [];
-  for (const i in arr) {
-    if (arr[i]) {
-      blankRemovedArr.push(arr[i])
-    }
-  }
-  return blankRemovedArr;
-}
-
-const checkHaveData = (arr) => {
-  arr = JSON.parse(JSON.stringify(arr));
-
-  for (let i = 0; i < arr.length-1; i++) {
-    const front = arr[i].breakfast.length + arr[i].lunch.length + arr[i].dinner.length;
-    const back = arr[i+1].breakfast.length + arr[i+1].lunch.length + arr[i+1].dinner.length;
-    if (front + back !== 0) {
-      return true;
-    }
-  }
-
-  return false;
-
-}
-
-module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
+/**
+ * @param {"elementary"|"moddle"|"high"} schoolType - 학교 유형
+ * @param {string} schoolCode - 학교 고유 NEIS 코드
+ * @param {number} menuYear - 식단 년
+ * @param {number} menuMonth - 식단 월
+ * @returns {Promise<{ shouldSave: boolean, menu: object }>}
+ */
+const neis = (schoolType, schoolCode, menuYear, menuMonth) => {
   return new Promise((resolve, reject) => {
     schoolType = {
       "elementary": "2",
@@ -64,14 +46,12 @@ module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
       err.status = 400;
       return reject(err);
     }
-  
-    const NOMENU_MSG = [];
     if (menuMonth < 10) { menuMonth = '0' + menuMonth }
 
     const url = `https://stu.${schoolRegion}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolType}&ay=${menuYear}&mm=${menuMonth}`;
     if (process.env.NODE_ENV === 'development') console.log(url);
 
-    request(url, (err, res, html) => {
+    request(url, (err, _, html) => {
       if (err) return reject(err);
 
       const { JSDOM } = jsdom;
@@ -79,6 +59,8 @@ module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
       const $ = require('jquery')(window);
     
       const table = [];
+
+      let totalStrlen = 0;
       
       $('td div').each(function () {
         const text = $(this).html();
@@ -92,10 +74,14 @@ module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
             //식단표에 수정을 가하는 코드를 작성할 경우 이 줄 다음부터 작성
             table.push({
               date: date[0].replace('<br>', ''),
-              breakfast: breakfast ? removeBlank(breakfast.split('<br>')) : NOMENU_MSG,
-              lunch: lunch ? removeBlank(lunch.split('<br>')) : NOMENU_MSG,
-              dinner: dinner ? removeBlank(dinner.split('<br>')) : NOMENU_MSG,
+              breakfast: breakfast ? breakfast.split('<br>').filter(menu => menu) : [],
+              lunch: lunch ? lunch.split('<br>').filter(menu => menu) : [],
+              dinner: dinner ? dinner.split('<br>').filter(menu => menu) : [],
             });
+
+            table.length != 0 && (
+              totalStrlen += breakfast.length + lunch.length + dinner.length
+            );
           }
         }
       });
@@ -103,9 +89,10 @@ module.exports = (schoolType, schoolCode, menuYear, menuMonth) => {
       if (table.length == 0) {
         reject(new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.'));
       } else {
-        resolve({ hasData: checkHaveData(table), menu: table });
+        resolve({ shouldSave: Boolean(totalStrlen), menu: table });
       }
-      
     });
   });
 }
+
+module.exports = neis;
