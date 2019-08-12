@@ -89,7 +89,12 @@ const neis = (schoolType, schoolCode, menuYear, menuMonth) => {
       if (table.length == 0) {
         reject(new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.'));
       } else {
-        resolve({ shouldSave: Boolean(totalStrlen), menu: table });
+        resolve({
+          shouldSave: Boolean(totalStrlen) && (
+            new Date().getFullYear() >= menuYear && new Date().getMonth()+1 >= menuMonth
+          ),
+          menu: table
+        });
       }
     });
   });
