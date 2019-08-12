@@ -1,63 +1,69 @@
 'use strict';
 const express = require('express');
+const neis = require('./neis');
+const DB = require('./db');
 
 const router = express.Router();
 
-const responseCache = require('./responseCache');
-
-const removeAllergyInfo = (month, hideAllergyInfo) => {
-  const regex = /\d|[.]|[*]/g;
-  let singleDay = false;
-
-  if (hideAllergyInfo) {
-    if (!Array.isArray(month)) {
-      month = [month];
-      singleDay = true
-    }
-    
-    for (const day in month) {
-      if (month[day].breakfast != undefined) {
-        month[day] = {
-          date: month[day].date,
-          breakfast: month[day].breakfast.map(menu => menu.replace(regex, '')),
-          lunch: month[day].lunch.map(menu => menu.replace(regex, '')),
-          dinner: month[day].dinner.map(menu => menu.replace(regex, ''))
-        };
-      }
-    }
-    if (singleDay) {
-      month = month[0]
-    } 
+/**
+ * 쿼리 스트링 값을 적용하는 함수
+ * @param {{ hideAllergy: boolean, date: number }} options 
+ * @param {object} menu 
+ * @returns {array}
+ */
+const applyOptions = (options, menu) => {
+  if (options.date) {
+    menu = menu.filter(data => data.date == options.date);
   }
-  
-  return month;
-}
 
-router.get('/:schoolType/:schoolCode', (req, res, next) => {
+  if (options.hideAllergy) {
+    const regex = /\d|[.]|[*]/g;
+
+    menu = menu.map(day => (
+      day.breakfast && day.lunch && day.dinner && {
+        date: day.date,
+        breakfast: day.breakfast.map(menu => menu.replace(regex, '')),
+        lunch: day.lunch.map(menu => menu.replace(regex, '')),
+        dinner: day.dinner.map(menu => menu.replace(regex, ''))
+      }
+    ));
+  }
+
+  return menu;
+};
+
+router.get('/:schoolType/:schoolCode', async (req, res, next) => {
   const menuYear = Number(req.query.year) || new Date().getFullYear();
   const menuMonth = Number(req.query.month) || new Date().getMonth()+1;
 
-  responseCache(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth)
-  .then((schoolMenuData) => {
-    const responseJSON = {
-      menu: schoolMenuData.schoolMenu,
-      server_message: []
-    };
+  const db = new DB(req.params.schoolCode, menuYear, menuMonth);
+  let menu = await db.get();
 
-    const hideAllergyInfo = req.query.hideAllergy === "true" ? true : false;
-    const menuDate = Number(req.query.date);
+  if (!menu) {
+    //DB에 메뉴가 저장되어 있지 않은 경우
+    try {
+      const neisData = await neis(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth);
 
-    if (menuDate) responseJSON.menu =responseJSON.menu[menuDate-1];
-    responseJSON.menu = removeAllergyInfo(responseJSON.menu, hideAllergyInfo);
+      menu = neisData.menu;
 
-    responseJSON.server_message.push(...require('./serverMessage.json').content);
-    responseJSON.server_message.push(
-      schoolMenuData.isCached ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
-    );
+      if (neisData.shouldSave) {
+        db.put(neisData.menu);
+      }
+    } catch (err) {
+      return next(err);
+    }
+  }
 
-    res.json(responseJSON);
-  })
-  .catch(err => next(err));
+  res.json({
+    menu: applyOptions({
+      hideAllergy: req.query.hideAllergy === "true" ? true : false,
+      date: req.query.date
+    }, menu),
+    server_message: [
+      ...require('./serverMessage.json'),
+      fetchedFromDB ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
+    ]
+  });
 });
 
 module.exports.router = router;
