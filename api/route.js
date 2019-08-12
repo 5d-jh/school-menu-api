@@ -39,9 +39,8 @@ router.get('/:schoolType/:schoolCode', async (req, res, next) => {
   const db = new DB(req.params.schoolCode, menuYear, menuMonth);
   let menu = await db.get();
 
-  const fetchedFromDB = Boolean(menu);
-
-  if (!fetchedFromDB) {
+  if (!menu) {
+    //DB에 메뉴가 저장되어 있지 않은 경우
     try {
       const neisData = await neis(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth);
 
@@ -55,7 +54,7 @@ router.get('/:schoolType/:schoolCode', async (req, res, next) => {
     }
   }
 
-  const responseJSON = {
+  res.json({
     menu: applyOptions({
       hideAllergy: req.query.hideAllergy === "true" ? true : false,
       date: req.query.date
@@ -64,9 +63,7 @@ router.get('/:schoolType/:schoolCode', async (req, res, next) => {
       ...require('./serverMessage.json'),
       fetchedFromDB ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
     ]
-  };
-
-  res.json(responseJSON);
+  });
 });
 
 module.exports.router = router;
