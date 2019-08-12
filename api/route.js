@@ -39,7 +39,9 @@ router.get('/:schoolType/:schoolCode', async (req, res, next) => {
   const db = new DB(req.params.schoolCode, menuYear, menuMonth);
   let menu = await db.get();
 
-  if (!menu) {
+  const isFetchedFromDB = Boolean(menu);
+
+  if (!isFetchedFromDB) {
     //DB에 메뉴가 저장되어 있지 않은 경우
     try {
       const neisData = await neis(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth);
@@ -61,7 +63,7 @@ router.get('/:schoolType/:schoolCode', async (req, res, next) => {
     }, menu),
     server_message: [
       ...require('./serverMessage.json'),
-      fetchedFromDB ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
+      isFetchedFromDB ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
     ]
   });
 });
