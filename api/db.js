@@ -1,5 +1,8 @@
 const AWS = require('aws-sdk');
 const process = require('process');
+const decodeEntities = require('./decode_entities');
+
+require('dotenv').config();
 
 class DB {
   /**
@@ -8,14 +11,15 @@ class DB {
    * @param {number} menuMonth - 식단 월
    */
   constructor(schoolCode, menuYear, menuMonth) {
-    // *** AWS Lambda 가 아닌 환경에서 실행할 경우 다음 코드의 주석을 해제합니다. ***
-    require('dotenv').config();
-    AWS.config.update({
-      region: process.env.AWS_REGION,
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-    });
-
+    if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'development') {
+      // AWS Lambda 밖에서 실행될 경우 관련 정보 업데이트
+      AWS.config.update({
+        region: process.env.AWS_REGION,
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+      });
+    }
+    
     this.docCli = new AWS.DynamoDB.DocumentClient();
     this.tableName = process.env.NODE_ENV === 'development' ? 'SchoolMenu_dev' : 'SchoolMenu';
 
@@ -38,13 +42,11 @@ class DB {
     }).promise()
     .catch(err => err);
 
-    if (Item === undefined) {
-      return null;
-    }
+    if (Item === undefined) return null;
 
-    let menu = Item.SchoolMenu.slice();
-    
-    return menu;
+    if (Item.Version === 1) return decodeEntities(Item.menu.slice());
+
+    return Item.SchoolMenu.slice();
   }
 
    /**
@@ -56,7 +58,10 @@ class DB {
       Item: {
         'MenuYM': `${this.menuYear}.${this.menuMonth}`,
         'SchoolCode': this.schoolCode,
-        'SchoolMenu': menu
+        'SchoolMenu': menu,
+        'Version': 2
+          //Version1: HTML 엔티티가 decode되어있지 않음
+          //Version2: HTML 엔티티가 decode되어있음
       }
     }).promise();
   }

@@ -1,6 +1,7 @@
 const process = require('process');
 const request = require('request');
 const jsdom = require('jsdom');
+const decodeEntities = require('./decode_entities');
 
 /**
  * @param {"elementary"|"moddle"|"high"} schoolType - 학교 유형
@@ -71,7 +72,7 @@ const neis = (schoolType, schoolCode, menuYear, menuMonth) => {
             const breakfast = /\[조식\](.*?)(\[|$)/g.exec(text) ? /\[조식\](.*?)(\[|$)/g.exec(text)[1] : '';
             const lunch = /\[중식\](.*?)(\[|$)/g.exec(text) ? /\[중식\](.*?)(\[|$)/g.exec(text)[1] : '';
             const dinner = text.match(/\[석식\](.*)/) ? text.match(/\[석식\](.*)/)[1] : '';
-            //식단표에 수정을 가하는 코드를 작성할 경우 이 줄 다음부터 작성
+            
             table.push({
               date: date[0].replace('<br>', ''),
               breakfast: breakfast ? breakfast.split('<br>').filter(menu => menu) : [],
@@ -93,7 +94,7 @@ const neis = (schoolType, schoolCode, menuYear, menuMonth) => {
           shouldSave: Boolean(totalStrlen) && (
             new Date().getFullYear() >= menuYear && new Date().getMonth()+1 >= menuMonth
           ),
-          menu: table
+          menu: decodeEntities(table)
         });
       }
     });

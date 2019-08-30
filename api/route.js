@@ -43,16 +43,14 @@ router.get('/:schoolType/:schoolCode', async (req, res, next) => {
 
   if (!isFetchedFromDB) {
     //DB에 메뉴가 저장되어 있지 않은 경우
-    try {
-      const neisData = await neis(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth);
+    const neisData = await neis(req.params.schoolType, req.params.schoolCode, menuYear, menuMonth)
+    .catch(err => next(err));
 
-      menu = neisData.menu;
+    menu = neisData.menu;
 
-      if (neisData.shouldSave) {
-        db.put(neisData.menu);
-      }
-    } catch (err) {
-      return next(err);
+    if (neisData.shouldSave) {
+      db.put(neisData.menu)
+      .catch(err => next(err));
     }
   }
 
