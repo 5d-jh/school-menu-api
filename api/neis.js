@@ -1,7 +1,7 @@
 const process = require('process');
 const request = require('request');
 const jsdom = require('jsdom');
-const decodeEntities = require('./decode_entities');
+const entities = require('entities');
 
 /**
  * @param {"elementary"|"moddle"|"high"} schoolType - 학교 유형
@@ -68,16 +68,16 @@ const neis = (schoolType, schoolCode, menuYear, menuMonth) => {
 
         if (text.match(/\d/g)) {
           if (text[0].replace('<br>', '') != '') {
-            const date = text.split(/\[조식\]|\[중식\]|\[석식\]/);
+            const date = text.split(/\[조식\]|\[중식\]|\[석식\]/)[0].replace('<br>', '');
             const breakfast = /\[조식\](.*?)(\[|$)/g.exec(text) ? /\[조식\](.*?)(\[|$)/g.exec(text)[1] : '';
             const lunch = /\[중식\](.*?)(\[|$)/g.exec(text) ? /\[중식\](.*?)(\[|$)/g.exec(text)[1] : '';
             const dinner = text.match(/\[석식\](.*)/) ? text.match(/\[석식\](.*)/)[1] : '';
             
             table.push({
-              date: date[0].replace('<br>', ''),
-              breakfast: breakfast ? breakfast.split('<br>').filter(menu => menu) : [],
-              lunch: lunch ? lunch.split('<br>').filter(menu => menu) : [],
-              dinner: dinner ? dinner.split('<br>').filter(menu => menu) : [],
+              date,
+              breakfast: breakfast ? breakfast.split('<br>').filter(menu => entities.decodeHTML(menu)) : [],
+              lunch: lunch ? lunch.split('<br>').filter(menu => entities.decodeHTML(menu)) : [],
+              dinner: dinner ? dinner.split('<br>').filter(menu => entities.decodeHTML(menu)) : [],
             });
 
             table.length != 0 && (
@@ -94,7 +94,7 @@ const neis = (schoolType, schoolCode, menuYear, menuMonth) => {
           shouldSave: Boolean(totalStrlen) && (
             new Date().getFullYear() >= menuYear && new Date().getMonth()+1 >= menuMonth
           ),
-          menu: decodeEntities(table)
+          menu: table
         });
       }
     });

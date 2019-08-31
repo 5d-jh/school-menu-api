@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const process = require('process');
-const decodeEntities = require('./decode_entities');
+const entities = require('entities')
 
 require('dotenv').config();
 
@@ -33,6 +33,21 @@ class DB {
    * @returns {Promise<{null|object}>}
    */
   async get() {
+    /**
+     * @param {array} menu
+     * @returns {array}
+     */
+    const decodeEntities = (menu) => (
+      menu.map(day => (
+        day.breakfast && day.lunch && day.dinner && {
+          date: day.date,
+          breakfast: day.breakfast.map(menu => entities.decodeHTML5(menu)),
+          lunch: day.lunch.map(menu => entities.decodeHTML5(menu)),
+          dinner: day.dinner.map(menu => entities.decodeHTML5(menu))
+        }
+      ))
+    );
+
     const { Item } = await this.docCli.get({
       TableName: this.tableName,
       Key: {
@@ -42,9 +57,13 @@ class DB {
     }).promise()
     .catch(err => err);
 
-    if (Item === undefined) return null;
+    if (Item === undefined) {
+      return null;
+    }
 
-    if (Item.Version === 1) return decodeEntities(Item.menu.slice());
+    if (Item.Version < 2) {
+      return decodeEntities(Item.SchoolMenu.slice());
+    }
 
     return Item.SchoolMenu.slice();
   }
