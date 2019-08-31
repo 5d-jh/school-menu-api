@@ -2,8 +2,6 @@ const AWS = require('aws-sdk');
 const process = require('process');
 const entities = require('entities')
 
-require('dotenv').config();
-
 class DB {
   /**
    * @param {string} schoolCode - 학교 고유 NEIS 코드

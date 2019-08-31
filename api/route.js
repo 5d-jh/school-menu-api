@@ -5,6 +5,8 @@ const DB = require('./db');
 
 const router = express.Router();
 
+require('dotenv').config();
+
 /**
  * 쿼리 스트링 값을 적용하는 함수
  * @param {{ hideAllergy: boolean, date: number }} options 
@@ -60,7 +62,7 @@ router.get('/:schoolType/:schoolCode', async (req, res, next) => {
       date: req.query.date
     }, menu),
     server_message: [
-      ...require('./serverMessage.json'),
+      ...JSON.parse(process.env.SERVER_MSGS),
       isFetchedFromDB ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
     ]
   });
