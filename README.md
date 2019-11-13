@@ -15,7 +15,7 @@
  * 고등학교 <code>high</code>
 
 ## 학교 코드
-[여기](http://code.schoolmenukr.ml/)에서 학교 코드를 확인할 수 있습니다.
+[여기](http://www.schoolcodekr.ml/app)에서 학교 코드를 확인할 수 있습니다.
 
 ## 식단 불러오기
 <code>https://<span></span>schoolmenukr.<span></span>ml/api/[학교유형]/[학교코드]</code>로 현재 달의 식단을 불러올 수 있습니다. 응답 데이터는 JSON 입니다.
