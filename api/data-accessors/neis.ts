@@ -2,7 +2,7 @@ import request from 'request';
 import jsdom from 'jsdom';
 import entities from 'entities';
 
-import { SchoolMenuTable } from '../types';
+import { SchoolMenuTable , SchoolType} from '../types';
 
 enum nationalSchoolRegionCodes {
     "A000003488" = "kwe",
@@ -36,7 +36,7 @@ function validateNatSchoolCodeRegion(schoolCode: string): asserts schoolCode is 
 }
 
 export default (
-    schoolType: "elementary"|"middle"|"high",
+    schoolType: SchoolType,
     schoolCode: string,
     menuYear:Number,
     menuMonth: Number
