@@ -1,6 +1,6 @@
 import request from 'request';
 import jsdom from 'jsdom';
-import entities from 'entities';
+import * as entities from 'entities';
 
 import { SchoolMenuTable , SchoolType} from '../types';
 
@@ -36,7 +36,7 @@ function validateNatSchoolCodeRegion(schoolCode: string): asserts schoolCode is 
 }
 
 export default (
-    schoolType: SchoolType,
+    schoolType: keyof typeof SchoolType,
     schoolCode: string,
     menuYear:Number,
     menuMonth: Number
@@ -59,11 +59,11 @@ export default (
             schoolRegionCode = schoolRegionCodes[schoolCode[0]];
         }
 
-        const url = `https://stu.${schoolRegionCode}.go.kr/sts_sci_md00_001.do
-        ?schulCode=${schoolCode}
-        &schulCrseScCode=${schoolTypeCode}
-        &ay=${menuYear}
-        &mm=${menuMonth < 10 ? '0'+menuMonth : menuMonth}`;
+        const url = `https://stu.${schoolRegionCode}.go.kr/sts_sci_md00_001.do`
+        + `?schulCode=${schoolCode}`
+        + `&schulCrseScCode=${schoolTypeCode}`
+        + `&ay=${menuYear}`
+        + `&mm=${menuMonth < 10 ? '0'+menuMonth : menuMonth}`;
 
         request(url, (err, _, html) => {
             if (err) return reject(err);

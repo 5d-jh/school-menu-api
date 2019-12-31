@@ -7,5 +7,7 @@
     "sourceMap": true,
     "strict": false,
     "esModuleInterop": true,
-  }
+    "resolveJsonModule": true
+  },
+  "include": ["api/**/*", "test/**/*", "test/*.json"]
 }

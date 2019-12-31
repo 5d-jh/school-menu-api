@@ -27,7 +27,7 @@ const applyOptions = (
   };
 
 export default async (
-    schoolType: SchoolType,
+    schoolType: keyof typeof SchoolType,
     schoolCode: string,
     year?: Number,
     month?: Number,
