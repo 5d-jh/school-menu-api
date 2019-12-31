@@ -26,11 +26,13 @@ export default class {
     async get(): Promise<SchoolMenuTable[]|null> {
         const mongo = await this.connect();
 
-        return await mongo.findOne({
+        const result = await mongo.findOne({
             schoolCode: this.schoolCode,
             menuYear: this.menuYear,
             menuMonth: this.menuMonth
         });
+
+        return result ? result.menu : null;
     }
 
     async put(menu: SchoolMenuTable[]) {

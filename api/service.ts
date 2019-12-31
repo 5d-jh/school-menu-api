@@ -29,12 +29,10 @@ const applyOptions = (
 export default async (
     schoolType: keyof typeof SchoolType,
     schoolCode: string,
-    year?: Number,
-    month?: Number,
     queryString?: QueryStringOptions
 ): Promise<{ menu: SchoolMenuTable[], isFetchedFromDB: Boolean }> => {
-    const menuYear = Number(year) || new Date().getFullYear();
-    const menuMonth = Number(month) || new Date().getMonth()+1;
+    const menuYear = Number(queryString.year) || new Date().getFullYear();
+    const menuMonth = Number(queryString.month) || new Date().getMonth()+1;
 
     const db = new DB(schoolCode, menuYear, menuMonth);
 

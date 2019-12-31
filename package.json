@@ -1,6 +1,6 @@
 {
   "name": "school-menu-api",
-  "version": "",
+  "version": "3.3.0",
   "scripts": {
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",

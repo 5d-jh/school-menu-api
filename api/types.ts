@@ -7,6 +7,8 @@ export type SchoolMenuTable = {
 
 export type QueryStringOptions = {
     hideAllergy?: "true"|"false",
+    year?: string,
+    month?: string,
     date?: string
 }
 

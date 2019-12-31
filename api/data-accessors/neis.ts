@@ -38,8 +38,8 @@ function validateNatSchoolCodeRegion(schoolCode: string): asserts schoolCode is 
 export default (
     schoolType: keyof typeof SchoolType,
     schoolCode: string,
-    menuYear:Number,
-    menuMonth: Number
+    menuYear: number,
+    menuMonth: number
 ): Promise<{ shouldSave: boolean, menu: Array<SchoolMenuTable> }> => new Promise(
     (resolve, reject) => {
 
@@ -64,6 +64,8 @@ export default (
         + `&schulCrseScCode=${schoolTypeCode}`
         + `&ay=${menuYear}`
         + `&mm=${menuMonth < 10 ? '0'+menuMonth : menuMonth}`;
+
+        console.log(url);
 
         request(url, (err, _, html) => {
             if (err) return reject(err);
@@ -137,7 +139,7 @@ export default (
             } else {
                 resolve({
                     shouldSave: !hasNoData /* 식단 배열에 아무 문자열도 없다면 저장하지 않음 */ && (
-                        new Date().getFullYear() >= menuYear && new Date().getMonth()+1 >= menuMonth
+                        new Date() >= new Date(menuYear, menuMonth)
                         /* 미래의 식단을 요청하는 경우 저장하지 않음 */
                     ), //두 가지 조건을 모두 만족해야 저장
                     menu: table
