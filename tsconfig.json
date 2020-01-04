@@ -9,5 +9,5 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": ["api/**/*", "test/**/*", "test/*.json"]
+  "include": ["api/**/*", "neis/**/*", "test/**/*", "test/*.json"]
 }

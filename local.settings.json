@@ -3,6 +3,6 @@
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsStorage": "{AzureWebJobsStorage}",
-    "languageWorkers:node:arguments": "--inspect=5858"
+    "languageWorkers:node:arguments": "--inspect=9229"
   }
 }
