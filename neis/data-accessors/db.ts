@@ -6,7 +6,7 @@ export default class {
     private client: MongoClient;
 
     constructor() {
-        let url = process.env.DB_URL;
+        let url = process.env.DB_URL; 
         if (!url) {
             console.warn("환경 변수 'DB_URL'의 값이 비어 있습니다. localhost로 연결을 시도합니다.");
             url = 'mongodb://localhost:27017';
@@ -21,7 +21,7 @@ export default class {
     async get(keyword: string): Promise<SchoolInfoType[]> {
         const mongo = await this.connect();
 
-        return await mongo.find({ name: RegExp(`/${keyword}/`) })
+        return await mongo.find({ name: RegExp(`${keyword}`) })
         .toArray();
     }
 
