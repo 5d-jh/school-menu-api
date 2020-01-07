@@ -1,7 +1,9 @@
 import { MongoClient } from 'mongodb';
-import { SchoolInfoType } from '../types';
 
-export default class {
+import { SchoolInfoType } from '../types';
+import Database from '../../global/interfaces/database';
+
+export default class implements Database {
 
     private client: MongoClient;
 
@@ -29,6 +31,10 @@ export default class {
         const mongo = await this.connect();
 
         return await mongo.insertMany(info);
+    }
+
+    async close() {
+        return this.client.close();
     }
 
 }

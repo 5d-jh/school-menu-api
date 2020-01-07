@@ -1,8 +1,9 @@
 import { MongoClient } from 'mongodb';
 
 import { SchoolMenuTable } from '../types';
+import Database from '../../global/interfaces/database';
 
-export default class {
+export default class implements Database {
 
     private client: MongoClient;
 
@@ -48,6 +49,10 @@ export default class {
             version: 2,
             menu
         });
+    }
+
+    async close() {
+        return this.client.close();
     }
 
 }

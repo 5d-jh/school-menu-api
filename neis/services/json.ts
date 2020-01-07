@@ -14,5 +14,7 @@ export default async (q: string, page: string): Promise<string> => {
         db.put(result); 
     }
 
+    db.close();
+
     return JSON.stringify(result);
 }

@@ -14,6 +14,8 @@ export default async (q: string, page: string) => {
             result = await schoolinfo(q, page);
             db.put(result); 
         }
+
+        db.close();
     }
 
     nunjucks.configure('neis/views');

@@ -50,6 +50,8 @@ export default async (
         }
     }
 
+    db.close();
+
     return {
         menu: applyOptions({
             hideAllergy: queryString.hideAllergy === "true" ? true : false,
