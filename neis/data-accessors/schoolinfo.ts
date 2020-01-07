@@ -2,10 +2,8 @@ import request from 'request';
 
 import { SchoolInfoType } from '../types';
 
-export default (searchSchoolName: string, page: number = 1): Promise<{
-    school_infos: SchoolInfoType[]
-}> => new Promise(
-    (reject, resolve) => {
+export default (searchSchoolName: string, page: string = '1'): Promise<SchoolInfoType[]> => new Promise(
+    (resolve, reject) => {
 
         const url = 'https://www.schoolinfo.go.kr/ei/ss/Pneiss_f01_l0.do';
         const headers = {
@@ -22,7 +20,6 @@ export default (searchSchoolName: string, page: number = 1): Promise<{
         };
         
         request.post(url, { headers, form }, (err, _, body) => {
-
             if (err) {
                 return reject(err);
             }
@@ -42,9 +39,7 @@ export default (searchSchoolName: string, page: number = 1): Promise<{
                 })
             );
 
-            resolve({ school_infos: result });
-
+            resolve(result);
         });
-
     }
 )

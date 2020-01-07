@@ -11,9 +11,12 @@ export default class {
     private menuMonth: Number;
 
     constructor(schoolCode: string, menuYear: Number, menuMonth: Number) {
-        this.client =  new MongoClient(
-            process.env.DB_URL || "mongodb://localhost:27017"
-        );
+        let url = process.env.DB_URL;
+        if (!url) {
+            console.warn("환경 변수 'DB_URL'의 값이 비어 있습니다. localhost로 연결을 시도합니다.");
+            url = 'mongodb://localhost:27017';
+        }
+        this.client =  new MongoClient(url);
         this.schoolCode = schoolCode;
         this.menuYear = menuYear;
         this.menuMonth = menuMonth;

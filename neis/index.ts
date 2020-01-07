@@ -1,52 +1,61 @@
 import { AzureFunction, Context, HttpRequest } from '@azure/functions';
 
-import schoolinfo from './data-accessors/schoolinfo';
+import app from './services/html';
+import api from './services/json';
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-
-    const q: string = req.query.q;
-
-    if (!Boolean(q)) {
-        context.res = {
-            status: 400,
-            body: "Parameter 'q' not found."
+    switch (context.bindingData.interface) {
+        case 'app': {
+            await app(req.query.q, req.query.page)
+            .then(
+                body => {
+                    context.res = {
+                        code: 200,
+                        headers: { "Content-Type": "text/html; charset=UTF-8" },
+                        body
+                    };
+                }
+            )
+            .catch(
+                err => {
+                    context.res = {
+                        code: 500,
+                        body: err
+                    };
+                }
+            );
+            break;
         }
-        return;
-    }
 
-    try {
-        const data = await schoolinfo(q, Number(req.query.page))
-
-        context.res = {
-            status: 200,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        };
-    } catch (error) {
-        context.res = {
-            status: 500,
-            body: error
-        };
-    }
-
+        case 'api': {
+            await api(req.query.q, req.query.page)
+            .then(
+                body => {
+                    context.res = {
+                        code: 200,
+                        headers: { "Content-Type": "application/json" },
+                        body
+                    }
+                }
+            )
+            .catch(
+                err => {
+                    context.res = {
+                        code: 500,
+                        body: err
+                    }
+                }
+            );
+            break;
+        }
     
-
-
-    // context.log('HTTP trigger function processed a request.');
-    // const name = (req.query.name || (req.body && req.body.name));
-
-    // if (name) {
-    //     context.res = {
-    //         // status: 200, /* Defaults to 200 */
-    //         body: "Hello " + (req.query.name || req.body.name)
-    //     };
-    // }
-    // else {
-    //     context.res = {
-    //         status: 400,
-    //         body: "Please pass a name on the query string or in the request body"
-    //     };
-    // }
+        default:
+            context.res = {
+                code: 301,
+                headers: { "Content-Location": "https://github.com" }
+            }
+            break;
+    }
 };
 
 export default httpTrigger;
