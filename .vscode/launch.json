@@ -6,8 +6,26 @@
   "configurations": [
     {
       "type": "node",
-      "request": "attach",
-      "name": "Attach",
+      "request": "launch",
+      "name": "Launch API Function",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "local-api-debug"
+      ],
+      "port": 9229,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    }, {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch NEIS Function",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "local-neis-debug"
+      ],
       "port": 9229,
       "skipFiles": [
         "<node_internals>/**"

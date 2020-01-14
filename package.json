@@ -8,8 +8,10 @@
   },
   "scripts": {
     "test": "mocha",
-    "local": "functions-framework --target=api",
-    "local-debug": "node --inspect node_modules/@google-cloud/functions-framework --target=api",
+    "local-api": "functions-framework --target=api",
+    "local-api-debug": "node --inspect node_modules/@google-cloud/functions-framework --target=api",
+    "local-neis": "functions-framework --target=neis",
+    "local-neis-debug": "node --inspect node_modules/@google-cloud/functions-framework --target=neis",
     "deploy": "gcloud functions deploy api --runtime nodejs8 --trigger-http --region=asia-northeast1"
   },
   "repository": {
