@@ -10,7 +10,7 @@ const entities = require('entities');
  * @param {number} menuMonth - 식단 월
  * @returns {Promise<{ shouldSave: boolean, menu: object }>}
  */
-const neis = (schoolType, schoolCode, menuYear, menuMonth) => {
+exports.crawler = (schoolType, schoolCode, menuYear, menuMonth) => {
   return new Promise((resolve, reject) => {
     schoolType = {
       "elementary": "2",
@@ -131,5 +131,3 @@ const neis = (schoolType, schoolCode, menuYear, menuMonth) => {
     });
   });
 }
-
-module.exports = neis;

@@ -1,29 +1,35 @@
 {
   "name": "school-menu-api",
-  "version": "3.2.7",
-  "description": "학교급식 API : 학교 급식 쉽게 불러오기",
-  "main": "lambda.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "functions-framework --target=api",
+    "local-debug": "node --inspect node_modules/@google-cloud/functions-framework --target=api"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/5d-jh/school-menu-api.git"
+    "url": "git+https://github.com/5d-jh/school-menu-api.git"
   },
-  "author": "jeonghyun0126@outlook.com",
+  "author": "",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/5d-jh/school-menu-api/issues"
+  },
+  "homepage": "https://github.com/5d-jh/school-menu-api#readme",
   "dependencies": {
-    "aws-sdk": "^2.453.0",
-    "aws-serverless-express": "^3.3.6",
-    "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
+    "@google-cloud/firestore": "^3.3.4",
     "entities": "^2.0.0",
-    "express": "^4.16.4",
     "jquery": "^3.4.1",
     "jsdom": "^12.2.0",
+    "path-to-regexp": "^6.1.0",
     "request": "^2.88.0"
   },
   "devDependencies": {
-    "mocha": "^6.1.4"
+    "@google-cloud/functions-framework": "^1.3.2"
   }
 }
