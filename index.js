@@ -2,6 +2,8 @@ const { menuService } = require('./menu-service/service');
 const { infoService } = require('./info-service/service');
 
 exports.api = async (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  
   try {
     const data = await menuService(req.path, req.query);
     res.json({
