@@ -1,7 +1,7 @@
 {
   "name": "school-menu-api",
-  "version": "1.0.0",
-  "description": "",
+  "version": "3.3.0",
+  "description": "학교식단 API - 초·중·고등학교 식단 쉽게 불러오기",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -9,13 +9,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "local": "functions-framework --target=api",
-    "local-debug": "node --inspect node_modules/@google-cloud/functions-framework --target=api"
+    "local-debug": "node --inspect node_modules/@google-cloud/functions-framework --target=api",
+    "deploy": "gcloud functions deploy api --runtime nodejs8 --trigger-http --region=asia-northeast1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/5d-jh/school-menu-api.git"
   },
-  "author": "",
+  "author": "5d-jh <jeonghyun0126@outlook.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/5d-jh/school-menu-api/issues"
