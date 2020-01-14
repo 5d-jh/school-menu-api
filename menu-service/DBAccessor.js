@@ -1,4 +1,6 @@
 const { Firestore } = require('@google-cloud/firestore');
+const process = require('process');
+const path = require('path');
 
 class DB {
   /**
@@ -7,8 +9,15 @@ class DB {
    * @param {number} menuMonth - 식단 월
    */
   constructor(schoolCode, menuYear, menuMonth) {
-    const db = new Firestore();
-    this.doc = db.collection('schoolmenu').doc(`${schoolCode}_${menuYear}_${menuMonth}`);
+    this.db = process.env.NODE_ENV === 'ci' ? (
+      new Firestore({
+        keyFilename: path.resolve(__dirname, '../school-api-265018-0ae0e4cd0267.json')
+      })
+    ) : (
+      new Firestore()
+    );
+
+    this.doc = this.db.collection('schoolmenu').doc(`${schoolCode}_${menuYear}_${menuMonth}`);
 
     this.schoolCode = schoolCode;
     this.menuYear = menuYear;
@@ -34,6 +43,10 @@ class DB {
       schoolMenu: menu,
       version: 2
     });
+  }
+
+  close() {
+    this.db.terminate();
   }
 }
 
