@@ -14,15 +14,19 @@ exports.infoService = async (path, query) => {
 
   if (!pathVal) {
     nunjucks.configure('info-service/')
-    return nunjucks.render('index.html', {
-      query: query.q,
-      school_infos: data,
-      is_all: true
-    });
+    return {
+      type: 'html',
+      data: nunjucks.render('index.html', {
+        query: query.q,
+        school_infos: data,
+        is_all: true
+      })
+    };
   }
 
   const [_, interface] = pathVal;
-  if (interface === 'api') {
-    return { school_infos: data }
+  return {
+    type: 'json',
+    data: interface === 'api' ? data : []
   }
 }
