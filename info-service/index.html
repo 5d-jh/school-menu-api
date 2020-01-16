@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <title>NEIS 코드 찾기</title>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+        input {
+            border-radius: 3px;
+            border: none;
+            outline: none;
+            box-shadow: 0px 4px 10px rgba(41, 57, 109, 0.3);
+            height: 60px;
+            text-align: center;
+            font-size: 20px;
+            width: 100%;
+            margin-bottom: 20px;
+            border: 1.7px solid transparent;
+        }
+        input:focus {
+            border: 1.7px solid black;
+        }
+        .body {
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .school-info {
+            text-align: left;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+        h3, p {
+            padding: 0;
+            margin: 0;
+        }
+        .school-code {
+            display: inline-block;
+            padding: 4px;
+            margin-bottom: 5px;
+        }
+        h1 {
+            width: 100%;
+            text-align: center;
+        }
+        .additional-info {
+            padding-bottom: 10px;
+            border: 1.7px solid #e8e8e8;
+            padding: 4px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .button {
+            text-align: center;
+            border-radius: 3px;
+            border: 1.7px solid #e8e8e8;
+            color: black;
+        }
+        .button:hover {
+            border: 1.7px solid black;
+            box-shadow: 0px 4px 10px rgba(41, 57, 109, 0.3);
+        }
+
+        .page-control {
+            width: 100%;
+        }
+        .page-control a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: black;
+            text-decoration: none;
+        }
+        .page-control:first-of-type {
+            margin: 15px 0 17px;
+        }
+        .page-control:last-of-type {
+            margin: 17px 0 20px;
+        }
+        .page-control:hover {
+            border: 1.7px solid black;
+            box-shadow: 0px 4px 10px rgba(41, 57, 109, 0.3);
+        }
+
+        .empty-alert {
+            width: 100%;
+            text-align: center;
+            margin: 100px 0;
+        }
+
+        .footer-title {
+            display: inline;
+            margin: 0;
+        }
+        .footer-img {
+            width: 20px;
+            vertical-align: middle;
+        }
+
+        .link {
+            display: inline-block;
+            color: #336eff;
+        }
+
+        i {
+            width: 1em;
+            text-align: right;
+            padding-right: 5px;
+        }
+        footer {
+            padding: 10px 0;
+            margin-bottom: 35px;
+        }
+        footer>.footer-title::after {
+            content: " \000B7";
+        }
+    </style>
+</head>
+<body>
+    <div class="body">
+        <h1>NEIS 코드 찾기</h1>
+        <form action="" method="get">
+            <input type="text" name="q" placeholder="학교이름을 입력하세요.." value={{query}}>
+        </form>
+            {% if query %}
+                {% if school_infos %}
+                    {% for school_info in school_infos %}
+                        {% if school_info %}
+                            <div class="school-info">
+                                <div><h3 class="school-code">{{school_info.code}}</h3></div>
+                                <div class="additional-info"><i class="fas fa-school"></i> {{school_info.name}}</div>
+                                <div class="additional-info"><i class="fas fa-map-marker-alt"></i>{{school_info.address}}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-alert"><i class="fas fa-ban"></i>해당 페이지에서 학교를 찾을 수 없습니다.</div>
+                {% endif %}
+            {% endif %}
+            {% if not is_all %}
+                <div class="school-info" style="color: grey">
+                    <i class="fas fa-info-circle"></i> <i>결과가 너무 길어 생략된 학교 정보가 있습니다. 원하는 학교를 찾지 못했다면 더 구체적인 학교명을 입력하세요.</i>
+                </div>
+            {% endif %}
+        <footer>
+            <h4 class="footer-title"> NEIS code finder</h4>
+            <a class="link" href="https://github.com/5d-jh/neis_code_finder#readme"><i class="fas fa-file-alt"></i>API 문서</a>
+        </footer>
+    </div>
+</body>
+</html>

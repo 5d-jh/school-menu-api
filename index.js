@@ -18,5 +18,10 @@ exports.api = async (req, res) => {
 }
 
 exports.neis = async(req, res) => {
-  res.send('coming soon');
+  try {
+    res.send(await infoService(req.path, req.query));
+  } catch(err) {
+    console.error(err);
+    res.send(err);
+  }
 }
