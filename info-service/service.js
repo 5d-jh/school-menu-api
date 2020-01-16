@@ -23,6 +23,6 @@ exports.infoService = async (path, query) => {
 
   const [_, interface] = pathVal;
   if (interface === 'api') {
-    return data
+    return { school_infos: data }
   }
 }
