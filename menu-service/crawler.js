@@ -121,10 +121,8 @@ exports.crawler = (schoolType, schoolCode, menuYear, menuMonth) => {
         reject(new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.'));
       } else {
         resolve({
-          shouldSave: !hasNoData /* 식단 배열에 아무 문자열도 없다면 저장하지 않음 */ && (
-            new Date().getFullYear() >= menuYear && new Date().getMonth()+1 >= menuMonth
-            /* 미래의 식단을 요청하는 경우 저장하지 않음 */
-          ), //두 가지 조건을 모두 만족해야 저장
+          shouldSave: !hasNoData && new Date() >= new Date(menuYear, menuMonth),
+            /* 식단에 아무 문자열도 없거나 미래의 식단을 요청하는 경우 저장하지 않음 */
           menu: table
         });
       }
