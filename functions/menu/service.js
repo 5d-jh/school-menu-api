@@ -10,7 +10,7 @@ const { DB } = require('./DBAccessor');
  */
 const applyOptions = (options, menu) => {
   if (options.date) {
-    menu = menu.filter(data => data.date == options.date);
+    menu = menu.filter(data => data.date === options.date);
   }
 
   if (options.hideAllergy) {
@@ -29,23 +29,7 @@ const applyOptions = (options, menu) => {
   return menu;
 };
 
-/**
- * School menu API 서비스 모듈
- * @param {string} path - URL 경로
- * @param {object} query - 쿼리 스트링
- */
-exports.menuService = async (path, query) => {
-  const pathVal = pathToRegexp('/:schoolType/:schoolCode').exec(path);
-
-  if (!pathVal) {
-    return {
-      menu: [],
-      isFetchedFromDB: false
-    }
-  }
-
-  const [_, schoolType, schoolCode] = pathVal
-
+exports.menuService = async (schoolType, schoolCode, query) => {
   const menuYear = Number(query.year) || new Date().getFullYear();
   const menuMonth = Number(query.month) || new Date().getMonth()+1;
 
@@ -60,7 +44,8 @@ exports.menuService = async (path, query) => {
 
     if (neisData.shouldSave) {
       db.put(neisData.menu)
-      .then(() => db.close());
+      .then(() => db.close())
+      .catch(err => console.error(err));
     }
   }
   

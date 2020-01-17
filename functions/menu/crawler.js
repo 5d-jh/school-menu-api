@@ -47,6 +47,11 @@ exports.crawler = (schoolType, schoolCode, menuYear, menuMonth) => {
       err.status = 400;
       return reject(err);
     }
+    if (menuMonth < 0) {
+      const err = new Error('지정한 월이 유효하지 않습니다.');
+      err.status = 400;
+      return reject(err);
+    }
     if (menuMonth < 10) { menuMonth = '0' + menuMonth }
 
     const url = `https://stu.${schoolRegion}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolType}&ay=${menuYear}&mm=${menuMonth}`;
@@ -121,7 +126,7 @@ exports.crawler = (schoolType, schoolCode, menuYear, menuMonth) => {
         reject(new Error('식단을 찾을 수 없습니다. 학교 코드를 다시 확인해 주세요.'));
       } else {
         resolve({
-          shouldSave: !hasNoData && new Date() >= new Date(menuYear, menuMonth),
+          shouldSave: !hasNoData && (new Date() >= new Date(menuYear, menuMonth-1)),
             /* 식단에 아무 문자열도 없거나 미래의 식단을 요청하는 경우 저장하지 않음 */
           menu: table
         });
