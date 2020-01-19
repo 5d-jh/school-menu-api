@@ -17,7 +17,7 @@ class DB {
       new Firestore()
     );
 
-    this.doc = this.db.collection('schoolmenu').doc(`${schoolCode}_${menuYear}_${menuMonth}`);
+    this.ref = this.db.collection('schoolmenu');
 
     this.schoolCode = schoolCode;
     this.menuYear = menuYear;
@@ -29,19 +29,26 @@ class DB {
    * @returns {Promise<{null|object}>}
    */
   async get() {
-    return await this.doc.get()
-    .then(
-      doc => doc.exists ? doc.data().schoolMenu : null
-    );
+    return await this.ref
+    .where('schoolCode', '==', this.schoolCode)
+    .where('menuYear', '==', this.menuYear)
+    .where('menuMonth', '==', this.menuMonth)
+    .get()
+    .then(snapshots => (
+      snapshots.docs.length === 0 ? null : snapshots.docs[0].data().menu
+    ));
   }
 
    /**
    * @param {object} menu - 저장할 학교 식단
    */
   async put(menu) {
-    return await this.doc.set({
-      schoolMenu: menu,
-      version: 2
+    return await this.ref.doc().set({
+      menu,
+      version: 2,
+      schoolCode: this.schoolCode,
+      menuYear: this.menuYear,
+      menuMonth: this.menuMonth
     });
   }
 
