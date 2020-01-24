@@ -14,14 +14,30 @@ const COMMON_MSGS = [
 ];
 
 app.get('/api/:schoolType/:schoolCode', async (req, res) => {
-  const data = await menuService(req.params.schoolType, req.params.schoolCode, req.query);
-  res.json({
-    menu: data.menu,
-    server_message: [
+  let statusCode = 200;
+  const response = {
+    menu: [],
+    server_message: []
+  };
+
+  try {
+    const data = await menuService(req.params.schoolType, req.params.schoolCode, req.query);
+    response.menu = data.menu;
+    response.server_message = [
       data.isFetchedFromDB ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.',
       ...COMMON_MSGS
-    ]
-  });
+    ];
+  } catch (error) {
+    if (error.status) {
+      statusCode = error.status;
+      response.server_message = [
+        `오류: ${error.message}`,
+        ...COMMON_MSGS
+      ];
+    }
+  } finally {
+    res.status(statusCode).json(response);
+  }
 });
 
 // Create and Deploy Your First Cloud Functions
