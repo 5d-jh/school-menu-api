@@ -44,3 +44,5 @@ app.get('/api/:schoolType/:schoolCode', async (req, res) => {
 // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 exports.api = functions.https.onRequest(app);
+
+exports.routers = app;
