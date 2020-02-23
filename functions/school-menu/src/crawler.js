@@ -57,7 +57,7 @@ exports.crawler = (schoolType, schoolCode, menuYear, menuMonth) => {
     const url = `https://stu.${schoolRegion}.go.kr/sts_sci_md00_001.do?schulCode=${schoolCode}&schulCrseScCode=${schoolType}&ay=${menuYear}&mm=${menuMonth}`;
     if (process.env.NODE_ENV === 'development') console.log(url);
 
-    request(url, (err, _, html) => {
+    request(url, (err, res, html) => {
       if (err) return reject(err);
 
       const { JSDOM } = jsdom;

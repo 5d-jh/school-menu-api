@@ -1,9 +1,11 @@
 const request = require('request');
 
+const { ParsingError } = require('../../common/error');
+
 exports.crawler = (searchKeyword='', pageNum='1') => new Promise(
   (resolve, reject) => {
     if (searchKeyword.length === 0) {
-      resolve([]);
+      return resolve([]);
     }
 
     const uri = 'https://www.schoolinfo.go.kr/ei/ss/Pneiss_f01_l0.do';
@@ -19,8 +21,12 @@ exports.crawler = (searchKeyword='', pageNum='1') => new Promise(
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
     };
 
-    request.post(uri, { form, headers }, (err, _, body) => {
+    request.post(uri, { form, headers }, (err, res, body) => {
       if (err) reject(err);
+
+      if (res.statusCode !== 200) {
+        reject(ParsingError('파싱에 실패했습니다. 가져온 결과값이 배열이 아닙니다.'));
+      }
       
       const result = JSON.parse(body);
       if (result instanceof Array) {
@@ -39,9 +45,7 @@ exports.crawler = (searchKeyword='', pageNum='1') => new Promise(
         );
       }
 
-      const error = new Error('파싱에 실패했습니다. 가져온 결과값이 배열이 아닙니다.');
-      error.code = 500;
-      reject(error);
+      reject(ParsingError('파싱에 실패했습니다. 가져온 결과값이 배열이 아닙니다.'));
     });
   }
 );

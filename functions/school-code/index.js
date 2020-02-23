@@ -3,6 +3,7 @@ const nunjucks = require('nunjucks');
 const path = require('path');
 
 const { crawler } = require('./src/crawler');
+const package = require('../package.json');
 
 const app = express();
 
@@ -23,13 +24,12 @@ app.use(`${baseUrl}/static`, express.static(path.resolve(__dirname, './static'))
 app.get(`${baseUrl}/api`, async (req, res) => {
   let statusCode = 200;
   const response = {
-    menu: [],
+    school_infos: [],
     server_message: []
   };
 
   try {
-    const data = await crawler(req.query.q, req.query.page);
-    response.menu = data.menu;
+    response.school_infos = await crawler(req.query.q, req.query.page);
     response.server_message = [
       ...COMMON_MSGS
     ];
