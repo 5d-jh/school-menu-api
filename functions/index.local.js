@@ -1,7 +1,9 @@
 const express = require('express');
-const { routers } = require('./index');
+const { schoolMenuApp } = require('./school-menu/index');
+const { schoolCodeApp } = require('./school-code/index');
 
 const app = express();
 
-app.use(routers);
+app.use(schoolMenuApp);
+app.use(schoolCodeApp);
 app.listen(8080);
