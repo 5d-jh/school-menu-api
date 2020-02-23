@@ -6,9 +6,13 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [{
-      "source": "/api/**", "function": "api"
-    }],
+    "rewrites": [
+      {
+        "source": "/api/**", "function": "api"
+      }, {
+        "source": "/code/**", "function": "code"
+      }
+    ],
     "headers": [{
       "source": "**/*",
       "headers": [{

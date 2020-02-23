@@ -46,7 +46,7 @@ app.get(`${baseUrl}/api`, async (req, res) => {
   }
 });
 
-app.get(`${baseUrl}`, async (req, res) => {
+app.get(`${baseUrl}/app`, async (req, res) => {
   const schoolInfos = await crawler(req.query.q, req.query.page);
   res.render('index.html', {
     query: req.query.q,
