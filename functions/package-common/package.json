@@ -1,0 +1,13 @@
+{
+  "name": "package-common",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "private": true,
+  "description": "Common package for school-menu-api packages"
+}
