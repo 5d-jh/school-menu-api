@@ -12,11 +12,9 @@
     },
     "dependencies": {
         "@google-cloud/firestore": "^3.7.4",
-        "@types/bent": "^7.0.2",
         "@types/jquery": "^3.3.34",
         "@types/jsdom": "^16.2.1",
         "@types/node-fetch": "^2.5.6",
-        "bent": "^7.1.2",
         "entities": "^2.0.0",
         "express": "^4.17.1",
         "jquery": "^3.5.0",

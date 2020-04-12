@@ -208,13 +208,6 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.0.0.tgz#9c13c2574c92d4503b005feca8f2e16cc1611506"
   integrity sha512-KYyTT/T6ALPkIRd2Ge080X/BsXvy9O0hcWTtMWkPvwAwF99+vn6Dv4GzrFT/Nn1LePr+FFDbRXXlqmsy9lw2zA==
 
-"@types/bent@^7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@types/bent/-/bent-7.0.2.tgz#ff3ab6d2112e08b6b22b2e1582ca182c5de090bf"
-  integrity sha512-ppRvU9y5oD33ylKNnLEeQx7PNizULq9XUwZT7tMZKZ5e5MYoNruP92poHv3zCsJtWFwB8pGgntHI6YbyOAZB0Q==
-  dependencies:
-    "@types/node" "*"
-
 "@types/body-parser@*":
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.0.tgz#0685b3c47eb3006ffed117cdd55164b61f80538f"
@@ -519,15 +512,6 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bent@^7.1.2:
-  version "7.1.2"
-  resolved "https://registry.yarnpkg.com/bent/-/bent-7.1.2.tgz#9119e2ac141de9da0ba2b00ad66a0a53a6b2fd1e"
-  integrity sha512-6/9rCLr7M5uLDRMyNhDMY+G2oqVcZM0A2y2/+hRPLqxIVnNC1LPUrYJ2hPwRUunAJyfe9bGZQ5WNvTZhlbOhVw==
-  dependencies:
-    bytesish "^0.4.1"
-    caseless "~0.12.0"
-    is-stream "^2.0.0"
-
 bignumber.js@^7.0.0:
   version "7.2.1"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-7.2.1.tgz#80c048759d826800807c4bfd521e50edbba57a5f"
@@ -593,11 +577,6 @@ bytes@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
-
-bytesish@^0.4.1:
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/bytesish/-/bytesish-0.4.1.tgz#5fe19b076037ffdfb63e083a53495b1d1c063f6f"
-  integrity sha512-j3l5QmnAbpOfcN/Z2Jcv4poQYfefs8rDdcbc6iEKm+OolvUXAE2APodpWj+DOzqX6Bl5Ys1cQkcIV2/doGvQxg==
 
 camelcase@^5.0.0:
   version "5.3.1"

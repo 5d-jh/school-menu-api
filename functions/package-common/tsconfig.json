@@ -1,7 +1,7 @@
 {
-    "extends": "../tsconfig.json",
+    "extends": "../tsconfig.packages.json",
     "compilerOptions": {
-        "target": "es6",
+        "target": "ES6",
         "module": "commonjs",
         "moduleResolution": "node",
         "rootDirs": ["src", "test"],
