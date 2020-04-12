@@ -4,8 +4,10 @@
         "target": "es6",
         "module": "commonjs",
         "moduleResolution": "node",
-        "rootDir": "src",
+        "rootDirs": ["src", "test"],
         "outDir": "dist",
-        "declaration": true
+        "declaration": true,
+        "composite": true,
+        "esModuleInterop": true
     }
 }

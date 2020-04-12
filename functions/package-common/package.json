@@ -6,8 +6,13 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc --watch"
+    "build:watch": "tsc --watch",
+    "test": "yarn run build && mocha dist/test/test.js"
   },
   "private": true,
-  "description": "Common package for school-menu-api packages"
+  "description": "Common package for school-menu-api packages",
+  "dependencies": {
+    "@types/mocha": "^7.0.2",
+    "mocha": "^7.1.1"
+  }
 }
