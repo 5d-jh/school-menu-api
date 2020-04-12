@@ -13,7 +13,7 @@ export class JsonResponseBody {
         this.responseBody.server_message.push(message);
     }
 
-    create(data: Object) {
+    create(data: Object): Object {
         if (data.hasOwnProperty('server_message')) {
             throw new InvalidResponseBody();
         }
