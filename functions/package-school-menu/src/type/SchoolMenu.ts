@@ -4,5 +4,3 @@ export type SchoolMenu = {
     lunch: Array<string>,
     dinner: Array<string>
 };
-
-export type SchoolMenuList = Array<SchoolMenu>
