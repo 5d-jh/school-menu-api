@@ -20,6 +20,7 @@
   "private": true,
   "workspaces": [
     "package-common",
-    "package-function"
+    "package-function",
+    "package-school-menu"
   ]
 }

@@ -1,0 +1,28 @@
+{
+    "name": "package-school-menu",
+    "version": "1.0.0",
+    "description": "School menu package for school-menu-api",
+    "main": "dist/src/index.js",
+    "author": "5d-jh",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "build": "tsc",
+        "test": "yarn run build && mocha dist/test/test.js"
+    },
+    "dependencies": {
+        "@google-cloud/firestore": "^3.7.4",
+        "@types/bent": "^7.0.2",
+        "@types/jquery": "^3.3.34",
+        "@types/jsdom": "^16.2.1",
+        "@types/node-fetch": "^2.5.6",
+        "bent": "^7.1.2",
+        "entities": "^2.0.0",
+        "express": "^4.17.1",
+        "jquery": "^3.5.0",
+        "jsdom": "^16.2.2",
+        "mocha": "^7.1.1",
+        "node-fetch": "^2.6.0",
+        "package-common": "1.0.0"
+    }
+}

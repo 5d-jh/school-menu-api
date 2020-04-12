@@ -1,17 +1,7 @@
 {
     "references": [
         { "path": "./package-common" },
-        { "path": "./package-function" }
-    ],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
-
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-
-    "importHelpers": true,
-    "composite": true,
-    "target": "es5"
+        { "path": "./package-function" },
+        { "path": "./package-school-menu" },
+    ]
 }
