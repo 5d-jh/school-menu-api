@@ -1,4 +1,4 @@
-import { InvalidResponseBody } from "../error/InvalidResponseBody";
+import { InvalidResponseBodyError } from "../error/InvalidResponseBodyError";
 import process from "process";
 
 export class JsonResponseBody {
@@ -14,8 +14,8 @@ export class JsonResponseBody {
     }
 
     create(data: Object): Object {
-        if (data.hasOwnProperty('server_message')) {
-            throw new InvalidResponseBody();
+        if (data.hasOwnProperty("server_message")) {
+            throw new InvalidResponseBodyError();
         }
         Object.assign(this.responseBody, data);
         return this.responseBody;

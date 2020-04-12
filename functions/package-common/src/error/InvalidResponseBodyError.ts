@@ -1,6 +1,6 @@
 import { ErrorWithStatusCode } from "./ErrorWithStatusCode";
 
-export class InvalidResponseBody extends ErrorWithStatusCode {
+export class InvalidResponseBodyError extends ErrorWithStatusCode {
     
     constructor(message?: string) {
         super();
