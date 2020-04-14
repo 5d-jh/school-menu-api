@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "School menu package for school-menu-api",
     "main": "dist/src/index.js",
+    "typings": "dist/src/index.d.ts",
     "author": "5d-jh",
     "license": "MIT",
     "private": true,

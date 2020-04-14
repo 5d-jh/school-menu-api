@@ -10,9 +10,5 @@
     "test": "yarn run build && mocha dist/test/test.js"
   },
   "private": true,
-  "description": "Common package for school-menu-api packages",
-  "dependencies": {
-    "@types/mocha": "^7.0.2",
-    "mocha": "^7.1.1"
-  }
+  "description": "Common package for school-menu-api packages"
 }

@@ -1,26 +1,33 @@
 {
-  "name": "school-menu-api",
-  "version": "3.3.1",
-  "description": "초·중·고등학교 식단 쉽게 불러오기",
-  "repository": "https://github.com/5d-jh/school-menu-api",
-  "author": "5d-jh",
-  "license": "MIT",
-  "scripts": {
-    "build": "tsc --build --force tsconfig.json"
-  },
-  "devDependencies": {
-    "@types/node": "^10.3.2",
-    "ts-node": "^6.1.0",
-    "typescript": "^3.6.3"
-  },
-  "engines": {
-    "node": "10"
-  },
-  "main": "package-function/dist/index.js",
-  "private": true,
-  "workspaces": [
-    "package-common",
-    "package-function",
-    "package-school-menu"
-  ]
+    "name": "school-menu-api",
+    "version": "3.3.1",
+    "description": "초·중·고등학교 식단 쉽게 불러오기",
+    "repository": "https://github.com/5d-jh/school-menu-api",
+    "author": "5d-jh",
+    "license": "MIT",
+    "scripts": {
+        "build": "tsc --build --force tsconfig.json",
+        "emulator": "firebase emulators:start"
+    },
+    "dependencies": {
+        "firebase-functions": "^3.3.0",
+        "firebase-admin": "^8.6.0",
+        "@types/mocha": "^7.0.2",
+        "mocha": "^7.1.1"
+    },
+    "devDependencies": {
+        "@types/node": "^10.3.2",
+        "ts-node": "^6.1.0",
+        "typescript": "^3.6.3"
+    },
+    "engines": {
+        "node": "10"
+    },
+    "main": "package-function/dist/index.js",
+    "private": true,
+    "workspaces": [
+        "package-common",
+        "package-function",
+        "package-school-menu"
+    ]
 }

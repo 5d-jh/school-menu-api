@@ -1,5 +1,5 @@
 {
-    "extends": "../tsconfig.json",
+    "extends": "../tsconfig.packages.json",
     "compilerOptions": {
         "target": "es6",
         "module": "commonjs",
@@ -7,7 +7,6 @@
         "rootDir": "src",
         "outDir": "dist",
         "declaration": true,
-        "esModuleInterop": true,
         "composite": true
     }
 }
