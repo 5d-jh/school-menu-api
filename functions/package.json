@@ -28,6 +28,7 @@
     "workspaces": [
         "package-common",
         "package-function",
-        "package-school-menu"
+        "package-school-menu",
+        "package-school-info"
     ]
 }
