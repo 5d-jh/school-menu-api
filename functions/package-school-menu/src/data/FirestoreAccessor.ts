@@ -1,26 +1,18 @@
 import { DataAccessor } from "package-common";
 import { SchoolMenu } from "../type/SchoolMenu";
-import { Firestore, CollectionReference } from "@google-cloud/firestore";
-import path from "path";
+import { firestore } from "firebase-admin";
 
 export class FirestoreAccessor implements DataAccessor<SchoolMenu[]> {
 
-    private db: Firestore;
-    private ref: CollectionReference;
+    private db: firestore.Firestore;
+    private ref: firestore.CollectionReference;
 
     private schoolCode: string;
     private menuYear: number;
     private menuMonth: number;
 
     constructor(schoolCode: string, menuYear: number, menuMonth: number) {
-        this.db = process.env.NODE_ENV === 'ci' ? (
-            new Firestore({
-                keyFilename: path.resolve(__dirname, '../school-api-265018-0ae0e4cd0267.json')
-            })
-        ) : (
-            new Firestore()
-        );
-
+        this.db = firestore();
         this.ref = this.db.collection('schoolmenu');
 
         this.schoolCode = schoolCode;

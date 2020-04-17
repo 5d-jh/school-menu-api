@@ -9,17 +9,6 @@
         "build": "tsc --build --force tsconfig.json",
         "emulator": "firebase emulators:start"
     },
-    "dependencies": {
-        "firebase-functions": "^3.3.0",
-        "firebase-admin": "^8.6.0",
-        "@types/mocha": "^7.0.2",
-        "mocha": "^7.1.1"
-    },
-    "devDependencies": {
-        "@types/node": "^10.3.2",
-        "ts-node": "^6.1.0",
-        "typescript": "^3.6.3"
-    },
     "engines": {
         "node": "10"
     },
