@@ -6,6 +6,7 @@ cache: yarn
 
 env:
  - FIRESTORE_EMULATOR_HOST=localhost:8080
+ - NODE_ENV=test
 
 before_install:
   - cd functions
