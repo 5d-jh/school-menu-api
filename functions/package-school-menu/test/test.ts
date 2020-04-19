@@ -6,7 +6,9 @@ import { notEqual } from "assert";
 import { QueryStringOptions } from "./type/QueryStringOptions";
 import { initializeApp } from "firebase-admin";
 
-initializeApp();
+initializeApp({
+    databaseURL: "localhost:8080"
+});
 
 describe("[SCHOOL-MENU] Service", function () {
 

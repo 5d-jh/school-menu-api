@@ -12,6 +12,7 @@
         "test": "yarn run build && mocha dist/test/test.js"
     },
     "dependencies": {
+        "@firebase/testing": "^0.19.1",
         "@types/jquery": "^3.3.34",
         "@types/jsdom": "^16.2.1",
         "@types/node-fetch": "^2.5.6",

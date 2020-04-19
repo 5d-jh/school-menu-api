@@ -4,6 +4,9 @@ node_js:
 
 cache: yarn
 
+env:
+ - FIRESTORE_EMULATOR_HOST=localhost:8080
+
 before_install:
   - cd functions
 
@@ -16,7 +19,6 @@ after_install:
 
 before_script:
   - firebase emulators:start --only firestore &
-  - cd package-school-menu
 
 script:
   - yarn workspaces run test
