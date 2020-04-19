@@ -1,0 +1,11 @@
+{
+    "references": [
+        { "path": "./package-common" },
+        { "path": "./package-function" },
+        { "path": "./package-school-menu" },
+        { "path": "./package-school-info" }
+    ],
+    "compilerOptions": {
+        "esModuleInterop": true
+    }
+}
