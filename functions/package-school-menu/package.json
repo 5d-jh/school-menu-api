@@ -9,7 +9,7 @@
     "private": true,
     "scripts": {
         "build": "tsc",
-        "test": "yarn run build && mocha dist/test/test.js"
+        "test": "mocha dist/test/test.js"
     },
     "dependencies": {
         "@firebase/testing": "^0.19.1",

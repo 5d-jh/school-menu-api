@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc",
         "build:watch": "tsc --watch",
-        "test": "yarn run build && mocha dist/test/test.js"
+        "test": "mocha dist/test/test.js"
     },
     "private": true,
     "description": "Common package for school-menu-api packages",

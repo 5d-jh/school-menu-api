@@ -12,9 +12,9 @@ before_install:
 
 install:
   - yarn
+  - firebase setup:emulators:firestore
 
 after_install:
-  - firebase setup:emulators:firestore
   - yarn run build
 
 before_script:
