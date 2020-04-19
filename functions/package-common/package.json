@@ -22,6 +22,7 @@
         "@types/node": "^10.3.2",
         "ts-node": "^6.1.0",
         "typescript": "^3.6.3",
-        "mocha": "^7.1.1"
+        "mocha": "^7.1.1",
+        "firebase-functions-test": "^0.2.1"
     }
 }

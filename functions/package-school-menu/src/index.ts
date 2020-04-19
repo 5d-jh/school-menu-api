@@ -7,7 +7,7 @@ import { QueryStringOptions } from "./type/QueryStringOptions";
 
 const app = express();
 
-app.get('/api/:schoolType/:schoolCode', async (req, res, next) => {
+app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
     const schoolCode = req.params.schoolCode;
     const schoolType: SchoolType = req.params.schoolType as SchoolType;
     const menuYear: number = Number(req.query.year) || new Date().getFullYear();

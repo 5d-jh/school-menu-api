@@ -11,9 +11,9 @@ nunjucks.configure(path.resolve(__dirname, '../../views'), {
     express: app
 });
 
-app.use("/code/static", express.static(path.resolve(__dirname, "../static")));
+app.use("*/code/static", express.static(path.resolve(__dirname, "../static")));
 
-app.get("/code/api", async (req, res, next) => {
+app.get("*/code/api", async (req, res, next) => {
     const firestoreAccessor = new FirestoreAccessor(req.query.q as string);
 
     try {
@@ -28,7 +28,7 @@ app.get("/code/api", async (req, res, next) => {
     }
 });
 
-app.get("/code/app", async (req, res, next) => {
+app.get("*/code/app", async (req, res, next) => {
     const firestoreAccessor = new FirestoreAccessor(req.query.q as string);
     res.render('index.html', {
         query: req.query.q,

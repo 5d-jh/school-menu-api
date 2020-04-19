@@ -5,16 +5,11 @@
     "typings": "dist/index.d.ts",
     "license": "MIT",
     "scripts": {
-        "build": "tsc",
-        "serve": "firebase serve --only functions",
-        "shell": "npm run build && firebase functions:shell",
-        "start": "npm run shell",
-        "deploy": "firebase deploy --only functions",
-        "logs": "firebase functions:log"
+        "build": "tsc"
     },
     "dependencies": {
-        "package-school-menu": "1.0.0",
-        "package-school-info": "1.0.0"
+        "package-school-info": "1.0.0",
+        "package-school-menu": "1.0.0"
     },
     "devDependencies": {
         "firebase-functions-test": "^0.1.6"
