@@ -4,7 +4,9 @@ import { SchoolMenuService } from "../src/service/SchoolMenuService";
 import { SchoolType } from "package-common";
 import { notEqual } from "assert";
 import { QueryStringOptions } from "./type/QueryStringOptions";
-import {  } from "firebase-admin";
+import { initializeApp } from "firebase-admin";
+
+initializeApp();
 
 describe("[SCHOOL-MENU] Service", function () {
 
@@ -19,7 +21,6 @@ describe("[SCHOOL-MENU] Service", function () {
             .then(menu => {
                 notEqual(menu, null);
                 notEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), null);
-                console.log(menu);
                 done();
             });
     });

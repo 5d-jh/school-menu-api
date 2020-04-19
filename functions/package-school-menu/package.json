@@ -9,7 +9,7 @@
     "private": true,
     "scripts": {
         "build": "tsc",
-        "test": "mocha dist/test/test.js"
+        "test": "yarn run build && mocha dist/test/test.js"
     },
     "dependencies": {
         "@types/jquery": "^3.3.34",
