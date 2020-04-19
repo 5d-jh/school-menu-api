@@ -3,6 +3,7 @@ import { SchoolMenu } from "../type/SchoolMenu";
 import { JSDOM } from "jsdom";
 import fetch from "node-fetch";
 import { decodeHTML5 } from "entities";
+import process from "process";
 
 export class NeisCrawler implements Crawler<SchoolMenu[]> {
 
@@ -49,6 +50,10 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
         url += `&schulCrseScCode=${this.schoolType}`;
         url += `&ay=${this.menuYear}`;
         url += `&mm=${this.menuMonth < 10 ? '0' + this.menuMonth.toString() : this.menuMonth}`;
+        
+        if (process.env.NODE_ENV === 'test') {
+            console.log(url);
+        }
 
         const body = await fetch(url)
             .then(res => res.text());
