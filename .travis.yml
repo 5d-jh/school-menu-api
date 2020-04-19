@@ -5,8 +5,13 @@ node_js:
 cache: yarn
 
 before_install:
-  - firebase setup:emulators:firestore
   - cd functions
+
+install:
+  - yarn
+
+after_install:
+  - firebase setup:emulators:firestore
   - yarn run build
 
 before_script:
@@ -14,5 +19,4 @@ before_script:
   - cd package-school-menu
 
 script:
-  - cd package-school-menu
-  - yarn run test
+  - yarn wockspaces run test
