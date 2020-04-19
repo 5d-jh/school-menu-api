@@ -19,4 +19,4 @@ before_script:
   - cd package-school-menu
 
 script:
-  - yarn wockspaces run test
+  - yarn workspaces run test
