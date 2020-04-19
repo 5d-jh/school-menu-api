@@ -23,6 +23,9 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
         const menu = await schoolMenuService.getSchoolMenu(req.query as QueryStringOptions);
         const jsonResponseBody = new JsonResponseBody();
 
+        jsonResponseBody.addMessage(
+            schoolMenuService.checkIfMenuIsFetchedFromDB() ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
+        )
         res.json(jsonResponseBody.create({ menu }));
     } catch (error) {
         next(error);
