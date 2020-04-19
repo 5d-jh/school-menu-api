@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - stable
+
+cache: yarn
+
+before_install:
+  - firebase setup:emulators:firestore
+  - cd functions
+  - yarn run build
+
+before_script:
+  - firebase emulators:start --only firestore &
+  - cd package-school-menu
+
+script:
+  - cd package-school-menu
+  - yarn run test

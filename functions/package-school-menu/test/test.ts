@@ -4,6 +4,7 @@ import { SchoolMenuService } from "../src/service/SchoolMenuService";
 import { SchoolType } from "package-common";
 import { notEqual } from "assert";
 import { QueryStringOptions } from "./type/QueryStringOptions";
+import {  } from "firebase-admin";
 
 describe("[SCHOOL-MENU] Service", function () {
 
