@@ -4,10 +4,15 @@ import { SchoolMenuService } from "../src/service/SchoolMenuService";
 import { SchoolType } from "package-common";
 import { notEqual } from "assert";
 import { QueryStringOptions } from "./type/QueryStringOptions";
+import { initializeApp } from "firebase-admin";
+
+initializeApp({
+    databaseURL: "https://localhost:8080"
+});
 
 describe("[SCHOOL-MENU] Service", function () {
 
-    this.timeout(10000);
+    this.timeout(50000);
 
     it("Fetches menus from NEIS or database properly", (done) => {
         const neisCrawler = new NeisCrawler(SchoolType.HIGH, "K100000460", 2020, 1);
@@ -18,7 +23,6 @@ describe("[SCHOOL-MENU] Service", function () {
             .then(menu => {
                 notEqual(menu, null);
                 notEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), null);
-                console.log(menu);
                 done();
             });
     });

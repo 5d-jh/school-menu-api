@@ -1,4 +1,3 @@
-import { DataAccessor, Crawler, SchoolType } from "package-common";
 import { SchoolMenu } from "../type/SchoolMenu";
 import { QueryStringOptions } from "../type/QueryStringOptions";
 import { FirestoreAccessor } from "../data/FirestoreAccessor";

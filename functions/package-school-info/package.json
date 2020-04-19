@@ -4,6 +4,9 @@
     "main": "dist/src/index.js",
     "typings": "dist/src/index.d.ts",
     "license": "MIT",
+    "scripts": {
+        "test": "exit 0"
+    },
     "dependencies": {
         "nunjucks": "^3.2.1",
         "package-common": "1.0.0"

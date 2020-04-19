@@ -1,4 +1,6 @@
 # 학교식단 API
+[![Build Status](https://travis-ci.org/5d-jh/school-menu-api.svg?branch=master)](https://travis-ci.org/5d-jh/school-menu-api)
+
 ## 개요 및 특징
 [HTTP GET 요청](https://opentutorials.org/course/3385/21674)을 통해 학교 식단을 [JSON](https://opentutorials.org/course/1375/6844)으로 받아 어떤 플랫폼에서든 쉽게 불러올 수 있습니다.
 [school-api](https://github.com/agemor/school-api) 프로젝트가 제작에 큰 도움이 되었습니다.
@@ -70,9 +72,11 @@ print(school_menu)
 ```
 
 ## 기타 사항
-### 실행을 위한 추가 작업
- * AWS DynamoDB에 `SchoolMenu`, `SchoolMenu_dev`테이블이 있어야 합니다.
- * 로컬 환경에서 실행하려면 `app.local.js`를 실행하세요.
+### 빌드 관련
+`functions` 디렉토리 내에서 다음과 같이 명령어를 실행해야 빌드가 완료됩니다.
+1. `yarn`
+2. `yarn run build` <- 오류가 나도 무시해 주세요
+3. `yarn run build`
 
 ### 저작권
 해당 프로젝트는 MIT 라이선스 하에 배포되며, 수정, 복제, 2차 창작, 영리적 사용, 다른 라이선스 하에 재배포 등이 가능합니다. 다만 해당 프로젝트와 관련된 피해에 대해 책임지지 않습니다.

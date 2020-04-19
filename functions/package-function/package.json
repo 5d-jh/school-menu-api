@@ -6,7 +6,8 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc",
-        "local": "ts-node src/index.local.ts"
+        "local": "ts-node src/index.local.ts",
+        "test": "exit 0"
     },
     "dependencies": {
         "package-school-info": "1.0.0",
