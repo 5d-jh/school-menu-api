@@ -1,5 +1,5 @@
 import express from "express";
-import { JsonResponseBody, SchoolType } from "package-common";
+import { JsonResponseBody, SchoolType, BadRequestError } from "package-common";
 import { SchoolMenuService } from "./service/SchoolMenuService";
 import { NeisCrawler } from "./data/NeisCrawler";
 import { FirestoreAccessor } from "./data/FirestoreAccessor";
@@ -9,7 +9,7 @@ const app = express();
 
 app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
     const schoolCode = req.params.schoolCode;
-    const schoolType: SchoolType = req.params.schoolType as SchoolType;
+    const schoolType: SchoolType = SchoolType[req.params.schoolType.toUpperCase()];
     const menuYear: number = Number(req.query.year) || new Date().getFullYear();
     const menuMonth = Number(req.query.month) || new Date().getMonth()+1;
     
@@ -18,8 +18,11 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor);
 
     try {
-        const menu = schoolMenuService.getSchoolMenu(req.query as QueryStringOptions);
+        if (schoolType === undefined) throw new BadRequestError();
+
+        const menu = await schoolMenuService.getSchoolMenu(req.query as QueryStringOptions);
         const jsonResponseBody = new JsonResponseBody();
+
         res.json(jsonResponseBody.create({ menu }));
     } catch (error) {
         next(error);

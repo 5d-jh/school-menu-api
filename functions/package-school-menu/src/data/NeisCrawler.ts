@@ -6,7 +6,7 @@ import { decodeHTML5 } from "entities";
 
 export class NeisCrawler implements Crawler<SchoolMenu[]> {
 
-    private schoolType: String;
+    private schoolType: SchoolType;
     private schoolCode: string;
     private menuYear: number;
     private menuMonth: number;
@@ -15,7 +15,7 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
     private shouldSave: boolean;
 
     constructor(schoolType: SchoolType, schoolCode: string, menuYear: number, menuMonth: number) {
-        this.schoolType = schoolType.toString();
+        this.schoolType = schoolType;
         this.schoolCode = schoolCode;
         this.menuYear = menuYear;
         this.menuMonth = menuMonth;
@@ -114,6 +114,7 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
 
         this.shouldSave = !hasNoData;
 
+        console.log(result);
         return result;
     }
 
@@ -130,6 +131,6 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
             throw new BadRequestError("지정한 월이 유효하지 않습니다.");
         }
 
-        return this.fetch();
+        return await this.fetch();
     }
 }
