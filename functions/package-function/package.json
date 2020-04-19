@@ -5,14 +5,16 @@
     "typings": "dist/index.d.ts",
     "license": "MIT",
     "scripts": {
-        "build": "tsc"
+        "build": "tsc",
+        "local": "ts-node src/index.local.ts"
     },
     "dependencies": {
         "package-school-info": "1.0.0",
         "package-school-menu": "1.0.0"
     },
     "devDependencies": {
-        "firebase-functions-test": "^0.1.6"
+        "firebase-functions-test": "^0.1.6",
+        "ts-node": "^8.8.2"
     },
     "private": true
 }
