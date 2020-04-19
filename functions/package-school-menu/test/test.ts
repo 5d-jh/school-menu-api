@@ -7,12 +7,12 @@ import { QueryStringOptions } from "./type/QueryStringOptions";
 import { initializeApp } from "firebase-admin";
 
 initializeApp({
-    databaseURL: "localhost:8080"
+    databaseURL: "https://localhost:8080"
 });
 
 describe("[SCHOOL-MENU] Service", function () {
 
-    this.timeout(10000);
+    this.timeout(50000);
 
     it("Fetches menus from NEIS or database properly", (done) => {
         const neisCrawler = new NeisCrawler(SchoolType.HIGH, "K100000460", 2020, 1);
