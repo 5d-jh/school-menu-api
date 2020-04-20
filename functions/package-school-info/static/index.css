@@ -1,0 +1,116 @@
+* {
+    font-family: sans-serif;
+}
+input {
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    box-shadow: 0px 4px 10px rgba(41, 57, 109, 0.3);
+    height: 60px;
+    text-align: center;
+    font-size: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1.7px solid transparent;
+}
+input:focus {
+    border: 1.7px solid black;
+}
+.body {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.school-info {
+    text-align: left;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+h3, p {
+    padding: 0;
+    margin: 0;
+}
+.school-code {
+    display: inline-block;
+    padding: 4px;
+    margin-bottom: 5px;
+}
+h1 {
+    width: 100%;
+    text-align: center;
+}
+.additional-info {
+    padding-bottom: 10px;
+    border: 1.7px solid #e8e8e8;
+    padding: 4px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.button {
+    text-align: center;
+    border-radius: 3px;
+    border: 1.7px solid #e8e8e8;
+    color: black;
+}
+.button:hover {
+    border: 1.7px solid black;
+    box-shadow: 0px 4px 10px rgba(41, 57, 109, 0.3);
+}
+
+.page-control {
+    width: 100%;
+}
+.page-control a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: black;
+    text-decoration: none;
+}
+.page-control:first-of-type {
+    margin: 15px 0 17px;
+}
+.page-control:last-of-type {
+    margin: 17px 0 20px;
+}
+.page-control:hover {
+    border: 1.7px solid black;
+    box-shadow: 0px 4px 10px rgba(41, 57, 109, 0.3);
+}
+
+.empty-alert {
+    width: 100%;
+    text-align: center;
+    margin: 100px 0;
+}
+
+.footer-title {
+    display: inline;
+    margin: 0;
+}
+.footer-img {
+    width: 20px;
+    vertical-align: middle;
+}
+
+.link {
+    display: inline-block;
+    color: #336eff;
+}
+
+i {
+    width: 1em;
+    text-align: right;
+    padding-right: 5px;
+}
+footer {
+    padding: 10px 0;
+    margin-bottom: 35px;
+}
+footer>.footer-title::after {
+    content: " \000B7";
+}

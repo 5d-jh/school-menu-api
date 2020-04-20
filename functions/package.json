@@ -14,7 +14,8 @@
         "start": "npm run shell",
         "deploy": "firebase deploy --only functions",
         "logs": "firebase functions:log",
-        "local": "ts-node package-function/src/index.ts"
+        "local": "ts-node package-function/src/index.ts",
+        "lint": "exit 0"
     },
     "engines": {
         "node": "10"
@@ -29,5 +30,8 @@
     "dependencies": {
         "firebase-admin": "^8.10.0",
         "firebase-functions": "^3.6.0"
+    },
+    "devDependencies": {
+        "tslint": "6.1.1"
     }
 }

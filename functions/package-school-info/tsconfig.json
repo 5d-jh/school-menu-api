@@ -8,6 +8,7 @@
         "outDir": "dist",
         "declaration": true,
         "composite": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "sourceMap": true
     }
 }

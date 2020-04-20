@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/png" href="/code/static/favicon.png">
+    <link rel="stylesheet" href="/code/static/index.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <title>NEIS 코드 찾기</title>
+</head>
+<body>
+    <div class="body">
+        <h1>NEIS 코드 찾기</h1>
+        <form action="" method="get">
+            <input type="text" name="q" placeholder="학교이름을 입력하세요.." value={{query}}>
+        </form>
+            {% if query %}
+                {% if school_infos %}
+                    {% for school_info in school_infos %}
+                        {% if school_info %}
+                            <div class="school-info">
+                                <div><h3 class="school-code">{{school_info.code}}</h3></div>
+                                <div class="additional-info"><i class="fas fa-school"></i> {{school_info.name}}</div>
+                                <div class="additional-info"><i class="fas fa-map-marker-alt"></i>{{school_info.address}}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-alert"><i class="fas fa-ban"></i>해당 페이지에서 학교를 찾을 수 없습니다.</div>
+                {% endif %}
+            {% endif %}
+        <footer>
+            <h4 class="footer-title"> NEIS code finder</h4>
+            <a class="link" href="https://github.com/5d-jh/neis_code_finder#readme"><i class="fas fa-file-alt"></i>API 문서</a>
+        </footer>
+    </div>
+</body>
+</html>
