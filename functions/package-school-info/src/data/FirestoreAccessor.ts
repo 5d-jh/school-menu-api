@@ -19,7 +19,14 @@ export class FirestoreAccessor implements DataAccessor<SchoolInfo[]> {
         return this.ref
             .where("keywords", "array-contains", this.searchKeyword)
             .get()
-            .then(({ docs }) => docs.map(doc => doc.data() as SchoolInfo))
+            .then(({ docs }) => docs.map(doc => doc.data()))
+            .then(
+                data => data.map(schoolInfo => ({
+                    code: schoolInfo.code,
+                    address: schoolInfo.address,
+                    name: schoolInfo.name
+                } as SchoolInfo))
+            );
     }
 
     put() {
