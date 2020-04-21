@@ -18,7 +18,7 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor);
 
     try {
-        if (schoolType === undefined) throw new BadRequestError();
+        if (schoolType === undefined) throw new BadRequestError("학교 유형이 잘못되었습니다.");
 
         const menu = await schoolMenuService.getSchoolMenu(req.query as QueryStringOptions);
         const jsonResponseBody = new JsonResponseBody();
@@ -33,7 +33,9 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    res.status(err.statusCode || 500).send(err.message);
+    const jsonResponseBody = new JsonResponseBody();
+    jsonResponseBody.addMessage(`오류: ${err.message}`)
+    res.status(err.status || 500).json(jsonResponseBody.create({ menu: [] }));
 });
 
 export const schoolMenuApp = app;

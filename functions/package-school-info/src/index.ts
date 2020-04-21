@@ -43,7 +43,8 @@ app.get("*/code/app", async (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    res.status(err.statusCode || 500).send(err.message);
+    const jsonResponseBody = new JsonResponseBody();
+    res.status(err.status || 500).json(jsonResponseBody.addMessage(`오류: ${err.message}`));
 });
 
 export const schoolInfoApp = app;

@@ -8,6 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Run local",
+            "preLaunchTask": "yarn: build",
             "runtimeArgs": [
                 "-r",
                 "ts-node/register"
