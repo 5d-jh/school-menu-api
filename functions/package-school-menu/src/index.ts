@@ -1,5 +1,5 @@
 import express from "express";
-import { JsonResponseBody, SchoolType, BadRequestError } from "package-common";
+import { JsonResponseBody, SchoolType, BadRequestError, ErrorResponseBody } from "package-common";
 import { SchoolMenuService } from "./service/SchoolMenuService";
 import { NeisCrawler } from "./data/NeisCrawler";
 import { FirestoreAccessor } from "./data/FirestoreAccessor";
@@ -32,10 +32,6 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
     }
 });
 
-app.use((err, req, res, next) => {
-    const jsonResponseBody = new JsonResponseBody();
-    jsonResponseBody.addMessage(`오류: ${err.message}`)
-    res.status(err.status || 500).json(jsonResponseBody.create({ menu: [] }));
-});
+app.use(ErrorResponseBody("menu"));
 
 export const schoolMenuApp = app;
