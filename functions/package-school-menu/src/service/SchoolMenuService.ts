@@ -1,18 +1,17 @@
 import { SchoolMenu } from "../type/SchoolMenu";
 import { QueryStringOptions } from "../type/QueryStringOptions";
-import { FirestoreAccessor } from "../data/FirestoreAccessor";
-import { NeisCrawler } from "../data/NeisCrawler";
+import { DataAccessor, Crawler } from "package-common";
 
 export class SchoolMenuService {
 
-    private neisCrawler: NeisCrawler;
-    private firestoreAccessor: FirestoreAccessor;
+    private neisCrawler: Crawler<SchoolMenu[]>;
+    private firestoreAccessor: DataAccessor<SchoolMenu[]>;
 
     private isMenuFetchedFromDB: boolean;
 
     constructor(
-        neisCrawler: NeisCrawler,
-        firestoreAccessor: FirestoreAccessor
+        neisCrawler: Crawler<SchoolMenu[]>,
+        firestoreAccessor: DataAccessor<SchoolMenu[]>
     ) {
         this.neisCrawler = neisCrawler;
         this.firestoreAccessor = firestoreAccessor;
@@ -53,7 +52,7 @@ export class SchoolMenuService {
         if (!this.isMenuFetchedFromDB) {
             menu = await this.neisCrawler.get();
 
-            if (this.neisCrawler.checkIfShouldSave()) {
+            if (this.neisCrawler.shouldSave()) {
                 this.firestoreAccessor.put(menu)
                     .then(() => this.firestoreAccessor.close())
                     .catch(err => console.error(err));

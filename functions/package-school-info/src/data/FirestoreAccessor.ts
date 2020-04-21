@@ -1,4 +1,4 @@
-import { DataAccessor } from "package-common";
+import { DataAccessor, InternalServerError } from "package-common";
 import { SchoolInfo } from "../type/SchoolInfo";
 import { firestore } from "firebase-admin";
 
@@ -30,6 +30,10 @@ export class FirestoreAccessor implements DataAccessor<SchoolInfo[]> {
     }
 
     put() {
-        //TODO: Not yet implemented
+        throw new InternalServerError("Function not yet implemented");
+    }
+
+    close() {
+        this.db.terminate();
     }
 }
