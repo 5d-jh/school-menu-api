@@ -1,12 +1,12 @@
 import express, { json } from "express";
-import { JsonResponseBody } from "package-common";
+import { JsonResponseBody, ErrorResponseBody } from "package-common";
 import path from "path";
 import { FirestoreAccessor } from "./data/FirestoreAccessor";
 import nunjucks from "nunjucks";
 
 const app = express();
 
-nunjucks.configure(path.resolve(__dirname, '../../view'), {
+nunjucks.configure(path.resolve(__dirname, "../../view"), {
     autoescape: true,
     express: app
 });
@@ -31,7 +31,7 @@ app.get("*/code/api", async (req, res, next) => {
 app.get("*/code/app", async (req, res, next) => {
     const firestoreAccessor = new FirestoreAccessor(req.query.q as string || '');
     try {
-        res.render('index.html', {
+        res.render("index.html", {
             query: req.query.q,
             school_infos: await firestoreAccessor.get(),
             page: Number(req.query.page) || 1
@@ -42,8 +42,6 @@ app.get("*/code/app", async (req, res, next) => {
     
 });
 
-app.use((err, req, res, next) => {
-    res.status(err.statusCode || 500).send(err.message);
-});
+app.use(ErrorResponseBody("school_infos"));
 
 export const schoolInfoApp = app;

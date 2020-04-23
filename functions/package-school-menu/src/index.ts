@@ -1,5 +1,5 @@
 import express from "express";
-import { JsonResponseBody, SchoolType, BadRequestError } from "package-common";
+import { JsonResponseBody, SchoolType, BadRequestError, ErrorResponseBody } from "package-common";
 import { SchoolMenuService } from "./service/SchoolMenuService";
 import { NeisCrawler } from "./data/NeisCrawler";
 import { FirestoreAccessor } from "./data/FirestoreAccessor";
@@ -18,7 +18,7 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor);
 
     try {
-        if (schoolType === undefined) throw new BadRequestError();
+        if (schoolType === undefined) throw new BadRequestError("학교 유형이 잘못되었습니다.");
 
         const menu = await schoolMenuService.getSchoolMenu(req.query as QueryStringOptions);
         const jsonResponseBody = new JsonResponseBody();
@@ -32,8 +32,6 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
     }
 });
 
-app.use((err, req, res, next) => {
-    res.status(err.statusCode || 500).send(err.message);
-});
+app.use(ErrorResponseBody("menu"));
 
 export const schoolMenuApp = app;

@@ -13,7 +13,7 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
     private menuMonth: number;
     private schoolRegion: string;
 
-    private shouldSave: boolean;
+    private hasNoData: boolean;
 
     constructor(schoolType: SchoolType, schoolCode: string, menuYear: number, menuMonth: number) {
         this.schoolType = schoolType;
@@ -117,14 +117,14 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
             }
         });
 
-        this.shouldSave = !hasNoData;
+        this.hasNoData = hasNoData;
 
         console.log(result);
         return result;
     }
 
-    checkIfShouldSave(): boolean {
-        return this.shouldSave;
+    shouldSave() {
+        return !this.hasNoData;
     }
 
     async get(): Promise<SchoolMenu[]> {
