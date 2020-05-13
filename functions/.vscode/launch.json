@@ -15,7 +15,11 @@
             ],
             "args": [
                 "${workspaceFolder}/package-function/src/index.local.ts"
-            ]
+            ],
+            "env": {
+                "NODE_ENV": "local",
+                "FIRESTORE_EMULATOR_HOST": "localhost:8080"
+            }
         }
     ]
 }

@@ -1,6 +1,8 @@
-import { SchoolMenu } from "../type/SchoolMenu";
+import { SchoolMenu, SchoolMenuAllergyFormed } from "../type/SchoolMenu";
 import { QueryStringOptions } from "../type/QueryStringOptions";
 import { DataAccessor, Crawler } from "package-common";
+import { applyAllergyOption } from "./applyAllergyOption";
+import { applyDateOption } from "./applyDateOption";
 
 export class SchoolMenuService {
 
@@ -17,36 +19,12 @@ export class SchoolMenuService {
         this.firestoreAccessor = firestoreAccessor;
     }
 
-    private applyOptions(
-        options: { date: string, hideAllergy: boolean },
-        menu: SchoolMenu[]
-    ) : SchoolMenu[] {
-        if (options.date) {
-            menu = menu.filter(data => data.date === options.date);
-        }
-    
-        if (options.hideAllergy) {
-            const regex = /\d|[.]|[*]/g;
-            menu = menu.map(day => (
-                day.breakfast && day.lunch && day.dinner && {
-                    date: day.date,
-                    breakfast: day.breakfast.map(menu => menu.replace(regex, '')),
-                    lunch: day.lunch.map(menu => menu.replace(regex, '')),
-                    dinner: day.dinner.map(menu => menu.replace(regex, ''))
-                }
-            ));
-        }
-
-        return menu;
-    }
-
     checkIfMenuIsFetchedFromDB() {
         return this.isMenuFetchedFromDB;
     }
 
-    async getSchoolMenu(query: QueryStringOptions): Promise<SchoolMenu[]> {
-
-        let menu = await this.firestoreAccessor.get();
+    async getSchoolMenu(query: QueryStringOptions): Promise<SchoolMenu[] | SchoolMenuAllergyFormed[]> {
+        let menu: SchoolMenu[] | SchoolMenuAllergyFormed[] = await this.firestoreAccessor.get();
         this.isMenuFetchedFromDB = Boolean(menu);
 
         if (!this.isMenuFetchedFromDB) {
@@ -58,10 +36,10 @@ export class SchoolMenuService {
                     .catch(err => console.error(err));
             }
         }
-  
-        return this.applyOptions({
-            hideAllergy: query.hideAllergy === "true" ? true : false,
-            date: query.date
-        }, menu);
+
+        if (query.date) menu = applyDateOption(menu, query.date);
+        if (query.allergy) menu = applyAllergyOption(menu, query.allergy);
+
+        return menu;
     }
 }
