@@ -10,15 +10,15 @@
 초등학교, 중학교, 고등학교를 지원합니다.
 
 ## 학교 유형
- * 초등학교 <code>elementary</code>
- * 중학교 <code>middle</code>
- * 고등학교 <code>high</code>
+ * 초등학교: `elementary`
+ * 중학교: `middle`
+ * 고등학교: `high`
 
 ## 학교 코드
 [여기](https://schoolmenukr.ml/code/app)에서 학교 코드를 확인할 수 있습니다.
 
 ## 식단 불러오기
-<code>https://<span></span>schoolmenukr.<span></span>ml/api/[학교유형]/[학교코드]</code>로 현재 달의 식단을 불러올 수 있습니다. 응답 데이터는 JSON 입니다.
+`https://schoolmenukr.ml/api/[학교유형]/[학교코드]`</code>`로 현재 달의 식단을 불러올 수 있습니다. 응답 데이터는 JSON 입니다.
 
 ### 매개변수(선택사항)
 다음과 같이 주소 끝에 변수명과 값을 적어 사용합니다.
@@ -30,7 +30,7 @@
 | year | 특정한 년도를 지정하여 해당 년도에 해당하는 식단을 불러옵니다. | 현재 날짜의 연도 | 
 | month | 특정한 달을 지정하여 해당 달에 해당하는 식단을 불러옵니다. | 현재 날짜의 월 |
 | date | 특정한 일을 지정하여 해당 날짜에 해당하는 식단을 불러옵니다. | 현재 날짜의 일 |
-| hideAllergy | true로 설정 시 알레르기 정보를 감춥니다. | <code>false</code> |
+| allergy | `hidden`으로 설정하면 알레르기 정보가 표시되지 않으며, `formed`로 설정하면 정보가 구조화되어 표시됩니다. | 없음 |
 
 ## 예시
  > Node.js

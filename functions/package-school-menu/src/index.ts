@@ -4,6 +4,7 @@ import { SchoolMenuService } from "./service/SchoolMenuService";
 import { NeisCrawler } from "./data/NeisCrawler";
 import { FirestoreAccessor } from "./data/FirestoreAccessor";
 import { QueryStringOptions } from "./type/QueryStringOptions";
+import { AllergyDisplayType } from "./type/AllergyDisplayType";
 
 const app = express();
 
@@ -27,7 +28,8 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
             schoolMenuService.checkIfMenuIsFetchedFromDB() ? '자체 서버에서 데이터를 불러왔습니다.' : 'NEIS에서 데이터를 불러왔습니다.'
         )
         res.json(jsonResponseBody.create({ menu }));
-    } catch (error) {
+    }
+    catch (error) {
         next(error);
     }
 });
