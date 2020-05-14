@@ -22,11 +22,11 @@ export const applyAllergyOption = (menu: SchoolMenu[], option: AllergyDisplayTyp
                         name: menu?.replace(regex, ''),
                         allergy: menu?.match(regex)?.filter(ch => ch !== ".").map(ch => Number(ch)) || []
                     })),
-                    lunch: day.breakfast.map(menu => ({
+                    lunch: day.lunch.map(menu => ({
                         name: menu?.replace(regex, ''),
                         allergy: menu?.match(regex)?.filter(ch => ch !== ".").map(ch => Number(ch)) || []
                     })),
-                    dinner: day.breakfast.map(menu => ({
+                    dinner: day.dinner.map(menu => ({
                         name: menu?.replace(regex, ''),
                         allergy: menu?.match(regex)?.filter(ch => ch !== ".").map(ch => Number(ch)) || []
                     })),
