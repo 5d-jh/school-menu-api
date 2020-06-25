@@ -23,9 +23,9 @@
     "private": true,
     "workspaces": [
         "package-common",
-        "package-function",
         "package-school-menu",
-        "package-school-info"
+        "package-school-info",
+        "package-function"
     ],
     "dependencies": {
         "firebase-admin": "^8.10.0",

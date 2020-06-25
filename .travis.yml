@@ -19,7 +19,7 @@ install:
 
 before_script:
 - firebase emulators:start --only firestore &
-- yarn run build || true
+- yarn workspaces run build
 - yarn run build
 
 script:
