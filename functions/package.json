@@ -7,7 +7,7 @@
     "author": "5d-jh",
     "license": "MIT",
     "scripts": {
-        "build": "yarn workspaces run build && tsc --build --force tsconfig.json",
+        "build": "yarn workspaces run build && ./node_modules/typescript/bin/tsc --build --force tsconfig.json",
         "emulator": "yarn run build && firebase emulators:start --only database,functions",
         "serve": "firebase serve --only functions",
         "shell": "yarn run build && firebase functions:shell",
