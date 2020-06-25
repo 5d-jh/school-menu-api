@@ -2,9 +2,8 @@ import express from "express";
 import { JsonResponseBody, SchoolType, BadRequestError, ErrorResponseBody } from "package-common";
 import { SchoolMenuService } from "./service/SchoolMenuService";
 import { NeisCrawler } from "./data/NeisCrawler";
-import { FirestoreAccessor } from "./data/FirestoreAccessor";
+import { MenuDataAccessor } from "./data/MenuDataAccessor";
 import { QueryStringOptions } from "./type/QueryStringOptions";
-import { AllergyDisplayType } from "./type/AllergyDisplayType";
 
 const app = express();
 
@@ -14,9 +13,9 @@ app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
     const menuYear: number = Number(req.query.year) || new Date().getFullYear();
     const menuMonth = Number(req.query.month) || new Date().getMonth()+1;
     
-    const neisCrawler = new NeisCrawler(schoolType, schoolCode, menuYear, menuMonth);
-    const firestoreAccessor = new FirestoreAccessor(schoolCode, menuYear, menuMonth);
-    const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor);
+    const neisCrawler = new NeisCrawler().setParameters(schoolType, schoolCode, menuYear, menuMonth);
+    const menuDataAccessor = new MenuDataAccessor().setParameters(schoolCode, menuYear, menuMonth);
+    const schoolMenuService = new SchoolMenuService(neisCrawler, menuDataAccessor);
 
     try {
         if (schoolType === undefined) throw new BadRequestError("학교 유형이 잘못되었습니다.");

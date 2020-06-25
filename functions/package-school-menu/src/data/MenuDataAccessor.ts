@@ -2,7 +2,7 @@ import { DataAccessor } from "package-common";
 import { SchoolMenu } from "../type/SchoolMenu";
 import { firestore } from "firebase-admin";
 
-export class FirestoreAccessor implements DataAccessor<SchoolMenu[]> {
+export class MenuDataAccessor implements DataAccessor<SchoolMenu[]> {
 
     private db: firestore.Firestore;
     private ref: firestore.CollectionReference;
@@ -11,13 +11,15 @@ export class FirestoreAccessor implements DataAccessor<SchoolMenu[]> {
     private menuYear: number;
     private menuMonth: number;
 
-    constructor(schoolCode: string, menuYear: number, menuMonth: number) {
+    setParameters(schoolCode: string, menuYear: number, menuMonth: number): DataAccessor<SchoolMenu[]> {
         this.db = firestore();
         this.ref = this.db.collection('schoolmenu');
 
         this.schoolCode = schoolCode;
         this.menuYear = menuYear;
         this.menuMonth = menuMonth;
+
+        return this;
     }
 
     async get(): Promise<SchoolMenu[]> {
