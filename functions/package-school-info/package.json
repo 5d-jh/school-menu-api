@@ -5,6 +5,7 @@
     "typings": "dist/src/index.d.ts",
     "license": "MIT",
     "scripts": {
+        "build": "tsc",
         "test": "exit 0"
     },
     "dependencies": {
