@@ -25,8 +25,7 @@ script:
 - yarn workspaces run test
 
 before_deploy:
-- yarn
-- 'cd ..'
+- cd ..
 
 deploy:
   provider: firebase
