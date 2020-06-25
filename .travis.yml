@@ -24,6 +24,9 @@ before_script:
 script:
 - yarn workspaces run test
 
+before_deploy:
+- 'cd ..'
+
 deploy:
   provider: firebase
   token:
