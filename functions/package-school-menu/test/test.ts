@@ -14,7 +14,7 @@ describe("[SCHOOL-MENU] Service", function () {
 
     this.timeout(50000);
 
-    it("Fetches menus from NEIS or database properly", (done) => {
+    it("fetches menus from NEIS or database properly", (done) => {
         const neisCrawler = new NeisCrawler(SchoolType.HIGH, "K100000460", 2020, 1);
         const firestoreAccessor = new FirestoreAccessor("K100000460", 2020, 1);
         const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor);

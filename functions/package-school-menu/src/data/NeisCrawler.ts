@@ -118,8 +118,7 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
         });
 
         this.hasNoData = hasNoData;
-
-        console.log(result);
+        
         return result;
     }
 
