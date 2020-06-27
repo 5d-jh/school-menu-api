@@ -1,5 +1,5 @@
 import { NeisCrawler } from "../src/data/NeisCrawler";
-import { MenuDataAccessor } from "./data/MenuDataAccessor";
+import { MenuDataAccessor } from "../src/data/MenuDataAccessor";
 import { SchoolMenuService } from "../src/service/SchoolMenuService";
 import { SchoolType } from "package-common";
 import { notEqual } from "assert";
