@@ -31,7 +31,7 @@ export class SchoolMenuService {
             menu = await this.neisCrawler.get();
 
             if (this.neisCrawler.shouldSave()) {
-                this.menuDataAccessor.put(menu)
+                await this.menuDataAccessor.put(menu)
                     .then(() => this.menuDataAccessor.close())
                     .catch(err => console.error(err));
             }

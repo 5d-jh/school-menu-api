@@ -35,6 +35,6 @@ describe("[SCHOOL-MENU] Service", function () {
                         strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true);
                         done();
                     });
-            });
+            });    
     });
 });
