@@ -2,7 +2,7 @@ import { NeisCrawler } from "../src/data/NeisCrawler";
 import { MenuDataAccessor } from "../src/data/MenuDataAccessor";
 import { SchoolMenuService } from "../src/service/SchoolMenuService";
 import { SchoolType } from "package-common";
-import { notEqual } from "assert";
+import { notEqual, strictEqual } from "assert";
 import { QueryStringOptions } from "./type/QueryStringOptions";
 import { initializeApp, app, firestore } from "firebase-admin";
 
@@ -28,10 +28,13 @@ describe("[SCHOOL-MENU] Service", function () {
         const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor);
 
         schoolMenuService.getSchoolMenu({} as QueryStringOptions)
-            .then(menu => {
-                notEqual(menu, null);
-                notEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), null);
-                done();
+            .then(() => {
+                schoolMenuService.getSchoolMenu({} as QueryStringOptions)
+                    .then(menu => {
+                        notEqual(menu, null);
+                        strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true);
+                        done();
+                    });
             });
     });
 });
