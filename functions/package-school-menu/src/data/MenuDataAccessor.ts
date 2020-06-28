@@ -2,6 +2,8 @@ import { DataAccessor } from "package-common";
 import { SchoolMenu } from "../type/SchoolMenu";
 import { firestore } from "firebase-admin";
 
+const collectionName = 'schoolmenu';
+
 export class MenuDataAccessor implements DataAccessor<SchoolMenu[]> {
 
     private db: firestore.Firestore;
@@ -11,10 +13,12 @@ export class MenuDataAccessor implements DataAccessor<SchoolMenu[]> {
     private menuYear: number;
     private menuMonth: number;
 
-    setParameters(schoolCode: string, menuYear: number, menuMonth: number): DataAccessor<SchoolMenu[]> {
-        this.db = firestore();
-        this.ref = this.db.collection('schoolmenu');
+    constructor(db: firestore.Firestore) {
+        this.db = db;
+        this.ref = this.db.collection(collectionName);
+    }
 
+    setParameters(schoolCode: string, menuYear: number, menuMonth: number): DataAccessor<SchoolMenu[]> {
         this.schoolCode = schoolCode;
         this.menuYear = menuYear;
         this.menuMonth = menuMonth;

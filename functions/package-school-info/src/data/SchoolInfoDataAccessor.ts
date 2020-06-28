@@ -2,17 +2,24 @@ import { DataAccessor, InternalServerError } from "package-common";
 import { SchoolInfo } from "../type/SchoolInfo";
 import { firestore } from "firebase-admin";
 
-export class FirestoreAccessor implements DataAccessor<SchoolInfo[]> {
+const collectionName = 'schoolinfo';
+
+export class SchoolInfoDataAccessor implements DataAccessor<SchoolInfo[]> {
 
     private db: firestore.Firestore;
     private ref: firestore.CollectionReference;
 
     private searchKeyword: string;
 
-    constructor(searchKeyword: string) {
-        this.db = firestore();
-        this.ref = this.db.collection('schoolinfo');
+    constructor(db: firestore.Firestore) {
+        this.db = db;
+        this.ref = this.db.collection(collectionName);
+    }
+
+    setParameters(searchKeyword: string): DataAccessor<SchoolInfo[]> {
         this.searchKeyword = searchKeyword;
+
+        return this;
     }
 
     async get() : Promise<SchoolInfo[]> {

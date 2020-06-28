@@ -3,10 +3,10 @@ import { initializeApp } from "firebase-admin";
 import { schoolMenuApp } from "package-school-menu";
 import { schoolInfoApp } from "package-school-info";
 
-initializeApp();
+const firebaseApp = initializeApp();
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-exports.api = https.onRequest(schoolMenuApp);
-exports.code = https.onRequest(schoolInfoApp);
+exports.api = https.onRequest(schoolMenuApp(firebaseApp));
+exports.code = https.onRequest(schoolInfoApp(firebaseApp));
