@@ -32,7 +32,6 @@ export class SchoolMenuService {
 
             if (this.neisCrawler.shouldSave()) {
                 await this.menuDataAccessor.put(menu)
-                    .then(() => this.menuDataAccessor.close())
                     .catch(err => console.error(err));
             }
         }
