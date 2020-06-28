@@ -1,5 +1,5 @@
 {
-    "name": "package-function",
+    "name": "@school-api/function",
     "version": "1.0.0",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -10,8 +10,8 @@
         "test": "exit 0"
     },
     "dependencies": {
-        "package-school-info": "1.0.0",
-        "package-school-menu": "1.0.0"
+        "@school-api/info": "1.0.0",
+        "@school-api/menu": "1.0.0"
     },
     "devDependencies": {
         "firebase-functions-test": "^0.1.6",

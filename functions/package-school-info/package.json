@@ -1,5 +1,5 @@
 {
-    "name": "package-school-info",
+    "name": "@school-api/info",
     "version": "1.0.0",
     "main": "dist/src/index.js",
     "typings": "dist/src/index.d.ts",
@@ -10,6 +10,6 @@
     },
     "dependencies": {
         "nunjucks": "^3.2.1",
-        "package-common": "1.0.0"
+        "@school-api/common": "1.0.0"
     }
 }

@@ -1,7 +1,7 @@
 import { NeisCrawler } from "../src/data/NeisCrawler";
 import { MenuDataAccessor } from "../src/data/MenuDataAccessor";
 import { SchoolMenuService } from "../src/service/SchoolMenuService";
-import { SchoolType } from "package-common";
+import { SchoolType } from "@school-api/common";
 import { notEqual, strictEqual } from "assert";
 import { QueryStringOptions } from "./type/QueryStringOptions";
 import { initializeApp, app, firestore } from "firebase-admin";

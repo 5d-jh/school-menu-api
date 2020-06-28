@@ -1,6 +1,6 @@
 import express = require("express");
-import { schoolMenuApp } from "package-school-menu";
-import { schoolInfoApp } from "package-school-info";
+import { schoolMenuApp } from "@school-api/menu";
+import { schoolInfoApp } from "@school-api/info";
 import { initializeApp } from "firebase-admin";
 import { env } from "process";
 

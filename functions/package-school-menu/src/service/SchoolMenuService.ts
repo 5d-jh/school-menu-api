@@ -1,6 +1,6 @@
 import { SchoolMenu, SchoolMenuAllergyFormed } from "../type/SchoolMenu";
 import { QueryStringOptions } from "../type/QueryStringOptions";
-import { DataAccessor, Crawler } from "package-common";
+import { DataAccessor, Crawler } from "@school-api/common";
 import { applyAllergyOption } from "./applyAllergyOption";
 import { applyDateOption } from "./applyDateOption";
 

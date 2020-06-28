@@ -1,4 +1,4 @@
-import { DataAccessor } from "package-common";
+import { DataAccessor } from "@school-api/common";
 import { SchoolMenu } from "../type/SchoolMenu";
 import { firestore } from "firebase-admin";
 

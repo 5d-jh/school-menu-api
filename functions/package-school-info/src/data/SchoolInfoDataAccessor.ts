@@ -1,4 +1,4 @@
-import { DataAccessor, InternalServerError } from "package-common";
+import { DataAccessor, InternalServerError } from "@school-api/common";
 import { SchoolInfo } from "../type/SchoolInfo";
 import { firestore } from "firebase-admin";
 

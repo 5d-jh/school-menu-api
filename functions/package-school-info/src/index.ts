@@ -1,5 +1,5 @@
 import express from "express";
-import { JsonResponseBody, ErrorResponseBody } from "package-common";
+import { JsonResponseBody, ErrorResponseBody } from "@school-api/common";
 import path from "path";
 import { SchoolInfoDataAccessor } from "./data/SchoolInfoDataAccessor";
 import nunjucks from "nunjucks";
