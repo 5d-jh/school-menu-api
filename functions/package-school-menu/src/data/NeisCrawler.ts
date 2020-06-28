@@ -15,11 +15,12 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
 
     private hasNoData: boolean;
 
-    constructor(schoolType: SchoolType, schoolCode: string, menuYear: number, menuMonth: number) {
+    setParameters(schoolType: SchoolType, schoolCode: string, menuYear: number, menuMonth: number): Crawler<SchoolMenu[]> {
         this.schoolType = schoolType;
         this.schoolCode = schoolCode;
         this.menuYear = menuYear;
         this.menuMonth = menuMonth;
+        
         if (schoolCode[0] === 'A') {
             //국립 고등학교
             this.schoolRegion = {
@@ -42,6 +43,8 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
                 P: "jbe", Q: "jne", T: "jje"
             }[schoolCode[0]];
         }
+
+        return this;
     }
 
     private async fetch(): Promise<SchoolMenu[]> {
@@ -118,8 +121,7 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
         });
 
         this.hasNoData = hasNoData;
-
-        console.log(result);
+        
         return result;
     }
 

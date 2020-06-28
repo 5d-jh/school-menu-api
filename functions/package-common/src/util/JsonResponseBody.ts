@@ -1,5 +1,4 @@
 import { InvalidResponseBodyError } from "../error/InvalidResponseBodyError";
-import process from "process";
 
 export class JsonResponseBody {
 

@@ -7,16 +7,16 @@ import { applyDateOption } from "./applyDateOption";
 export class SchoolMenuService {
 
     private neisCrawler: Crawler<SchoolMenu[]>;
-    private firestoreAccessor: DataAccessor<SchoolMenu[]>;
+    private menuDataAccessor: DataAccessor<SchoolMenu[]>;
 
     private isMenuFetchedFromDB: boolean;
 
     constructor(
         neisCrawler: Crawler<SchoolMenu[]>,
-        firestoreAccessor: DataAccessor<SchoolMenu[]>
+        menuDataAccessor: DataAccessor<SchoolMenu[]>
     ) {
         this.neisCrawler = neisCrawler;
-        this.firestoreAccessor = firestoreAccessor;
+        this.menuDataAccessor = menuDataAccessor;
     }
 
     checkIfMenuIsFetchedFromDB() {
@@ -24,15 +24,14 @@ export class SchoolMenuService {
     }
 
     async getSchoolMenu(query: QueryStringOptions): Promise<SchoolMenu[] | SchoolMenuAllergyFormed[]> {
-        let menu: SchoolMenu[] | SchoolMenuAllergyFormed[] = await this.firestoreAccessor.get();
+        let menu: SchoolMenu[] | SchoolMenuAllergyFormed[] = await this.menuDataAccessor.get();
         this.isMenuFetchedFromDB = Boolean(menu);
 
         if (!this.isMenuFetchedFromDB) {
             menu = await this.neisCrawler.get();
 
             if (this.neisCrawler.shouldSave()) {
-                this.firestoreAccessor.put(menu)
-                    .then(() => this.firestoreAccessor.close())
+                await this.menuDataAccessor.put(menu)
                     .catch(err => console.error(err));
             }
         }
