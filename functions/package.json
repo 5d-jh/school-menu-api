@@ -9,6 +9,8 @@
     "scripts": {
         "build": "yarn workspaces run build && ./node_modules/typescript/bin/tsc --build --force tsconfig.json",
         "emulator": "yarn run build && firebase emulators:start --only database,functions",
+        "emulator-firestore": "firebase emulators:start --only firestore",
+        "setup-emulator-firestore": "firebase setup:emulators:firestore",
         "serve": "firebase serve --only functions",
         "shell": "yarn run build && firebase functions:shell",
         "start": "npm run shell",
@@ -29,7 +31,8 @@
     ],
     "dependencies": {
         "firebase-admin": "^8.10.0",
-        "firebase-functions": "^3.6.0"
+        "firebase-functions": "^3.6.0",
+        "firebase-tools": "8.4.3"
     },
     "devDependencies": {
         "tslint": "6.1.1"

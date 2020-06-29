@@ -16,7 +16,7 @@ export class SchoolInfoDataAccessor implements DataAccessor<SchoolInfo[]> {
         this.ref = this.db.collection(collectionName);
     }
 
-    setParameters(searchKeyword: string): DataAccessor<SchoolInfo[]> {
+    setParameters(): DataAccessor<SchoolInfo[]> {
         return this;
     }
 
