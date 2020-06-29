@@ -3,17 +3,18 @@ import { QueryStringOptions } from "../type/QueryStringOptions";
 import { DataAccessor, Crawler } from "@school-api/common";
 import { applyAllergyOption } from "./applyAllergyOption";
 import { applyDateOption } from "./applyDateOption";
+import { MenuDataAccessor } from "../data/MenuDataAccessor";
 
 export class SchoolMenuService {
 
     private neisCrawler: Crawler<SchoolMenu[]>;
-    private menuDataAccessor: DataAccessor<SchoolMenu[]>;
+    private menuDataAccessor: MenuDataAccessor;
 
     private isMenuFetchedFromDB: boolean;
 
     constructor(
         neisCrawler: Crawler<SchoolMenu[]>,
-        menuDataAccessor: DataAccessor<SchoolMenu[]>
+        menuDataAccessor: MenuDataAccessor
     ) {
         this.neisCrawler = neisCrawler;
         this.menuDataAccessor = menuDataAccessor;

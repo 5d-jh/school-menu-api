@@ -18,33 +18,33 @@ export const schoolInfoApp = (firebaseApp: admin.app.App) => {
     app.use("/code/static", express.static(path.resolve(__dirname, "../../static")));
 
     app.get("*/code/api", async (req, res, next) => {
-        const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore)
-            .setParameters(req.query.q as string || '');
+        // const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore)
+        //     .setParameters(req.query.q as string || '');
     
-        try {
-            const jsonResponseBody = new JsonResponseBody();
-            res.json(
-                jsonResponseBody.create({
-                    school_infos: await schoolInfoDataAccessor.get()
-                })
-            );
-        } catch (error) {
-            next(error);
-        }
+        // try {
+        //     const jsonResponseBody = new JsonResponseBody();
+        //     res.json(
+        //         jsonResponseBody.create({
+        //             school_infos: await schoolInfoDataAccessor.get()
+        //         })
+        //     );
+        // } catch (error) {
+        //     next(error);
+        // }
     });
     
     app.get("*/code/app", async (req, res, next) => {
-        const firestoreAccessor = new SchoolInfoDataAccessor(firestore)
-            .setParameters(req.query.q as string || '');
-        try {
-            res.render("index.html", {
-                query: req.query.q,
-                school_infos: await firestoreAccessor.get(),
-                page: Number(req.query.page) || 1
-            });
-        } catch (error) {
-            next(error);
-        }
+        // const firestoreAccessor = new SchoolInfoDataAccessor(firestore)
+        //     .setParameters(req.query.q as string || '');
+        // try {
+        //     res.render("index.html", {
+        //         query: req.query.q,
+        //         school_infos: await firestoreAccessor.get(),
+        //         page: Number(req.query.page) || 1
+        //     });
+        // } catch (error) {
+        //     next(error);
+        // }
         
     });
     

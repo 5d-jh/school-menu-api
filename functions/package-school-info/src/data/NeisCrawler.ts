@@ -76,8 +76,6 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
             result.push(info);
         }
 
-        this.contentLength = Number(result.length);
-
         return result;
     }
 

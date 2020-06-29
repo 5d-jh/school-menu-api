@@ -18,7 +18,7 @@ export class MenuDataAccessor implements DataAccessor<SchoolMenu[]> {
         this.ref = this.db.collection(collectionName);
     }
 
-    setParameters(schoolCode: string, menuYear: number, menuMonth: number): DataAccessor<SchoolMenu[]> {
+    setParameters(schoolCode: string, menuYear: number, menuMonth: number): MenuDataAccessor {
         this.schoolCode = schoolCode;
         this.menuYear = menuYear;
         this.menuMonth = menuMonth;

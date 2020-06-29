@@ -16,7 +16,7 @@ export class SchoolInfoService {
     }
 
     async getSchoolInfos(searchKeyword: string) {
-        let result = await this.dataAccessor.getByKeyword();
+        let result = await this.dataAccessor.getByKeyword(searchKeyword);
 
         if (result.length === 0) {
             result = await this.crawler.get();

@@ -10,8 +10,6 @@ export class SchoolInfoDataAccessor implements DataAccessor<SchoolInfo[]> {
     private ref: firestore.CollectionReference;
     private batch: firestore.WriteBatch;
 
-    private searchKeyword: string;
-
     constructor(db: firestore.Firestore) {
         this.db = db;
         this.batch = this.db.batch();
@@ -19,7 +17,6 @@ export class SchoolInfoDataAccessor implements DataAccessor<SchoolInfo[]> {
     }
 
     setParameters(searchKeyword: string): DataAccessor<SchoolInfo[]> {
-        this.searchKeyword = searchKeyword;
         return this;
     }
 
@@ -30,9 +27,9 @@ export class SchoolInfoDataAccessor implements DataAccessor<SchoolInfo[]> {
             .then(datas => datas as SchoolInfo[]);
     }
 
-    async getByKeyword(): Promise<SchoolInfo[]> {
+    async getByKeyword(searchKeyword: string): Promise<SchoolInfo[]> {
         return this.ref
-            .where("keywords", "array-contains", this.searchKeyword)
+            .where("keywords", "array-contains", searchKeyword)
             .get()
             .then(({ docs }) => docs.map(doc => doc.data()))
             .then(
