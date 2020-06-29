@@ -1828,6 +1828,13 @@ iconv-lite@0.4.24, iconv-lite@~0.4.13:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
+iconv-lite@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.1.tgz#dcff79a060333879dd83ebc3eb6a217f5f0facc5"
+  integrity sha512-Gjcihg3Bi6PI+5V7JlqWmXyVDyX5UQuwulJcbb3btuSoXIoGUy8zwJpRIOpRSzHz0IVnsT2FkceLlM8mm72d3w==
+  dependencies:
+    safer-buffer ">= 2.1.2 < 3.0.0"
+
 idb@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/idb/-/idb-3.0.2.tgz#c8e9122d5ddd40f13b60ae665e4862f8b13fa384"
@@ -2825,7 +2832,7 @@ safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.2, safe-buffer@~5.2.0:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.0.tgz#b74daec49b1148f88c64b68d49b1e815c1f2f519"
   integrity sha512-fZEwUGbVl7kouZs1jCdMLdt95hdIv0ZeHg6L7qPeciMZhZ+/gdesW4wgTARkrFWEpspjEATAzUGPG8N2jJiwbg==
 
-"safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
+"safer-buffer@>= 2.1.2 < 3", "safer-buffer@>= 2.1.2 < 3.0.0", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
