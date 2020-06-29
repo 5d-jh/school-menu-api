@@ -1,5 +1,4 @@
 export interface DataAccessor<T> {
-    get(): Promise<T>;
-    put(data: T);
-    close();
+    setParameters(...any): DataAccessor<T>;
+    close(): any;
 }
