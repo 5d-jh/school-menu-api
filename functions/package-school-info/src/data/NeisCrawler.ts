@@ -8,7 +8,7 @@ import { decode } from "iconv-lite";
 
 export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
-    private len = 0;
+    private contentLength: number;
 
     async getSchoolCodes(): Promise<string[]> {
         const options = {
@@ -48,6 +48,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
         for (const i in schoolCodes) {
             const code = schoolCodes[i];
+
             const body = await fetch(`https://www.schoolinfo.go.kr/ei/ss/Pneiss_b01_s0.do?VIEWMODE=2&PRE_JG_YEAR=&HG_CD=${code}&GS_HANGMOK_CD=`)
                 .then(res => res.buffer())
                 .then(buffer => decode(buffer, "euc-kr"));
@@ -57,7 +58,8 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
             const name = $("a").first().text();
 
-            const info = <SchoolInfo>{ name };
+            const info = <SchoolInfo>{ name, code };
+
             $(".md").map(function () {
                 const str = $(this).children(".mt").text().slice(0, -2);
                 const key = StringToKeyMapping[str];
@@ -74,7 +76,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
             result.push(info);
         }
 
-        // this.len = result.length;
+        this.contentLength = Number(result.length);
 
         return result;
     }
@@ -85,6 +87,6 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
     }
 
     shouldSave() {
-        return this.len !== 0;
+        return this.contentLength !== 0;
     }
 }
