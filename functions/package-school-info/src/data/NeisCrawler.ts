@@ -9,6 +9,12 @@ import { decode } from "iconv-lite";
 export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
     private contentLength: number;
+    private searchKeyword: string;
+
+    setParameters(searchKeyword: string): Crawler<SchoolInfo[]> {
+        this.searchKeyword = searchKeyword;
+        return this;
+    }
 
     async getSchoolCodes(): Promise<string[]> {
         const options = {
@@ -16,7 +22,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
             body: new URLSearchParams({
                 "SEARCH_GS_HANGMOK_CD": "",
                 "SEARCH_GS_HANGMOK_NM": "",
-                "SEARCH_SCHUL_NM": "서울",
+                "SEARCH_SCHUL_NM": this.searchKeyword,
                 "SEARCH_GS_BURYU_CD": "",
                 "SEARCH_SIGUNGU": "",
                 "SEARCH_SIDO": "",
@@ -24,7 +30,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
                 "SEARCH_MODE": "9",
                 "SEARCH_TYPE": "2",
                 "pageNumber": "1",
-                "SEARCH_KEYWORD": "서울"
+                "SEARCH_KEYWORD": this.searchKeyword
             })
         };
         const url = "https://www.schoolinfo.go.kr/ei/ss/Pneiss_f01_l0.do";
