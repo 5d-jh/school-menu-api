@@ -20,7 +20,10 @@ export class SchoolInfoService {
 
         if (result.length === 0) {
             result = await this.crawler.get();
-            await this.dataAccessor.updateDatasAndKeywords(result, searchKeyword);
+            
+            if (result.length !== 0) {
+                await this.dataAccessor.updateDatasAndKeywords(result, searchKeyword);
+            }
         }
 
         return result;

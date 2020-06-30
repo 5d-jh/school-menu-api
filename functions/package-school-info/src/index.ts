@@ -37,17 +37,20 @@ export const schoolInfoApp = (firebaseApp: admin.app.App) => {
     
     app.get("*/code/app", async (req, res, next) => {
         const searchKeyword = req.query.q as string || "";
-
-        const neisCrawler = new NeisCrawler()
-            .setParameters(searchKeyword);
-        const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore);
-        const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor);
+        let schoolInfos;
 
         try {
-            const schoolInfos = await schoolInfoService.getSchoolInfos(searchKeyword);
-            schoolInfos.map(schoolInfo => {
-                schoolInfo.estDate
-            })
+            if (searchKeyword.length > 0) {
+                const neisCrawler = new NeisCrawler()
+                    .setParameters(searchKeyword);
+                const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore);
+                const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor);
+                schoolInfos = await schoolInfoService.getSchoolInfos(searchKeyword);
+            }
+            else {
+                schoolInfos = [];
+            }
+
             res.render("index.html", {
                 query: searchKeyword,
                 school_infos: schoolInfos
