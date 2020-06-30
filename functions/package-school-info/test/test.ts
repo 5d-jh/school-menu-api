@@ -30,7 +30,6 @@ describe("[SCHOOL-INFO] School info service", function() {
         const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor);
 
         schoolInfoService.getSchoolInfos(searchKeyword)
-            .then(result => console.log(result))
             .then(() => done());
     })
 })
