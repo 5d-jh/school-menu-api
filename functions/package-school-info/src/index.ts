@@ -20,19 +20,31 @@ export const schoolInfoApp = (firebaseApp: admin.app.App) => {
     app.use("/code/static", express.static(path.resolve(__dirname, "../../static")));
 
     app.get("*/code/api", async (req, res, next) => {
-        // const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore)
-        //     .setParameters(req.query.q as string || '');
+        const searchKeyword = req.query.q as string || "";
+        let schoolInfos;
     
-        // try {
-        //     const jsonResponseBody = new JsonResponseBody();
-        //     res.json(
-        //         jsonResponseBody.create({
-        //             school_infos: await schoolInfoDataAccessor.get()
-        //         })
-        //     );
-        // } catch (error) {
-        //     next(error);
-        // }
+        try {
+            if (searchKeyword.length > 0) {
+                const neisCrawler = new NeisCrawler()
+                    .setParameters(searchKeyword);
+                const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore);
+                const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor);
+                schoolInfos = await schoolInfoService.getSchoolInfos(searchKeyword);
+            }
+            else {
+                schoolInfos = [];
+            }
+
+            const jsonResponseBody = new JsonResponseBody();
+
+            res.json(
+                jsonResponseBody.create({
+                    school_infos: schoolInfos
+                })
+            );
+        } catch (error) {
+            next(error);
+        }
     });
     
     app.get("*/code/app", async (req, res, next) => {
