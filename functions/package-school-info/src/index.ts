@@ -1,9 +1,11 @@
 import express from "express";
-import { JsonResponseBody, ErrorResponseBody } from "@school-api/common";
 import path from "path";
-import { SchoolInfoDataAccessor } from "./data/SchoolInfoDataAccessor";
 import nunjucks from "nunjucks";
 import * as admin from "firebase-admin";
+import { JsonResponseBody, ErrorResponseBody } from "@school-api/common";
+import { NeisCrawler } from "./data/NeisCrawler";
+import { SchoolInfoDataAccessor } from "./data/SchoolInfoDataAccessor";
+import { SchoolInfoService } from "./service/SchoolInfoService";
 
 const app = express();
 
@@ -34,18 +36,26 @@ export const schoolInfoApp = (firebaseApp: admin.app.App) => {
     });
     
     app.get("*/code/app", async (req, res, next) => {
-        // const firestoreAccessor = new SchoolInfoDataAccessor(firestore)
-        //     .setParameters(req.query.q as string || '');
-        // try {
-        //     res.render("index.html", {
-        //         query: req.query.q,
-        //         school_infos: await firestoreAccessor.get(),
-        //         page: Number(req.query.page) || 1
-        //     });
-        // } catch (error) {
-        //     next(error);
-        // }
-        
+        const searchKeyword = req.query.q as string || "";
+
+        const neisCrawler = new NeisCrawler()
+            .setParameters(searchKeyword);
+        const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore);
+        const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor);
+
+        try {
+            const schoolInfos = await schoolInfoService.getSchoolInfos(searchKeyword);
+            schoolInfos.map(schoolInfo => {
+                schoolInfo.estDate
+            })
+            res.render("index.html", {
+                query: searchKeyword,
+                school_infos: schoolInfos
+            });
+        }
+        catch (error) {
+            next(error);
+        }
     });
     
     app.use(ErrorResponseBody("school_infos"));

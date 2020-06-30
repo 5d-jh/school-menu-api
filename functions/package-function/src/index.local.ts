@@ -4,17 +4,19 @@ import { schoolInfoApp } from "@school-api/info";
 import { initializeApp } from "firebase-admin";
 import { env } from "process";
 
+let fbApp;
+
 if (env.NODE_ENV === "local") {
-    initializeApp({
+    fbApp = initializeApp({
         databaseURL: "http://localhost:8080"
     });
 }
 else {
-    initializeApp();
+    fbApp = initializeApp();
 }
 
 const app = express();
 
-app.use(schoolMenuApp);
-app.use(schoolInfoApp);
+app.use(schoolMenuApp(fbApp));
+app.use(schoolInfoApp(fbApp));
 app.listen(5000);

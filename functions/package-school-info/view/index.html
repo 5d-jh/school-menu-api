@@ -18,16 +18,19 @@
             {% if query %}
                 {% if school_infos %}
                     {% for school_info in school_infos %}
-                        {% if school_info %}
-                            <div class="school-info">
-                                <div><h3 class="school-code">{{school_info.code}}</h3></div>
-                                <div class="additional-info"><i class="fas fa-school"></i> {{school_info.name}}</div>
-                                <div class="additional-info"><i class="fas fa-map-marker-alt"></i>{{school_info.address}}</div>
-                            </div>
-                        {% endif %}
+                        <div class="school-info">
+                            <div><h3 class="school-code">{{school_info.code}}</h3></div>
+                            <ul>
+                                <li><span class="additional-info"><i class="fas fa-school" title="학교 이름"></i>학교 이름</span></i>{{school_info.name}}</li>
+                                <li><span class="additional-info"><i class="fas fa-globe-asia" title="홈페이지"></i>홈페이지</span><a href="{{school_info.website}}" target="_blank">{{school_info.website}}</a></li>
+                                <li><span class="additional-info"><i class="fas fa-phone" title="전화번호"></i>전화번호</span>{{school_info.phone}}</li>
+                                <li><span class="additional-info"><i class="fas fa-map-marker-alt" title="주소"></i>주소</span>{{school_info.address}}</li>
+                                <li><span class="additional-info">설립구분 / 설립유형</span>{{school_info.estDivision}} / {{school_info.estType}}</li>
+                            </ul>
+                        </div>
                     {% endfor %}
                 {% else %}
-                    <div class="empty-alert"><i class="fas fa-ban"></i>해당 페이지에서 학교를 찾을 수 없습니다.</div>
+                    <div class="empty-alert"><i class="fas fa-ban"></i>학교 정보를 찾을 수 없습니다.</div>
                 {% endif %}
             {% endif %}
         <footer>

@@ -2,7 +2,7 @@ import { DataAccessor, InternalServerError } from "@school-api/common";
 import { SchoolInfo } from "../type/SchoolInfo";
 import { firestore } from "firebase-admin";
 
-const collectionName = 'schoolinfo';
+const collectionName = 'schoolinfo-testing';
 
 export class SchoolInfoDataAccessor implements DataAccessor<SchoolInfo[]> {
 
@@ -34,11 +34,10 @@ export class SchoolInfoDataAccessor implements DataAccessor<SchoolInfo[]> {
             .then(({ docs }) => docs.map(doc => doc.data()))
             .then(
                 data => data.map(
-                    schoolInfo => (<SchoolInfo>{
-                        code: schoolInfo.code,
-                        address: schoolInfo.address,
-                        name: schoolInfo.name
-                    })
+                    schoolInfo => {
+                        delete schoolInfo.keywords;
+                        return schoolInfo as SchoolInfo;
+                     }
                 )
             );
     }

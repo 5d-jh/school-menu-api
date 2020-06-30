@@ -1,5 +1,5 @@
 import { SchoolInfo } from "../type/SchoolInfo";
-import { Crawler, DataAccessor } from "@school-api/common";
+import { Crawler } from "@school-api/common";
 import { SchoolInfoDataAccessor } from "../data/SchoolInfoDataAccessor";
 
 export class SchoolInfoService {
@@ -15,7 +15,7 @@ export class SchoolInfoService {
         this.dataAccessor = dataAccessor;
     }
 
-    async getSchoolInfos(searchKeyword: string) {
+    async getSchoolInfos(searchKeyword: string): Promise<SchoolInfo[]> {
         let result = await this.dataAccessor.getByKeyword(searchKeyword);
 
         if (result.length === 0) {

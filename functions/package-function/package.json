@@ -5,8 +5,8 @@
     "typings": "dist/index.d.ts",
     "license": "MIT",
     "scripts": {
-        "build": "../node_modules/typescript/bin/tsc",
-        "local": "ts-node src/index.local.ts",
+        "build": "tsc",
+        "local": "export NODE_ENV=local && ts-node src/index.local.ts",
         "test": "exit 0"
     },
     "dependencies": {
