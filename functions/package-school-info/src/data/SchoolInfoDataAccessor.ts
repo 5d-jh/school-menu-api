@@ -2,7 +2,7 @@ import { DataAccessor, InternalServerError } from "@school-api/common";
 import { SchoolInfo } from "../type/SchoolInfo";
 import { firestore } from "firebase-admin";
 
-const collectionName = 'schoolinfo-testing';
+const collectionName = 'schoolinfo';
 
 export class SchoolInfoDataAccessor implements DataAccessor<SchoolInfo[]> {
 

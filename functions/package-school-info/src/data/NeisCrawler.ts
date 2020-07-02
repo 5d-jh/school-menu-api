@@ -5,7 +5,6 @@ import { URLSearchParams } from "url";
 import { JSDOM } from "jsdom";
 import { decode } from "iconv-lite";
 
-
 export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
     private contentLength: number;
@@ -18,7 +17,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
     async getSchoolCodes(): Promise<string[]> {
         const options = {
-            method: 'POST',
+            method: "POST",
             body: new URLSearchParams({
                 "SEARCH_GS_HANGMOK_CD": "",
                 "SEARCH_GS_HANGMOK_NM": "",
