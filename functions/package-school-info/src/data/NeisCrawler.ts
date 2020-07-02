@@ -5,6 +5,10 @@ import { URLSearchParams } from "url";
 import { JSDOM } from "jsdom";
 import { decode } from "iconv-lite";
 
+import { env } from "process";
+
+env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0"
+
 export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
     private contentLength: number;
@@ -71,7 +75,12 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
                 const val = $(this).text().replace(/(\n|\t)/g, "").slice(str.length + 2).trim();
 
                 if (key === "estDate") {
-                    info[key] = new Date(val.replace(/(년|월|일)/g, "."));
+                    const date = val.split(" ").map(str => str.replace(/[^0-9]/g, ""));
+                    info[key] = {
+                        y: date[0],
+                        m: date[1],
+                        d: date[2]
+                    };
                 }
                 else if (key) {
                     info[key] = val;
