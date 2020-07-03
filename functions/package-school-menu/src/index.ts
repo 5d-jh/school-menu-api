@@ -1,5 +1,5 @@
 import express from "express";
-import { JsonResponseBody, SchoolType, BadRequestError, ErrorResponseBody } from "package-common";
+import { JsonResponseBody, SchoolType, BadRequestError, ErrorResponseBody } from "@school-api/common";
 import { SchoolMenuService } from "./service/SchoolMenuService";
 import { NeisCrawler } from "./data/NeisCrawler";
 import { MenuDataAccessor } from "./data/MenuDataAccessor";

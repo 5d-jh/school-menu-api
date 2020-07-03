@@ -1,7 +1,7 @@
 import { https } from "firebase-functions";
 import { initializeApp } from "firebase-admin";
-import { schoolMenuApp } from "package-school-menu";
-import { schoolInfoApp } from "package-school-info";
+import { schoolMenuApp } from "@school-api/menu";
+import { schoolInfoApp } from "@school-api/info";
 
 const firebaseApp = initializeApp();
 

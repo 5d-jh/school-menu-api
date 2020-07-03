@@ -1,15 +1,17 @@
 {
-    "name": "package-school-info",
+    "name": "@school-api/info",
     "version": "1.0.0",
     "main": "dist/src/index.js",
     "typings": "dist/src/index.d.ts",
     "license": "MIT",
     "scripts": {
         "build": "../node_modules/typescript/bin/tsc",
-        "test": "exit 0"
+        "test": "mocha dist/test/test.js",
+        "test-debug": "mocha dist/test/test.js --inspect-brk"
     },
     "dependencies": {
-        "nunjucks": "^3.2.1",
-        "package-common": "1.0.0"
+        "@school-api/common": "1.0.0",
+        "iconv-lite": "^0.6.1",
+        "nunjucks": "^3.2.1"
     }
 }

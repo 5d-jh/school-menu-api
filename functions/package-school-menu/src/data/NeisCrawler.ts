@@ -1,4 +1,4 @@
-import { Crawler, SchoolType, BadRequestError } from "package-common";
+import { Crawler, SchoolType, BadRequestError } from "@school-api/common";
 import { SchoolMenu } from "../type/SchoolMenu";
 import { JSDOM } from "jsdom";
 import fetch from "node-fetch";

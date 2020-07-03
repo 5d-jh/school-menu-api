@@ -13,12 +13,10 @@ before_install:
 
 install:
 - yarn
-- yarn global add firebase-tools
-- yarn global add typescript
-- firebase setup:emulators:firestore
+- yarn run setup-emulator-firestore
 
 before_script:
-- firebase emulators:start --only firestore &
+- yarn run emulator-firestore &
 - yarn run build
 
 script:

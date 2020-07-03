@@ -40,10 +40,10 @@ h1 {
     text-align: center;
 }
 .additional-info {
-    padding-bottom: 10px;
     border: 1.7px solid #e8e8e8;
     padding: 4px;
-    border-radius: 3px;
+    border-radius: 4px;
+    margin-right: 0.5em;
     display: inline-block;
 }
 
@@ -51,6 +51,7 @@ h1 {
     text-align: center;
     border-radius: 3px;
     border: 1.7px solid #e8e8e8;
+    border-radius: 4px;
     color: black;
 }
 .button:hover {
@@ -113,4 +114,14 @@ footer {
 }
 footer>.footer-title::after {
     content: " \000B7";
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    margin-bottom: 2px;
 }
