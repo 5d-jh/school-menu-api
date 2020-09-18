@@ -16,7 +16,7 @@
         "entities": "^2.0.0",
         "jquery": "^3.5.0",
         "jsdom": "^16.2.2",
-        "node-fetch": "^2.6.0",
+        "node-fetch": "^2.6.1",
         "@school-api/common": "1.0.0"
     },
     "devDependencies": {
