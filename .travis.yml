@@ -2,28 +2,21 @@ language: node_js
 node_js:
 - 10
 cache: yarn
-
 env:
 - FIRESTORE_EMULATOR_HOST=localhost:8080 NODE_ENV=test
-
 before_install:
 - cd functions
-
 install:
 - yarn
 - yarn run setup-emulator-firestore
-
 before_script:
 - yarn run emulator-firestore &
 - yarn run build
-
 script:
 - yarn workspaces run test
-
 before_deploy:
 - cd ..
-
 deploy:
   provider: firebase
   token:
-    secure: FLYEVRuAMPqJoBv/55TBzinGKOWwHVnn5mZNQ6TakDxE3uJ8yLC4ryWtnOmmFAbOZFJsHahMJ3g5dHB2851QHkpNunn5Km2WX1CN8l6AWzyMbnXR0s1C4CdXE9CQ47ohu0rlLz+kb8CagNBVXwb+4jR3xsONJUC4Y9wBbAFO7Lspl09IYXnJ4G1FhuM6Y+SMMpOra/WrgvZ/q75UswfScGX6y8zYn5YVvwcAG/Ej6HWYmmIbLH6dabinrsMUdQ9/ibCMlpVPYqIZesMhzaJm5jYLwXYYXag2pMjl5TM+5gkSgeqbed9Dq8LASB/SjOPTyPL736qfs+5w8g0RJdYBlutbYe4a7bWIjpdfLlDDwUxSc6RDahAJaABzLuS4JKUgOXsD4WcAZB7zMUiofb/j9CQt2QAoMeH/sDtVIFn7Cpj4ja5SWxhOGXpILyospe+/vYey1Q7WmxkcN1VwutXQD1XDCDgiLYJAMGv98q/AYYZKawnDioF2bQqK9jsNhPe9Mez2xQCsdqG0tJOa3eJG8AAPYHJIdrv/pMBN9/nLm6Y5UgM4aeVuK7Zgfk2l7WxRwOKDwLHBp8My2udHVwuEHeh0g7ODvIKtHxFnnG1NDtZbTPb/6V5jfOvzAh2qN8AGXayGFunlVBENrIhs8KodBZFPqCK453GZuQZ6ZdCw0rQ=
+    secure: ThDJZbtCA71fF09fM/rO02My9CNB/IIZEuFoKR82gjdrTtaUBYStbScSVPe8QhqdarxpM+KMcoDHKD+LdOYtHJFsrRLfDQc0pBBPnb0N8U1y27fwGx9nJ9joh/wSLeVZqaFvHG+ZV7Hb7GZV+57VqQRQzMS6pXedMSPyDgD26LtO8iUlmR3uZRrXieYmXjxy2ix2WJpC4eTXtQLCBhCkGr1eV7Y/6VK+mq/EjlayGdg9RXYPyI8Ghyk5L83TNXklk2f94F1IsEFekI0xwI2YHoS8zU7LdZvrV4RgvOu/iGZ2C09tl6jKbq8UrMSVo9duJa2wShCIxEkDLAEA1E3vdmsy3EXPEfTNn5ee45CCvfNKphpA5Qg7PuUTioxZTdX/yIxxDa0SpEH12tJzzqEjcNQZ/E3jdgqT9XsCO9027J2zKxYZs+g/+lwKTuXjAyLbsrWZEeaLoV3qP+ceHrLSIQTNf1Fmg1vd1zQGaYHJs5njYU/AUhijkaRxBvnBsVy+SXx7FoQGxkcxOybKjn1A7arC0bNTPo1eZxzQ2hucOJTVk9t1ulL9NSQAEWLBMX5u6TWUge2fcPKZmtXlIZc0U7QSna2xvYMksF0QGXonwty9Ije2atTzeh9LtMz87/5sbuYLm3whMR7meJc7nnMNwKS79gSa+WWWjB0uJG9sviI=
