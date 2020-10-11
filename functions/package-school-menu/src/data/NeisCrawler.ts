@@ -126,7 +126,8 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
             return result;
         }
         catch (error) {
-            if (error instanceof FetchError) {
+            const { hostname } = new URL(url);
+            if (error instanceof FetchError && hostname !== `stu.${this.schoolRegion}.kr`) {
                 return this.fetch(`https://stu.${this.schoolRegion}.kr/sts_sci_md00_001.do`);
             }
             throw error;
