@@ -15,7 +15,7 @@ before_script:
 script:
 - yarn workspaces run test
 before_deploy:
-- rm -rf node_modules
+- rm -rf **/*/node_modules **/*/dist
 - cd ..
 deploy:
   provider: firebase
