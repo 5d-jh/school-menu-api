@@ -20,7 +20,7 @@
         "lint": "exit 0"
     },
     "engines": {
-        "node": "10"
+        "node": "12"
     },
     "private": true,
     "workspaces": [
@@ -30,9 +30,9 @@
         "package-function"
     ],
     "dependencies": {
-        "firebase-admin": "^8.10.0",
+        "firebase-admin": "^9.4.2",
         "firebase-functions": "^3.6.0",
-        "firebase-tools": "8.4.3"
+        "firebase-tools": "^9.1.0"
     },
     "devDependencies": {
         "tslint": "6.1.1"

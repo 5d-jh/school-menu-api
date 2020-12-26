@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- 10
+- 12
 cache: yarn
 env:
 - FIRESTORE_EMULATOR_HOST=localhost:8080 NODE_ENV=test
@@ -15,6 +15,7 @@ before_script:
 script:
 - yarn workspaces run test
 before_deploy:
+- rm -rf node_modules
 - cd ..
 deploy:
   provider: firebase
