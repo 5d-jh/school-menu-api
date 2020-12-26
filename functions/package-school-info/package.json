@@ -5,7 +5,7 @@
     "typings": "dist/src/index.d.ts",
     "license": "MIT",
     "scripts": {
-        "build": "../node_modules/typescript/bin/tsc",
+        "build": "tsc",
         "test": "mocha dist/test/test.js",
         "test-debug": "mocha dist/test/test.js --inspect-brk"
     },

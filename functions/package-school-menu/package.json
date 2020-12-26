@@ -8,7 +8,7 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "build": "../node_modules/typescript/bin/tsc",
+        "build": "tsc",
         "test": "mocha dist/test/test.js"
     },
     "dependencies": {
