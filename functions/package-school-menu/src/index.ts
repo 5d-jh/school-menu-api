@@ -5,13 +5,14 @@ import { NeisCrawler } from "./data/NeisCrawler";
 import { MenuDataAccessor } from "./data/MenuDataAccessor";
 import { QueryStringOptions } from "./type/QueryStringOptions";
 import * as admin from "firebase-admin";
+import schemaValidator from './middleware/schemaValidator';
 
 const app = express();
 
 export const schoolMenuApp = (firebaseApp: admin.app.App) => {
     const firestore = firebaseApp.firestore();
 
-    app.get('*/api/:schoolType/:schoolCode', async (req, res, next) => {
+    app.get('*/api/:schoolType/:schoolCode', schemaValidator, async (req, res, next) => {
         const schoolCode = req.params.schoolCode;
         const schoolType: SchoolType = SchoolType[req.params.schoolType.toUpperCase()];
         const menuYear: number = Number(req.query.year) || new Date().getFullYear();

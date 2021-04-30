@@ -5,7 +5,7 @@ import { notStrictEqual } from 'assert';
 describe('[Integration] school-menu', function () {
   let request: supertest.SuperTest<supertest.Test>;
 
-  this.timeout(50000);
+  this.timeout(100000);
 
   this.beforeAll(() => {
     request = supertest(app);

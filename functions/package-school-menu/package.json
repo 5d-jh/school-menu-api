@@ -17,7 +17,8 @@
         "jquery": "^3.5.0",
         "jsdom": "^16.2.2",
         "node-fetch": "^2.6.1",
-        "@school-api/common": "1.0.0"
+        "@school-api/common": "1.0.0",
+        "joi": "^17.4.0"
     },
     "devDependencies": {
         "@types/mocha": "^7.0.2",
