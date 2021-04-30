@@ -10,7 +10,7 @@ admin.initializeApp({
 
 describe("[SCHOOL-INFO] School info parser", function() {
 
-    this.timeout(50000);
+    this.timeout(100000);
 
     it('parses text from school info', (done) => {
         const neisCrawler = new NeisCrawler()

@@ -20,3 +20,5 @@ const app = express();
 app.use(schoolMenuApp(fbApp));
 app.use(schoolInfoApp(fbApp));
 app.listen(5000);
+
+export default app;
