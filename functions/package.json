@@ -3,7 +3,7 @@
     "version": "3.3.1",
     "description": "초·중·고등학교 식단 쉽게 불러오기",
     "repository": "https://github.com/5d-jh/school-menu-api",
-    "main": "package-function/dist/index.js",
+    "main": "package-function/dist/src/index.js",
     "author": "5d-jh",
     "license": "MIT",
     "scripts": {
