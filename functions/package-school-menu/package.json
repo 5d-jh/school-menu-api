@@ -13,17 +13,17 @@
     },
     "dependencies": {
         "@firebase/testing": "^0.19.1",
+        "@school-api/common": "1.0.0",
         "entities": "^2.0.0",
+        "joi": "^17.4.0",
         "jquery": "^3.5.0",
         "jsdom": "^16.2.2",
-        "node-fetch": "^2.6.1",
-        "@school-api/common": "1.0.0",
-        "joi": "^17.4.0"
+        "node-fetch": "^2.6.1"
     },
     "devDependencies": {
-        "@types/mocha": "^7.0.2",
         "@types/jquery": "^3.3.34",
         "@types/jsdom": "^16.2.1",
+        "@types/mocha": "^7.0.2",
         "@types/node-fetch": "^2.5.6"
     }
 }
