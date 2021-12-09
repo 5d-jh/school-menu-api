@@ -20,10 +20,10 @@ describe("[SCHOOL-MENU] Service", function () {
 
     it("fetches menus from NEIS or database properly", (done) => {
         const neisCrawler = new NeisCrawler()
-            .setParameters(SchoolType.HIGH, "K100000460", 2020, 1);
+            .setParameters(SchoolType.HIGH, "N100000191", 2021, 12);
             
         const firestoreAccessor = new MenuDataAccessor(db)
-            .setParameters("K100000460", 2020, 1);
+            .setParameters("N100000191", 2021, 12);
 
         const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor);
 
