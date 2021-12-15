@@ -14,6 +14,8 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
     private contentLength: number;
     private searchKeyword: string;
 
+    private readonly schoolInfoHost = "https://210.102.102.210";
+
     setParameters(searchKeyword: string): Crawler<SchoolInfo[]> {
         this.searchKeyword = searchKeyword;
         return this;
@@ -36,7 +38,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
                 "SEARCH_KEYWORD": this.searchKeyword
             })
         };
-        const url = "https://www.schoolinfo.go.kr/ei/ss/Pneiss_f01_l0.do";
+        const url = `${this.schoolInfoHost}/ei/ss/Pneiss_f01_l0.do`;
         const body = await fetch(url, options)
             .then(res => res.buffer())
             .then(buffer => decode(buffer, "euc-kr"));
@@ -46,7 +48,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
         const schoolCodes: string[] = [];
         $(".basicInfo").map(function() {
-            schoolCodes.push($(this).attr("class").split(" ")[1].slice(2));            
+            schoolCodes.push($(this).attr("class").split(" ")[1].slice(2));
         });
 
         return schoolCodes;
@@ -58,7 +60,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
         for (const i in schoolCodes) {
             const code = schoolCodes[i];
 
-            const body = await fetch(`https://www.schoolinfo.go.kr/ei/ss/Pneiss_b01_s0.do?VIEWMODE=2&PRE_JG_YEAR=&HG_CD=${code}&GS_HANGMOK_CD=`)
+            const body = await fetch(`${this.schoolInfoHost}/ei/ss/Pneiss_b01_s0.do?VIEWMODE=2&PRE_JG_YEAR=&HG_CD=${code}&GS_HANGMOK_CD=`)
                 .then(res => res.buffer())
                 .then(buffer => decode(buffer, "euc-kr"));
 
