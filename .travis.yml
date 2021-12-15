@@ -7,7 +7,7 @@ env:
 before_install:
 - cd functions
 install:
-- npm
+- npm i
 - npm run setup-emulator-firestore
 before_script:
 - npm run emulator-firestore &
