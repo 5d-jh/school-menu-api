@@ -1,19 +1,19 @@
 language: node_js
 node_js:
-- 12
-cache: yarn
+- 14
+cache: npm
 env:
 - FIRESTORE_EMULATOR_HOST=localhost:8080 NODE_ENV=test
 before_install:
 - cd functions
 install:
-- yarn
-- yarn run setup-emulator-firestore
+- npm
+- npm run setup-emulator-firestore
 before_script:
-- yarn run emulator-firestore &
-- yarn run build
+- npm run emulator-firestore &
+- npm run build
 script:
-- yarn workspaces run test
+- npm run test --workspaces
 before_deploy:
 - cd ..
 deploy:
