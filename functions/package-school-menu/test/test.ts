@@ -20,6 +20,27 @@ describe("[SCHOOL-MENU] Service", function () {
 
     it("fetches menus from NEIS or database properly", (done) => {
         const neisCrawler = new NeisCrawler()
+            .setParameters(SchoolType.HIGH, "K100000460", 2020, 1);
+            
+        const firestoreAccessor = new MenuDataAccessor(db)
+            .setParameters("K100000460", 2020, 1);
+
+        const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor);
+
+        schoolMenuService.getSchoolMenu({} as QueryStringOptions)
+            .then(() => {
+                strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), false);
+                schoolMenuService.getSchoolMenu({} as QueryStringOptions)
+                    .then(menu => {
+                        notEqual(menu, null);
+                        strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true);
+                        done();
+                    });
+            });    
+    });
+    
+    it("fetches menus from NEIS or database properly", (done) => {
+        const neisCrawler = new NeisCrawler()
             .setParameters(SchoolType.HIGH, "N100000191", 2021, 12);
             
         const firestoreAccessor = new MenuDataAccessor(db)
