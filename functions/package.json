@@ -31,9 +31,9 @@
         "package-function"
     ],
     "dependencies": {
-        "firebase-admin": "^9.4.2",
-        "firebase-functions": "^3.6.0",
-        "firebase-tools": "^9.1.0"
+        "firebase-admin": "^10.0.1",
+        "firebase-functions": "^3.16.0",
+        "firebase-tools": "^9.23.3"
     },
     "devDependencies": {
         "@types/node": "^14.14.31",
