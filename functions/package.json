@@ -32,8 +32,7 @@
     ],
     "dependencies": {
         "firebase-admin": "^10.0.1",
-        "firebase-functions": "^3.16.0",
-        "firebase-tools": "^9.23.3"
+        "firebase-functions": "^3.16.0"
     },
     "devDependencies": {
         "@types/node": "^14.14.31",
@@ -44,6 +43,7 @@
         "eslint-plugin-import": "^2.25.3",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^5.2.0",
-        "@firebase/testing": "^0.20.11"
+        "@firebase/testing": "^0.20.11",
+        "firebase-tools": "^10.0.1"
     }
 }
