@@ -13,6 +13,8 @@ jobs:
         node-version: [16.x]
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: Install dependencies and Firestore emulator
         run: |
           npm i
