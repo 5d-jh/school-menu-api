@@ -3,7 +3,7 @@ node_js:
 - 16
 cache: npm
 env:
-- FIRESTORE_EMULATOR_HOST=localhost:8080 NODE_ENV=test
+- FIRESTORE_EMULATOR_HOST=localhost:8080 NODE_ENV=ci
 before_install:
 - cd functions
 install:
