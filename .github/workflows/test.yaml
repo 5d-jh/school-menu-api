@@ -8,6 +8,7 @@ jobs:
     env:
       wd: ./functions
 
+
     strategy:
       matrix:
         node-version: [16.x]
@@ -32,3 +33,6 @@ jobs:
       - name: Run test
         run: npm run test --workspaces
         working-directory: ${{ env.wd }}
+        env:
+          FIRESTORE_EMULATOR_HOST: localhost:8080
+          NODE_ENV: ci
