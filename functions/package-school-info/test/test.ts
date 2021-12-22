@@ -5,7 +5,8 @@ import { notStrictEqual } from "assert";
 import admin from "firebase-admin";
 
 admin.initializeApp({
-    databaseURL: "localhost:8080"
+    databaseURL: "localhost:8080",
+    projectId: "dummy-firestore-id"
 });
 
 describe("[SCHOOL-INFO] School info parser", function() {
