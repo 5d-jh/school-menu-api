@@ -20,7 +20,7 @@
         "lint": "exit 0"
     },
     "engines": {
-        "node": ">=14",
+        "node": "16",
         "npm": ">=7"
     },
     "private": true,
@@ -43,6 +43,7 @@
         "eslint-config-standard": "^16.0.3",
         "eslint-plugin-import": "^2.25.3",
         "eslint-plugin-node": "^11.1.0",
-        "eslint-plugin-promise": "^5.2.0"
+        "eslint-plugin-promise": "^5.2.0",
+        "@firebase/testing": "^0.20.11"
     }
 }

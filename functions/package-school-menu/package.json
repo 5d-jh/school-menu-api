@@ -12,7 +12,6 @@
         "test": "mocha dist/test/test.js"
     },
     "dependencies": {
-        "@firebase/testing": "^0.19.1",
         "@school-api/common": "1.0.0",
         "entities": "^2.0.0",
         "joi": "^17.4.0",
