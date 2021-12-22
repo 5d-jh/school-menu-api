@@ -1,0 +1,25 @@
+name: Test
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Install dependencies and Firestore emulator
+        run: |
+          npm i
+          npm run setup-emulator-firestore
+
+      - name: Run Firestore emulator
+        run: npm run emulator-firestore &
+
+      - name: Build
+        run: npm run build
+
+      - name: Run test
+        npm run test --workspaces
