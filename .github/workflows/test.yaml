@@ -22,4 +22,4 @@ jobs:
         run: npm run build
 
       - name: Run test
-        npm run test --workspaces
+        run: npm run test --workspaces
