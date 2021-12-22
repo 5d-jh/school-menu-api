@@ -5,6 +5,9 @@ jobs:
   test:
     runs-on: ubuntu-20.04
 
+    env:
+      wd: ./functions
+
     strategy:
       matrix:
         node-version: [16.x]
@@ -14,12 +17,16 @@ jobs:
         run: |
           npm i
           npm run setup-emulator-firestore
+        working-directory: ${{ env.wd }}
 
       - name: Run Firestore emulator
         run: npm run emulator-firestore &
+        working-directory: ${{ env.wd }}
 
       - name: Build
         run: npm run build
+        working-directory: ${{ env.wd }}
 
       - name: Run test
         run: npm run test --workspaces
+        working-directory: ${{ env.wd }}
