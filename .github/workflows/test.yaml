@@ -8,6 +8,9 @@ jobs:
     env:
       wd: ./functions
 
+    services:
+      firestore-emulator:
+        image: mtlynch/firestore-emulator:latest
 
     strategy:
       matrix:
@@ -16,14 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies and Firestore emulator
-        run: |
-          npm i
-          npm run setup-emulator-firestore
-        working-directory: ${{ env.wd }}
-
-      - name: Run Firestore emulator
-        run: npm run emulator-firestore &
+      - name: Install dependencies
+        run: npm i
         working-directory: ${{ env.wd }}
 
       - name: Build
