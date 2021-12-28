@@ -14,11 +14,6 @@ describe("[SCHOOL-INFO] School info parser", function() {
     this.timeout(100000);
 
     it('parses text from school info', function (done) {
-        // ci 오류로 인해 해당 테스트는 로컬에서만 수행
-        if (process.env.NODE_ENV === 'ci') {
-            this.skip();
-        }
-
         const neisCrawler = new NeisCrawler()
             .setParameters("서울");
 
@@ -35,11 +30,6 @@ describe("[SCHOOL-INFO] School info service", function() {
     this.timeout(50000);
 
     it("saves keywords or datas", function (done) {
-        // ci 오류로 인해 해당 테스트는 로컬에서만 수행
-        if (process.env.NODE_ENV === 'ci') {
-            this.skip();
-        }
-
         const searchKeyword = "서울";
 
         const neisCrawler = new NeisCrawler().setParameters(searchKeyword);
