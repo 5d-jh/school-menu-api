@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import app from '../src/index.local';
+import app from './server';
 import { notStrictEqual } from 'assert';
 
 describe('[Integration] school-menu', function () {
