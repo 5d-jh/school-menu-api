@@ -11,6 +11,8 @@ jobs:
     services:
       firestore-emulator:
         image: mtlynch/firestore-emulator:latest
+        ports:
+          - 8080:8080
 
     strategy:
       matrix:
