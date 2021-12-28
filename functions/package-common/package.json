@@ -19,7 +19,7 @@
         "@types/mocha": "^7.0.2",
         "firebase-functions-test": "^0.3.3",
         "mocha": "^7.1.1",
-        "ts-node": "^6.1.0",
+        "ts-node": "^10.4.0",
         "typescript": "^4.1.3"
     }
 }
