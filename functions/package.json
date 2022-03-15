@@ -19,7 +19,7 @@
         "deploy": "firebase deploy --only functions",
         "logs": "firebase functions:log",
         "local": "ts-node package-function/src/index.ts",
-        "lint": "exit 0"
+        "lint": "eslint --fix . --ext .ts"
     },
     "engines": {
         "node": "16",

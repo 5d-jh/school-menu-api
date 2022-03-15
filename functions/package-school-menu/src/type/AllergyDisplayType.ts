@@ -1,4 +1,4 @@
 export enum AllergyDisplayType {
-    HIDDEN = "hidden",
-    FORMED = "formed"
+    HIDDEN = 'hidden',
+    FORMED = 'formed'
 }

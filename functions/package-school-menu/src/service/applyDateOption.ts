@@ -1,3 +1,3 @@
-import { SchoolMenu } from "../type/SchoolMenu";
+import { SchoolMenu } from '../type/SchoolMenu'
 
-export const applyDateOption = (menu: SchoolMenu[], date: number) => menu.filter(data => Number(data.date) === date);
+export const applyDateOption = (menu: SchoolMenu[], date: number) => menu.filter(data => Number(data.date) === date)

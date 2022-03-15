@@ -1,4 +1,4 @@
-import { AllergyDisplayType } from "./AllergyDisplayType";
+import { AllergyDisplayType } from './AllergyDisplayType'
 
 export type QueryStringOptions = {
     year?: number;

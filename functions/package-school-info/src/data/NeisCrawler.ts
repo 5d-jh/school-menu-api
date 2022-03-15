@@ -1,104 +1,102 @@
-import { Crawler } from "@school-api/common";
-import { SchoolInfo, StringToKeyMapping } from "../type/SchoolInfo";
-import fetch from "node-fetch";
-import { URLSearchParams } from "url";
-import { JSDOM } from "jsdom";
-import { decode } from "iconv-lite";
+import { Crawler } from '@school-api/common'
+import { SchoolInfo, StringToKeyMapping } from '../type/SchoolInfo'
+import fetch from 'node-fetch'
+import { URLSearchParams } from 'url'
+import { JSDOM } from 'jsdom'
+import { decode } from 'iconv-lite'
 
-import { env } from "process";
+import { env } from 'process'
 
-env['NODE_TLS_REJECT_UNAUTHORIZED'] = "0"
+env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 export class NeisCrawler implements Crawler<SchoolInfo[]> {
-
     private contentLength: number;
     private searchKeyword: string;
 
-    setParameters(searchKeyword: string): Crawler<SchoolInfo[]> {
-        this.searchKeyword = searchKeyword;
-        return this;
+    setParameters (searchKeyword: string): Crawler<SchoolInfo[]> {
+      this.searchKeyword = searchKeyword
+      return this
     }
 
-    async getSchoolCodes(): Promise<string[]> {
-        const options = {
-            method: "POST",
-            body: new URLSearchParams({
-                "SEARCH_GS_HANGMOK_CD": "",
-                "SEARCH_GS_HANGMOK_NM": "",
-                "SEARCH_SCHUL_NM": this.searchKeyword,
-                "SEARCH_GS_BURYU_CD": "",
-                "SEARCH_SIGUNGU": "",
-                "SEARCH_SIDO": "",
-                "SEARCH_FOND_SC_CODE": "",
-                "SEARCH_MODE": "9",
-                "SEARCH_TYPE": "2",
-                "pageNumber": "1",
-                "SEARCH_KEYWORD": this.searchKeyword
-            })
-        };
-        const url = "https://www.schoolinfo.go.kr/ei/ss/Pneiss_f01_l0.do";
-        const body = await fetch(url, options)
-            .then(res => res.buffer())
-            .then(buffer => decode(buffer, "euc-kr"));
+    async getSchoolCodes (): Promise<string[]> {
+      const options = {
+        method: 'POST',
+        body: new URLSearchParams({
+          SEARCH_GS_HANGMOK_CD: '',
+          SEARCH_GS_HANGMOK_NM: '',
+          SEARCH_SCHUL_NM: this.searchKeyword,
+          SEARCH_GS_BURYU_CD: '',
+          SEARCH_SIGUNGU: '',
+          SEARCH_SIDO: '',
+          SEARCH_FOND_SC_CODE: '',
+          SEARCH_MODE: '9',
+          SEARCH_TYPE: '2',
+          pageNumber: '1',
+          SEARCH_KEYWORD: this.searchKeyword
+        })
+      }
+      const url = 'https://www.schoolinfo.go.kr/ei/ss/Pneiss_f01_l0.do'
+      const body = await fetch(url, options)
+        .then(res => res.buffer())
+        .then(buffer => decode(buffer, 'euc-kr'))
 
-        const { window } = new JSDOM(body.toString());
-        const $ = require("jquery")(window);
+      const { window } = new JSDOM(body.toString())
+      const $ = require('jquery')(window)
 
-        const schoolCodes: string[] = [];
-        $(".basicInfo").map(function() {
-            schoolCodes.push($(this).attr("class").split(" ")[1].slice(2));
-        });
+      const schoolCodes: string[] = []
+      $('.basicInfo').map(function () {
+        schoolCodes.push($(this).attr('class').split(' ')[1].slice(2))
+      })
 
-        return schoolCodes;
+      return schoolCodes
     }
 
-    async getSchoolInfos(schoolCodes: string[]): Promise<SchoolInfo[]> {
-        const result = [];
+    async getSchoolInfos (schoolCodes: string[]): Promise<SchoolInfo[]> {
+      const result = []
 
-        for (const i in schoolCodes) {
-            const code = schoolCodes[i];
+      for (const i in schoolCodes) {
+        const code = schoolCodes[i]
 
-            const body = await fetch(`https://www.schoolinfo.go.kr/ei/ss/Pneiss_b01_s0.do?VIEWMODE=2&PRE_JG_YEAR=&HG_CD=${code}&GS_HANGMOK_CD=`)
-                .then(res => res.buffer())
-                .then(buffer => decode(buffer, "euc-kr"));
+        const body = await fetch(`https://www.schoolinfo.go.kr/ei/ss/Pneiss_b01_s0.do?VIEWMODE=2&PRE_JG_YEAR=&HG_CD=${code}&GS_HANGMOK_CD=`)
+          .then(res => res.buffer())
+          .then(buffer => decode(buffer, 'euc-kr'))
 
-            const { window } = new JSDOM(body);
-            const $ = require("jquery")(window);
+        const { window } = new JSDOM(body)
+        const $ = require('jquery')(window)
 
-            const name = $("a").first().text();
+        const name = $('a').first().text()
 
-            const info = <SchoolInfo>{ name, code };
+        const info = <SchoolInfo>{ name, code }
 
-            $(".md").map(function () {
-                const str = $(this).children(".mt").text().slice(0, -2);
-                const key = StringToKeyMapping[str];
-                const val = $(this).text().replace(/(\n|\t)/g, "").slice(str.length + 2).trim();
+        $('.md').map(function () {
+          const str = $(this).children('.mt').text().slice(0, -2)
+          const key = StringToKeyMapping[str]
+          const val = $(this).text().replace(/(\n|\t)/g, '').slice(str.length + 2).trim()
 
-                if (key === "estDate") {
-                    const date = val.split(" ").map(str => str.replace(/[^0-9]/g, ""));
-                    info[key] = {
-                        y: date[0],
-                        m: date[1],
-                        d: date[2]
-                    };
-                }
-                else if (key) {
-                    info[key] = val;
-                }
-            });
+          if (key === 'estDate') {
+            const date = val.split(' ').map(str => str.replace(/[^0-9]/g, ''))
+            info[key] = {
+              y: date[0],
+              m: date[1],
+              d: date[2]
+            }
+          } else if (key) {
+            info[key] = val
+          }
+        })
 
-            result.push(info);
-        }
+        result.push(info)
+      }
 
-        return result;
+      return result
     }
 
-    async get(): Promise<SchoolInfo[]> {
-        return this.getSchoolCodes()
-            .then(this.getSchoolInfos);
+    async get (): Promise<SchoolInfo[]> {
+      return this.getSchoolCodes()
+        .then(this.getSchoolInfos)
     }
 
-    shouldSave() {
-        return this.contentLength !== 0;
+    shouldSave () {
+      return this.contentLength !== 0
     }
 }

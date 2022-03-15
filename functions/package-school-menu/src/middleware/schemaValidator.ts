@@ -1,9 +1,9 @@
-import { Handler } from 'express';
-import requestGetMenuQueries from '../model/requestGetMenuQuerySchema';
+import { Handler } from 'express'
+import requestGetMenuQueries from '../model/requestGetMenuQuerySchema'
 
 const schemaValidator: Handler = (req, res, next) => {
-  req.query = requestGetMenuQueries.validate(req.query).value;
-  next();
+  req.query = requestGetMenuQueries.validate(req.query).value
+  next()
 }
 
-export default schemaValidator;
+export default schemaValidator
