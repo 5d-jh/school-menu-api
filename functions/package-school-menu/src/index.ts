@@ -10,8 +10,8 @@ export const schoolMenuApp = (firebaseApp: admin.app.App) => {
     app.use(schemaValidator);
 
     app.get('*/api/:schoolType/:schoolCode', service(firebaseApp));
-    
+
     app.use(ErrorResponseBody("menu"));
-    
+
     return app;
 }
