@@ -6,8 +6,8 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc --build",
-        "test": "mocha dist/test/test.js",
-        "test-debug": "mocha dist/test/test.js --inspect-brk"
+        "test": "mocha test/test.ts",
+        "test-debug": "mocha test/test.ts --inspect-brk"
     },
     "dependencies": {
         "@school-api/common": "1.0.0",
