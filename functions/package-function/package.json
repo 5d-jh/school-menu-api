@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc --build",
         "local": "export NODE_ENV=local && ts-node src/index.local.ts",
-        "test": "mocha dist/test/test.js --exit"
+        "test": "mocha test/test.ts -r ts-node/register"
     },
     "dependencies": {
         "@school-api/info": "1.0.0",

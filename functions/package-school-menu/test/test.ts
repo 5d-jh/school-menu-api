@@ -3,10 +3,10 @@ import { MenuDataAccessor } from '../src/data/MenuDataAccessor'
 import { SchoolMenuService } from '../src/service/SchoolMenuService'
 import { SchoolType } from '@school-api/common'
 import { notEqual, strictEqual } from 'assert'
-import { QueryStringOptions } from './type/QueryStringOptions'
-import { initializeApp } from 'firebase-admin'
+import { QueryStringOptions } from '../src/type/QueryStringOptions'
+import admin from 'firebase-admin'
 
-const firebase = initializeApp({
+const firebase = admin.initializeApp({
   databaseURL: 'http://localhost:8080',
   projectId: 'dummy-firestore-id'
 })

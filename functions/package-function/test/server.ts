@@ -1,10 +1,10 @@
 import express = require('express');
 import { schoolMenuApp } from '@school-api/menu'
 import { schoolInfoApp } from '@school-api/info'
-import { initializeApp } from 'firebase-admin'
+import admin from 'firebase-admin'
 import { AddressInfo } from 'net'
 
-const fbApp = initializeApp({
+const fbApp = admin.initializeApp({
   databaseURL: 'http://localhost:8080',
   projectId: 'dummy-firestore-id'
 })
