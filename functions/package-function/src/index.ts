@@ -1,9 +1,9 @@
 import { https } from "firebase-functions";
-import { initializeApp } from "firebase-admin";
+import admin from "firebase-admin";
 import { schoolMenuApp } from "@school-api/menu";
 import { schoolInfoApp } from "@school-api/info";
 
-const firebaseApp = initializeApp();
+const firebaseApp = admin.initializeApp();
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
