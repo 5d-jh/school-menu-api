@@ -1,13 +1,8 @@
 {
     "extends": "../tsconfig.packages.json",
-    "compilerOptions": {
-        "target": "ES6",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "rootDirs": ["src", "test"],
-        "outDir": "dist",
-        "declaration": true,
-        "composite": true,
-        "esModuleInterop": true
-    }
+    "references": [{
+        "path": "../package-school-info"
+    }, {
+        "path": "../package-school-menu"
+    }]
 }

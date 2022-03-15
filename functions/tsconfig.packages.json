@@ -1,12 +1,19 @@
 {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "moduleResolution": "node",
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
 
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
+        "declarationMap": true,
+        "declaration": true,
+        "sourceMap": true,
+        "composite": true,
 
-    "importHelpers": true,
-    "composite": true
+        "rootDirs": ["src"],
+        "outDir": "dist",
+
+        "skipLibCheck": true
+    },
+    "exclude": ["test"]
 }
