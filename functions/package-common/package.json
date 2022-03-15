@@ -1,11 +1,11 @@
 {
     "name": "@school-api/common",
     "version": "1.0.0",
-    "main": "dist/src/index.js",
-    "typings": "dist/src/index.d.ts",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
     "license": "MIT",
     "scripts": {
-        "build": "tsc",
+        "build": "tsc --build",
         "build:watch": "tsc --watch",
         "test": "mocha dist/test/test.js"
     },

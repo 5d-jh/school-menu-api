@@ -4,16 +4,13 @@
         "emitDecoratorMetadata": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
+        "incremental": true,
 
         "declarationMap": true,
         "declaration": true,
         "sourceMap": true,
         "composite": true,
 
-        "rootDirs": ["src"],
-        "outDir": "dist",
-
         "skipLibCheck": true
     },
-    "exclude": ["test"]
 }

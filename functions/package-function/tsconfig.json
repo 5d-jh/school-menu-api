@@ -4,5 +4,12 @@
         "path": "../package-school-info"
     }, {
         "path": "../package-school-menu"
-    }]
+    }, {
+        "path": "../package-common"
+    }],
+    "compilerOptions": {
+        "rootDir": "src",
+        "outDir": "dist"
+    },
+    "exclude": ["test"]
 }
