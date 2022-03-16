@@ -13,10 +13,8 @@ const service = (firebaseApp: admin.app.App): Handler => async (req, res, next) 
   const menuMonth = req.query.month as unknown as number
 
   const neisCrawler = new NeisCrawler()
-  // .setParameters(schoolType, schoolCode, menuYear, menuMonth)
 
   const menuDataAccessor = new MenuDataAccessor(firebaseApp.firestore())
-  // .setParameters(schoolCode, menuYear, menuMonth)
 
   const schoolMenuService = new SchoolMenuService(neisCrawler, menuDataAccessor)
 
