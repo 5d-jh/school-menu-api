@@ -1,10 +1,11 @@
 import { DataAccessor } from '@school-api/common'
 import { SchoolMenu } from '../type/SchoolMenu'
 import { firestore } from 'firebase-admin'
+import { MenuDataAccessorQuery } from '../type/parameters'
 
 const collectionName = 'schoolmenu'
 
-export class MenuDataAccessor implements DataAccessor<SchoolMenu[]> {
+export class MenuDataAccessor implements DataAccessor<MenuDataAccessorQuery, SchoolMenu[]> {
     private db: firestore.Firestore;
     private ref: firestore.CollectionReference;
 
@@ -17,22 +18,14 @@ export class MenuDataAccessor implements DataAccessor<SchoolMenu[]> {
       this.ref = this.db.collection(collectionName)
     }
 
-    setParameters (schoolCode: string, menuYear: number, menuMonth: number): MenuDataAccessor {
-      this.schoolCode = schoolCode
-      this.menuYear = menuYear
-      this.menuMonth = menuMonth
-
-      return this
-    }
-
-    async get (): Promise<SchoolMenu[]> {
+    async get (queryParameter: MenuDataAccessorQuery): Promise<SchoolMenu[] | null> {
       const snapshots = await this.ref
-        .where('schoolCode', '==', this.schoolCode)
-        .where('menuYear', '==', this.menuYear)
-        .where('menuMonth', '==', this.menuMonth)
+        .where('schoolCode', '==', queryParameter.schoolCode)
+        .where('menuYear', '==', queryParameter.menuYear)
+        .where('menuMonth', '==', queryParameter.menuMonth)
         .get()
 
-      if (snapshots.docs.length == 0) {
+      if (snapshots.docs.length === 0) {
         return null
       }
 
@@ -49,7 +42,7 @@ export class MenuDataAccessor implements DataAccessor<SchoolMenu[]> {
       })
     }
 
-    close () {
+    closeConnection () {
       this.db.terminate()
     }
 }

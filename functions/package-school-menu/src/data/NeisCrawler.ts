@@ -1,69 +1,58 @@
-import { Crawler, SchoolType, BadRequestError } from '@school-api/common'
+import { SchoolType, BadRequestError, ReadOnlyDataAccessor } from '@school-api/common'
 import { SchoolMenu } from '../type/SchoolMenu'
 import { JSDOM } from 'jsdom'
 import fetch, { FetchError } from 'node-fetch'
 import { decodeHTML5 } from 'entities'
 import process from 'process'
+import { NeisCrawlerQuery } from '../type/parameters'
 
-export class NeisCrawler implements Crawler<SchoolMenu[]> {
+export class NeisCrawler implements ReadOnlyDataAccessor<NeisCrawlerQuery, SchoolMenu[]> {
     private schoolType: SchoolType;
-    private schoolCode: string;
-    private menuYear: number;
-    private menuMonth: number;
     private schoolRegion: string;
 
     private hasNoData: boolean;
 
-    setParameters (schoolType: SchoolType, schoolCode: string, menuYear: number, menuMonth: number): Crawler<SchoolMenu[]> {
-      this.schoolType = schoolType
-      this.schoolCode = schoolCode
-      this.menuYear = menuYear
-      this.menuMonth = menuMonth
-
-      if (schoolCode[0] === 'A') {
-        // 국립 고등학교
-        this.schoolRegion = {
-          A000003488: 'kwe',
-          A000003490: 'dge',
-          A000003495: 'gne',
-          A000003496: 'cne',
-          A000003509: 'pen',
-          A000003561: 'sen',
-          A000003516: 'gen',
-          A000003520: 'jbe',
-          A000003566: 'jje',
-          A000003569: 'cbe'
-        }[schoolCode]
-      } else {
-        this.schoolRegion = {
-          B: 'sen',
-          E: 'ice',
-          C: 'pen',
-          F: 'gen',
-          G: 'dje',
-          D: 'dge',
-          I: 'sje',
-          H: 'use',
-          J: 'goe',
-          K: 'kwe',
-          M: 'cbe',
-          N: 'cne',
-          R: 'gbe',
-          S: 'gne',
-          P: 'jbe',
-          Q: 'jne',
-          T: 'jje'
-        }[schoolCode[0]]
-      }
-
-      return this
+    private static readonly nationalSchools = {
+      A000003488: 'kwe',
+      A000003490: 'dge',
+      A000003495: 'gne',
+      A000003496: 'cne',
+      A000003509: 'pen',
+      A000003561: 'sen',
+      A000003516: 'gen',
+      A000003520: 'jbe',
+      A000003566: 'jje',
+      A000003569: 'cbe'
     }
 
-    private async fetch (url = `https://stu.${this.schoolRegion}.go.kr/sts_sci_md00_001.do`): Promise<SchoolMenu[]> {
-      url += `?schulCode=${this.schoolCode}`
+    private static readonly regions = {
+      B: 'sen',
+      E: 'ice',
+      C: 'pen',
+      F: 'gen',
+      G: 'dje',
+      D: 'dge',
+      I: 'sje',
+      H: 'use',
+      J: 'goe',
+      K: 'kwe',
+      M: 'cbe',
+      N: 'cne',
+      R: 'gbe',
+      S: 'gne',
+      P: 'jbe',
+      Q: 'jne',
+      T: 'jje'
+    }
+
+    private async fetch (
+      queryParameter: NeisCrawlerQuery,
+      url = `https://stu.${this.schoolRegion}.go.kr/sts_sci_md00_001.do`
+    ): Promise<SchoolMenu[]> {
+      url += `?schulCode=${queryParameter.schoolCode}`
       url += `&schulCrseScCode=${this.schoolType}`
-      url += `&ay=${this.menuYear}`
-      url += `&mm=${this.menuMonth < 10 ? '0' + this.menuMonth.toString() : this.menuMonth}`
+      url += `&ay=${queryParameter.menuYear}`
+      url += `&mm=${queryParameter.menuMonth < 10 ? '0' + queryParameter.menuMonth.toString() : queryParameter.menuMonth}`
 
       if (process.env.NODE_ENV === 'test') {
         console.log(url)
@@ -76,12 +65,11 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
         const { window } = new JSDOM(body.toString())
         const $ = require('jquery')(window)
 
-        if (process.env.NODE_ENV != 'production') {
+        if (process.env.NODE_ENV !== 'production') {
           console.log(url)
         }
 
-        const result = new Array<SchoolMenu>()
-        let hasNoData = true
+        const result: SchoolMenu[] = []
 
         $('td div').each(function () {
           const text = decodeHTML5($(this).html())
@@ -125,20 +113,14 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
               lunch: lunch ? lunch.split('<br>').filter(menu => menu) : [],
               dinner: dinner ? dinner.split('<br>').filter(menu => menu) : []
             })
-
-            if (hasNoData) {
-              hasNoData = !(breakfast || lunch || dinner)
-            }
           }
         })
-
-        this.hasNoData = hasNoData
 
         return result
       } catch (error) {
         const { hostname } = new URL(url)
         if (error instanceof FetchError && hostname !== `stu.${this.schoolRegion}.go.kr`) {
-          return this.fetch(`https://stu.${this.schoolRegion}.go.kr/sts_sci_md00_001.do`)
+          return this.fetch(queryParameter, `https://stu.${this.schoolRegion}.go.kr/sts_sci_md00_001.do`)
         }
         throw error
       }
@@ -148,15 +130,27 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
       return !this.hasNoData
     }
 
-    async get (): Promise<SchoolMenu[]> {
-      if (!this.schoolRegion) {
+    private static getRegionBySchoolCode (schoolCode: string): string {
+      if (schoolCode[0] === 'A') {
+        return this.nationalSchools[schoolCode]
+      }
+      return this.regions[schoolCode[0]]
+    }
+
+    async get (queryParameter: NeisCrawlerQuery): Promise<SchoolMenu[]> {
+      const region = NeisCrawler.getRegionBySchoolCode(queryParameter.schoolCode)
+
+      if (!region) {
         throw new BadRequestError('존재하지 않는 지역입니다. 학교 코드 첫 번째 자리를 다시 확인해 주세요.')
       }
 
-      if (this.menuMonth < 0) {
+      // FIXME: schema에서 타입 정의 후 validatoin 처리로 변경
+      if (queryParameter.menuMonth < 0) {
         throw new BadRequestError('지정한 월이 유효하지 않습니다.')
       }
 
-      return await this.fetch()
+      return this.fetch(queryParameter)
     }
+
+    closeConnection () {} // no op
 }

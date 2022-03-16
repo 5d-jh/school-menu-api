@@ -1,44 +1,60 @@
 import { SchoolMenu, SchoolMenuAllergyFormed } from '../type/SchoolMenu'
-import { QueryStringOptions } from '../type/QueryStringOptions'
-import { Crawler } from '@school-api/common'
 import { applyAllergyOption } from './applyAllergyOption'
 import { applyDateOption } from './applyDateOption'
-import { MenuDataAccessor } from '../data/MenuDataAccessor'
+import { DataAccessor, ReadOnlyDataAccessor } from '@school-api/common'
+import { MenuDataAccessorQuery, NeisCrawlerQuery, SchoolMenuServiceParam } from '../type/parameters'
 
 export class SchoolMenuService {
-    private neisCrawler: Crawler<SchoolMenu[]>;
-    private menuDataAccessor: MenuDataAccessor;
+  readonly #neisAccessor: ReadOnlyDataAccessor<NeisCrawlerQuery, SchoolMenu[]>
 
-    private isMenuFetchedFromDB: boolean;
+  readonly #menuDataAccessor: DataAccessor<MenuDataAccessorQuery, SchoolMenu[]>
 
-    constructor (
-      neisCrawler: Crawler<SchoolMenu[]>,
-      menuDataAccessor: MenuDataAccessor
-    ) {
-      this.neisCrawler = neisCrawler
-      this.menuDataAccessor = menuDataAccessor
-    }
+  constructor (
+    neisAccessor: ReadOnlyDataAccessor<NeisCrawlerQuery, SchoolMenu[]>,
+    menuDataAccessor: DataAccessor<MenuDataAccessorQuery, SchoolMenu[]>
+  ) {
+    this.#neisAccessor = neisAccessor
+    this.#menuDataAccessor = menuDataAccessor
+  }
 
-    checkIfMenuIsFetchedFromDB () {
-      return this.isMenuFetchedFromDB
-    }
+  #_isMenuFromDB: boolean
 
-    async getSchoolMenu (query: QueryStringOptions): Promise<SchoolMenu[] | SchoolMenuAllergyFormed[]> {
-      let menu: SchoolMenu[] | SchoolMenuAllergyFormed[] = await this.menuDataAccessor.get()
-      this.isMenuFetchedFromDB = Boolean(menu)
+  get isMenuFromDB (): boolean {
+    return this.#_isMenuFromDB
+  }
 
-      if (!this.isMenuFetchedFromDB) {
-        menu = await this.neisCrawler.get()
+  static #shouldSave (schoolMenu: SchoolMenu[]): boolean {
+    for (let i = 0; i < schoolMenu.length; i++) {
+      const menu = schoolMenu[i]
 
-        if (this.neisCrawler.shouldSave()) {
-          await this.menuDataAccessor.put(menu)
-            .catch(err => console.error(err))
-        }
+      const isDayEmpty = menu.breakfast.length === 0 &&
+            menu.lunch.length === 0 &&
+            menu.dinner.length === 0
+
+      if (!isDayEmpty) {
+        return true
       }
-
-      if (query.date) menu = applyDateOption(menu, query.date)
-      if (query.allergy) menu = applyAllergyOption(menu, query.allergy)
-
-      return menu
     }
+
+    return false
+  }
+
+  async getSchoolMenu (query: SchoolMenuServiceParam): Promise<SchoolMenu[] | SchoolMenuAllergyFormed[]> {
+    let menu: SchoolMenu[] = await this.#menuDataAccessor.get(query)
+    this.#_isMenuFromDB = menu != null
+
+    if (!this.#_isMenuFromDB) {
+      menu = await this.#neisAccessor.get(query)
+
+      if (SchoolMenuService.#shouldSave(menu)) {
+        await this.#menuDataAccessor.put(menu)
+      }
+    }
+
+    let result = null
+    if (query.date) result = applyDateOption(menu, query.date)
+    if (query.allergy) result = applyAllergyOption(result, query.allergy)
+
+    return result
+  }
 }
