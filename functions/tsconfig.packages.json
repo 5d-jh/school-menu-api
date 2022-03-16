@@ -11,6 +11,8 @@
         "sourceMap": true,
         "composite": true,
 
-        "skipLibCheck": true
+        "skipLibCheck": true,
+
+        "target": "ES2019"
     },
 }
