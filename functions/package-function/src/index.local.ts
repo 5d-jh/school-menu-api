@@ -1,21 +1,21 @@
-import express = require('express');
+import * as express from 'express'
 import { schoolMenuApp } from '@school-api/menu'
 import { schoolInfoApp } from '@school-api/info'
-import { initializeApp } from 'firebase-admin'
+import admin from 'firebase-admin'
 import { env } from 'process'
 import { AddressInfo } from 'net'
 
 let fbApp
 
 if (env.NODE_ENV === 'local') {
-  fbApp = initializeApp({
+  fbApp = admin.initializeApp({
     databaseURL: 'http://localhost:8080'
   })
 } else {
-  fbApp = initializeApp()
+  fbApp = admin.initializeApp()
 }
 
-const app = express()
+const app = express.default()
 
 app.use(schoolMenuApp(fbApp))
 app.use(schoolInfoApp(fbApp))
