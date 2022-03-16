@@ -8,16 +8,17 @@ export const StringToKeyMapping = {
 }
 
 export type SchoolInfo = {
-    estDivision: string, // 설립구분
-    estType : string, // 설립유형
-    estDate: {
-        y: number,
-        m: number,
-        d: number
-    }, // 설립 날짜
-    phone: string, // 전화번호
-    address: string, // 주소
-    code: string, // NEIS 코드
-    name: string // 학교 이름,
-    website: string // 학교 홈페이지
+  estDivision: string, // 설립구분
+  estType : string, // 설립유형
+  estDate: {
+    y: number,
+    m: number,
+    d: number
+  }, // 설립 날짜
+  phone: string, // 전화번호
+  address: string, // 주소
+  code: string, // NEIS 코드
+  name: string, // 학교 이름
+  website: string, // 학교 홈페이지
+
 };

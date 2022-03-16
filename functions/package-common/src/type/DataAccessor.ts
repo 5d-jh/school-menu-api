@@ -1,6 +1,7 @@
 import { ReadOnlyDataAccessor } from './ReadOnlyDataAccessor'
-import { firestore } from 'firebase-admin'
 
 export interface DataAccessor<Q, T> extends ReadOnlyDataAccessor<Q, T> {
-    put(T): Promise<firestore.WriteResult>
+    put(T): Promise<void>
+
+    put<T2>(entity: T2): Promise<void>
 }

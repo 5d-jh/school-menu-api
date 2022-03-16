@@ -32,17 +32,13 @@ export class MenuDataAccessor implements DataAccessor<MenuDataAccessorQuery, Sch
       return snapshots.docs[0].data().menu as SchoolMenu[]
     }
 
-    async put (menu: SchoolMenu[]) {
-      return await this.ref.doc().set({
+    async put (menu: SchoolMenu[]): Promise<void> {
+      await this.ref.doc().set({
         menu,
         version: 2,
         schoolCode: this.schoolCode,
         menuYear: this.menuYear,
         menuMonth: this.menuMonth
       })
-    }
-
-    closeConnection () {
-      this.db.terminate()
     }
 }

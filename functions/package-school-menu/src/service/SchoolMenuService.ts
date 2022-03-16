@@ -47,7 +47,8 @@ export class SchoolMenuService {
       menu = await this.#neisAccessor.get(query)
 
       if (SchoolMenuService.#shouldSave(menu)) {
-        await this.#menuDataAccessor.put(menu)
+        this.#menuDataAccessor.put(menu)
+          .catch((err) => console.error(err))
       }
     }
 

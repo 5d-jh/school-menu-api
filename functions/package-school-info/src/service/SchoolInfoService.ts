@@ -1,27 +1,27 @@
 import { SchoolInfo } from '../type/SchoolInfo'
-import { Crawler } from '@school-api/common'
-import { SchoolInfoDataAccessor } from '../data/SchoolInfoDataAccessor'
+import { DataAccessor, ReadOnlyDataAccessor } from '@school-api/common'
+import { NeisCrawlerQuery, SchoolInfoAccessorQuery } from '../type/parameters'
 
 export class SchoolInfoService {
-    crawler: Crawler<SchoolInfo[]>;
-    dataAccessor: SchoolInfoDataAccessor;
+    readonly #crawler: ReadOnlyDataAccessor<NeisCrawlerQuery, SchoolInfo[]>;
+    readonly #dataAccessor: DataAccessor<SchoolInfoAccessorQuery, SchoolInfo[]>;
 
     constructor (
-      crawler: Crawler<SchoolInfo[]>,
-      dataAccessor: SchoolInfoDataAccessor
+      crawler: ReadOnlyDataAccessor<NeisCrawlerQuery, SchoolInfo[]>,
+      dataAccessor: DataAccessor<SchoolInfoAccessorQuery, SchoolInfo[]>
     ) {
-      this.crawler = crawler
-      this.dataAccessor = dataAccessor
+      this.#crawler = crawler
+      this.#dataAccessor = dataAccessor
     }
 
     async getSchoolInfos (searchKeyword: string): Promise<SchoolInfo[]> {
-      let result = await this.dataAccessor.getByKeyword(searchKeyword)
+      let result = await this.#dataAccessor.get({ searchKeyword })
 
       if (result.length === 0) {
-        result = await this.crawler.get()
+        result = await this.#crawler.get({ searchKeyword })
 
         if (result.length !== 0) {
-          await this.dataAccessor.updateDatasAndKeywords(result, searchKeyword)
+          await this.#dataAccessor.put({ neisFetched: result, searchKeyword })
         }
       }
 
