@@ -2,7 +2,7 @@ import { NeisCrawler } from '../src/data/NeisCrawler'
 import { SchoolInfoDataAccessor } from '../src/data/SchoolInfoDataAccessor'
 import { SchoolInfoService } from '../src/service/SchoolInfoService'
 import { notStrictEqual } from 'assert'
-import admin from 'firebase-admin'
+import * as admin from 'firebase-admin'
 
 admin.initializeApp({
   databaseURL: 'localhost:8080',
@@ -14,9 +14,8 @@ describe('[SCHOOL-INFO] School info parser', function () {
 
   it('parses text from school info', function (done) {
     const neisCrawler = new NeisCrawler()
-      .setParameters('서울')
 
-    neisCrawler.get()
+    neisCrawler.get({ searchKeyword: '서울' })
       .then(data => {
         notStrictEqual(data.length, 0)
       })
@@ -30,7 +29,7 @@ describe('[SCHOOL-INFO] School info service', function () {
   it('saves keywords or datas', function (done) {
     const searchKeyword = '서울'
 
-    const neisCrawler = new NeisCrawler().setParameters(searchKeyword)
+    const neisCrawler = new NeisCrawler()
     const schoolInfoDataAccessor = new SchoolInfoDataAccessor(admin.firestore())
     const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor)
 

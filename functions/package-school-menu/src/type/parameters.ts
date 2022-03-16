@@ -15,6 +15,6 @@ export type MenuDataAccessorQuery = {
 }
 
 export type SchoolMenuServiceParam = NeisCrawlerQuery & MenuDataAccessorQuery & {
-  date: number,
-  allergy: AllergyDisplayType
+  date?: number,
+  allergy?: AllergyDisplayType
 }
