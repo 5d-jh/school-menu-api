@@ -9,7 +9,7 @@ import { SchoolInfoService } from './service/SchoolInfoService'
 
 const app = express()
 
-nunjucks.configure(path.resolve(__dirname, '../../view'), {
+nunjucks.configure(path.resolve(__dirname, '../view'), {
   autoescape: true,
   express: app
 })
@@ -17,7 +17,7 @@ nunjucks.configure(path.resolve(__dirname, '../../view'), {
 export const schoolInfoApp = (firebaseApp: admin.app.App) => {
   const firestore = firebaseApp.firestore()
 
-  app.use('/code/static', express.static(path.resolve(__dirname, '../../static')))
+  app.use('/code/static', express.static(path.resolve(__dirname, '../static')))
 
   app.get('*/code/api', async (req, res, next) => {
     const searchKeyword = req.query.q as string || ''
