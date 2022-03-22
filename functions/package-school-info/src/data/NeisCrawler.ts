@@ -1,5 +1,5 @@
 import { Crawler } from '@school-api/common'
-import { SchoolInfo, StringToKeyMapping } from '../type/SchoolInfo'
+import { SchoolInfo, SchoolInfoSearchQuery, StringToKeyMapping } from '../type/SchoolInfo'
 import fetch from 'node-fetch'
 import { URLSearchParams } from 'url'
 import { JSDOM } from 'jsdom'
@@ -9,22 +9,16 @@ import { env } from 'process'
 
 env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-export class NeisCrawler implements Crawler<SchoolInfo[]> {
+export class NeisCrawler implements Crawler<SchoolInfo[], SchoolInfoSearchQuery> {
     private contentLength: number;
-    private searchKeyword: string;
 
-    setParameters (searchKeyword: string): Crawler<SchoolInfo[]> {
-      this.searchKeyword = searchKeyword
-      return this
-    }
-
-    async getSchoolCodes (): Promise<string[]> {
+    async getSchoolCodes (query: SchoolInfoSearchQuery): Promise<string[]> {
       const options = {
         method: 'POST',
         body: new URLSearchParams({
           SEARCH_GS_HANGMOK_CD: '',
           SEARCH_GS_HANGMOK_NM: '',
-          SEARCH_SCHUL_NM: this.searchKeyword,
+          SEARCH_SCHUL_NM: query.searchKeyword,
           SEARCH_GS_BURYU_CD: '',
           SEARCH_SIGUNGU: '',
           SEARCH_SIDO: '',
@@ -32,7 +26,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
           SEARCH_MODE: '9',
           SEARCH_TYPE: '2',
           pageNumber: '1',
-          SEARCH_KEYWORD: this.searchKeyword
+          SEARCH_KEYWORD: query.searchKeyword
         })
       }
       const url = 'https://www.schoolinfo.go.kr/ei/ss/Pneiss_f01_l0.do'
@@ -44,7 +38,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
       const $ = require('jquery')(window)
 
       const schoolCodes: string[] = []
-      $('.basicInfo').map(function () {
+      $('.basicInfo').forEach(function () {
         schoolCodes.push($(this).attr('class').split(' ')[1].slice(2))
       })
 
@@ -68,7 +62,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
 
         const info = <SchoolInfo>{ name, code }
 
-        $('.md').map(function () {
+        $('.md').forEach(function () {
           const str = $(this).children('.mt').text().slice(0, -2)
           const key = StringToKeyMapping[str]
           const val = $(this).text().replace(/(\n|\t)/g, '').slice(str.length + 2).trim()
@@ -91,8 +85,8 @@ export class NeisCrawler implements Crawler<SchoolInfo[]> {
       return result
     }
 
-    async get (): Promise<SchoolInfo[]> {
-      return this.getSchoolCodes()
+    async get (query: Readonly<SchoolInfoSearchQuery>): Promise<SchoolInfo[]> {
+      return this.getSchoolCodes(query)
         .then(this.getSchoolInfos)
     }
 

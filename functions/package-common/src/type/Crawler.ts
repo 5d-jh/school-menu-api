@@ -1,4 +1,4 @@
-export interface Crawler<T, Identifier> {
-    get(identifier: Readonly<Identifier>): Promise<T>
+export interface Crawler<T, Q> {
+    get(identifier: Readonly<Q>): Promise<T>
     shouldSave(): boolean
 }

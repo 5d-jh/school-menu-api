@@ -26,10 +26,10 @@ export const schoolInfoApp = (firebaseApp: admin.app.App) => {
     try {
       if (searchKeyword.length > 0) {
         const neisCrawler = new NeisCrawler()
-          .setParameters(searchKeyword)
         const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore)
         const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor)
-        schoolInfos = await schoolInfoService.getSchoolInfos(searchKeyword)
+
+        schoolInfos = await schoolInfoService.getSchoolInfos({ searchKeyword })
       } else {
         schoolInfos = []
       }
@@ -53,10 +53,10 @@ export const schoolInfoApp = (firebaseApp: admin.app.App) => {
     try {
       if (searchKeyword.length > 0) {
         const neisCrawler = new NeisCrawler()
-          .setParameters(searchKeyword)
         const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore)
         const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor)
-        schoolInfos = await schoolInfoService.getSchoolInfos(searchKeyword)
+
+        schoolInfos = await schoolInfoService.getSchoolInfos({ searchKeyword })
       } else {
         schoolInfos = []
       }
