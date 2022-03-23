@@ -5,6 +5,7 @@ node_modules/
 ## Compiled JavaScript files
 **/*.js
 **/*.js.map
+!**/*/*.config.js
 
 # Typescript v1 declaration files
 typings/
