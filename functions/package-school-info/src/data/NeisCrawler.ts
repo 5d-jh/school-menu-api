@@ -61,7 +61,7 @@ export class NeisCrawler implements Crawler<SchoolInfo[], SchoolInfoSearchQuery>
 
         const info = <SchoolInfo>{ name, code }
 
-        $('.md').forEach(function () {
+        $('.md').map(function () {
           const str = $(this).children('.mt').text().slice(0, -2)
           const key = StringToKeyMapping[str]
           const val = $(this).text().replace(/(\n|\t)/g, '').slice(str.length + 2).trim()
