@@ -4,25 +4,22 @@ import { SchoolMenuService } from '../src/service/SchoolMenuService'
 import { SchoolType } from '@school-api/common'
 import { notEqual, strictEqual } from 'assert'
 import { QueryStringOptions } from '../src/type/QueryStringOptions'
-import admin from 'firebase-admin'
+import * as admin from 'firebase-admin'
 
-const firebase = admin.initializeApp({
-  databaseURL: 'http://localhost:8080',
-  projectId: 'dummy-firestore-id'
-})
-
-console.log(`Database URL: ${firebase.options.databaseURL}`)
+const firebase = admin.initializeApp()
 
 describe('[SCHOOL-MENU] Service', function () {
-  this.timeout(50000)
-
-  const db = firebase.firestore()
+  const firestore = firebase.firestore()
+  firestore.settings({
+    host: 'localhost',
+    port: 8080
+  })
 
   it('fetches menus from NEIS or database properly', (done) => {
     const neisCrawler = new NeisCrawler()
       .setParameters(SchoolType.HIGH, 'K100000460', 2020, 1)
 
-    const firestoreAccessor = new MenuDataAccessor(db)
+    const firestoreAccessor = new MenuDataAccessor(firestore)
       .setParameters('K100000460', 2020, 1)
 
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor)
@@ -43,7 +40,7 @@ describe('[SCHOOL-MENU] Service', function () {
     const neisCrawler = new NeisCrawler()
       .setParameters(SchoolType.HIGH, 'N100000191', 2021, 12)
 
-    const firestoreAccessor = new MenuDataAccessor(db)
+    const firestoreAccessor = new MenuDataAccessor(firestore)
       .setParameters('N100000191', 2021, 12)
 
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor)

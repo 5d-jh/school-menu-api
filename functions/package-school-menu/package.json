@@ -9,7 +9,7 @@
     "private": true,
     "scripts": {
         "build": "tsc --build",
-        "test": "mocha test/test.ts -r ts-node/register --exit"
+        "test": "jest"
     },
     "dependencies": {
         "@school-api/common": "1.0.0",
