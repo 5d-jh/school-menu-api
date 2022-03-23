@@ -13,14 +13,11 @@ firestore.settings({
 })
 
 describe('[SCHOOL-INFO] School info parser', function () {
-  it('parses text from school info', function (done) {
+  it('parses text from school info', async () => {
     const neisCrawler = new NeisCrawler()
 
-    neisCrawler.get({ searchKeyword: '서울' })
-      .then(data => {
-        notStrictEqual(data.length, 0)
-      })
-      .then(done)
+    const data = await neisCrawler.get({ searchKeyword: '서울' })
+    notStrictEqual(data.length, 0)
   })
 })
 

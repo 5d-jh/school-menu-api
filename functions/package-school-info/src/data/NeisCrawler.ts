@@ -36,7 +36,8 @@ export class NeisCrawler implements Crawler<SchoolInfo[], SchoolInfoSearchQuery>
       const $ = require('jquery')(window)
 
       const schoolCodes: string[] = []
-      $('.basicInfo').forEach(function () {
+
+      $('.basicInfo').map(function () {
         schoolCodes.push($(this).attr('class').split(' ')[1].slice(2))
       })
 

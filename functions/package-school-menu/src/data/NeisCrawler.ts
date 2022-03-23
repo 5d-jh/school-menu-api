@@ -51,7 +51,7 @@ export class NeisCrawler implements Crawler<SchoolMenu[], SchoolMenuIdentifier> 
       url += `&ay=${identifier.menuYear}`
       url += `&mm=${identifier.menuMonth < 10 ? '0' + identifier.menuMonth.toString() : identifier.menuMonth}`
 
-      if (env.NODE_ENV === 'test') {
+      if (process.env.NODE_ENV === 'test') {
         console.log(url)
       }
 

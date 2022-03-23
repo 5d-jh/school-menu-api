@@ -14,7 +14,7 @@ describe('[SCHOOL-MENU] Service', function () {
     port: 8080
   })
 
-  it('fetches menus from NEIS or database properly', async (done) => {
+  it('fetches menus from NEIS or database properly', async () => {
     const neisCrawler = new NeisCrawler()
     const firestoreAccessor = new MenuDataAccessor(firestore)
 
@@ -32,13 +32,11 @@ describe('[SCHOOL-MENU] Service', function () {
 
     await schoolMenuService.getSchoolMenu(parameter)
     strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true)
-
-    done()
   })
 
-  it('fetches menus from NEIS or database properly', async (done) => {
+  it('fetches menus from NEIS or database properly', async () => {
     const neisCrawler = new NeisCrawler()
-    const firestoreAccessor = new MenuDataAccessor(db)
+    const firestoreAccessor = new MenuDataAccessor(firestore)
 
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor)
 
@@ -54,7 +52,5 @@ describe('[SCHOOL-MENU] Service', function () {
 
     await schoolMenuService.getSchoolMenu(parameter)
     strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true)
-
-    done()
   })
 })
