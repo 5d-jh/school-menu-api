@@ -24,7 +24,7 @@ jobs:
         working-directory: ${{ env.wd }}
 
       - name: Run test
-        run: firebase emulators:exec --only firestore 'npm run test --workspaces'
+        run: npm run test
         working-directory: ${{ env.wd }}
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8080
