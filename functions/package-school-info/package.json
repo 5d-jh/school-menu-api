@@ -6,7 +6,7 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc --build",
-        "test": "jest",
+        "test": "jest --detectOpenHandles",
         "test-debug": "mocha test/test.ts --inspect-brk"
     },
     "dependencies": {

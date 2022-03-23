@@ -5,9 +5,7 @@ import { URLSearchParams } from 'url'
 import { JSDOM } from 'jsdom'
 import { decode } from 'iconv-lite'
 
-import { env } from 'process'
-
-env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 export class NeisCrawler implements Crawler<SchoolInfo[]> {
     private contentLength: number;
