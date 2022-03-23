@@ -7,6 +7,10 @@ export const StringToKeyMapping = {
   주소: 'address'
 }
 
+export type SchoolInfoSearchQuery = {
+  searchKeyword: string
+}
+
 export type SchoolInfo = {
     estDivision: string, // 설립구분
     estType : string, // 설립유형

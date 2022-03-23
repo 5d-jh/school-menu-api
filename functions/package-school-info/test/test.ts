@@ -13,15 +13,11 @@ firestore.settings({
 })
 
 describe('[SCHOOL-INFO] School info parser', function () {
-  it('parses text from school info', function (done) {
+  it('parses text from school info', async () => {
     const neisCrawler = new NeisCrawler()
-      .setParameters('서울')
 
-    neisCrawler.get()
-      .then(data => {
-        notStrictEqual(data.length, 0)
-      })
-      .then(done)
+    const data = await neisCrawler.get({ searchKeyword: '서울' })
+    notStrictEqual(data.length, 0)
   })
 })
 
@@ -29,11 +25,12 @@ describe('[SCHOOL-INFO] School info service', function () {
   it('saves keywords or datas', function (done) {
     const searchKeyword = '서울'
 
-    const neisCrawler = new NeisCrawler().setParameters(searchKeyword)
+    const neisCrawler = new NeisCrawler()
     const schoolInfoDataAccessor = new SchoolInfoDataAccessor(firestore)
+
     const schoolInfoService = new SchoolInfoService(neisCrawler, schoolInfoDataAccessor)
 
-    schoolInfoService.getSchoolInfos(searchKeyword)
+    schoolInfoService.getSchoolInfos({ searchKeyword })
       .then(data => {
         notStrictEqual(data.length, 0)
       })

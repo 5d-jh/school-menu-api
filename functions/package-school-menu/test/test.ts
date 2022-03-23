@@ -2,8 +2,7 @@ import { NeisCrawler } from '../src/data/NeisCrawler'
 import { MenuDataAccessor } from '../src/data/MenuDataAccessor'
 import { SchoolMenuService } from '../src/service/SchoolMenuService'
 import { SchoolType } from '@school-api/common'
-import { notEqual, strictEqual } from 'assert'
-import { QueryStringOptions } from '../src/type/QueryStringOptions'
+import { strictEqual } from 'assert'
 import * as admin from 'firebase-admin'
 
 const firebase = admin.initializeApp()
@@ -15,45 +14,43 @@ describe('[SCHOOL-MENU] Service', function () {
     port: 8080
   })
 
-  it('fetches menus from NEIS or database properly', (done) => {
+  it('fetches menus from NEIS or database properly', async () => {
     const neisCrawler = new NeisCrawler()
-      .setParameters(SchoolType.HIGH, 'K100000460', 2020, 1)
-
     const firestoreAccessor = new MenuDataAccessor(firestore)
-      .setParameters('K100000460', 2020, 1)
 
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor)
 
-    schoolMenuService.getSchoolMenu({} as QueryStringOptions)
-      .then(() => {
-        strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), false)
-        schoolMenuService.getSchoolMenu({} as QueryStringOptions)
-          .then(menu => {
-            notEqual(menu, null)
-            strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true)
-            done()
-          })
-      })
+    const parameter = {
+      schoolType: SchoolType.HIGH,
+      schoolCode: 'K100000460',
+      menuYear: 2020,
+      menuMonth: 1
+    }
+
+    await schoolMenuService.getSchoolMenu(parameter)
+    strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), false)
+
+    await schoolMenuService.getSchoolMenu(parameter)
+    strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true)
   })
 
-  it('fetches menus from NEIS or database properly', (done) => {
+  it('fetches menus from NEIS or database properly', async () => {
     const neisCrawler = new NeisCrawler()
-      .setParameters(SchoolType.HIGH, 'N100000191', 2021, 12)
-
     const firestoreAccessor = new MenuDataAccessor(firestore)
-      .setParameters('N100000191', 2021, 12)
 
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor)
 
-    schoolMenuService.getSchoolMenu({} as QueryStringOptions)
-      .then(() => {
-        strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), false)
-        schoolMenuService.getSchoolMenu({} as QueryStringOptions)
-          .then(menu => {
-            notEqual(menu, null)
-            strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true)
-            done()
-          })
-      })
+    const parameter = {
+      schoolType: SchoolType.HIGH,
+      schoolCode: 'N100000191',
+      menuYear: 2021,
+      menuMonth: 12
+    }
+
+    await schoolMenuService.getSchoolMenu(parameter)
+    strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), false)
+
+    await schoolMenuService.getSchoolMenu(parameter)
+    strictEqual(schoolMenuService.checkIfMenuIsFetchedFromDB(), true)
   })
 })

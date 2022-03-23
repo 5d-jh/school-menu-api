@@ -1,27 +1,27 @@
-import { SchoolInfo } from '../type/SchoolInfo'
+import { SchoolInfo, SchoolInfoSearchQuery } from '../type/SchoolInfo'
 import { Crawler } from '@school-api/common'
 import { SchoolInfoDataAccessor } from '../data/SchoolInfoDataAccessor'
 
 export class SchoolInfoService {
-    crawler: Crawler<SchoolInfo[]>;
-    dataAccessor: SchoolInfoDataAccessor;
+    readonly #crawler: Crawler<SchoolInfo[], SchoolInfoSearchQuery>;
+    readonly #dataAccessor: SchoolInfoDataAccessor;
 
     constructor (
-      crawler: Crawler<SchoolInfo[]>,
+      crawler: Crawler<SchoolInfo[], SchoolInfoSearchQuery>,
       dataAccessor: SchoolInfoDataAccessor
     ) {
-      this.crawler = crawler
-      this.dataAccessor = dataAccessor
+      this.#crawler = crawler
+      this.#dataAccessor = dataAccessor
     }
 
-    async getSchoolInfos (searchKeyword: string): Promise<SchoolInfo[]> {
-      let result = await this.dataAccessor.getByKeyword(searchKeyword)
+    async getSchoolInfos (query: SchoolInfoSearchQuery): Promise<SchoolInfo[]> {
+      let result = await this.#dataAccessor.getByKeyword(query)
 
       if (result.length === 0) {
-        result = await this.crawler.get()
+        result = await this.#crawler.get(query)
 
         if (result.length !== 0) {
-          await this.dataAccessor.updateDatasAndKeywords(result, searchKeyword)
+          await this.#dataAccessor.updateKeywordOrInsert(result, query)
         }
       }
 
