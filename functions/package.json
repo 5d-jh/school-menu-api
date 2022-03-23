@@ -20,7 +20,7 @@
         "logs": "firebase functions:log",
         "local": "ts-node package-function/src/index.ts",
         "lint": "eslint --fix . --ext .ts",
-        "test": "firebase emulators:exec --only firestore 'npm run test --workspaces'"
+        "test": "firebase emulators:exec --only firestore 'npm run test --workspaces -- --forceExit=true'"
     },
     "engines": {
         "node": "16",
