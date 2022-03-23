@@ -3,7 +3,7 @@ import { SchoolMenu } from '../type/SchoolMenu'
 import { JSDOM } from 'jsdom'
 import fetch, { FetchError } from 'node-fetch'
 import { decodeHTML5 } from 'entities'
-import process from 'process'
+import { env } from 'process'
 
 export class NeisCrawler implements Crawler<SchoolMenu[]> {
     private schoolType: SchoolType;
@@ -65,7 +65,7 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
       url += `&ay=${this.menuYear}`
       url += `&mm=${this.menuMonth < 10 ? '0' + this.menuMonth.toString() : this.menuMonth}`
 
-      if (process.env.NODE_ENV === 'test') {
+      if (env.NODE_ENV === 'test') {
         console.log(url)
       }
 
@@ -76,11 +76,11 @@ export class NeisCrawler implements Crawler<SchoolMenu[]> {
         const { window } = new JSDOM(body.toString())
         const $ = require('jquery')(window)
 
-        if (process.env.NODE_ENV != 'production') {
+        if (env.NODE_ENV !== 'production') {
           console.log(url)
         }
 
-        const result = new Array<SchoolMenu>()
+        const result: SchoolMenu[] = []
         let hasNoData = true
 
         $('td div').each(function () {

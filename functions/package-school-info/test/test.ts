@@ -13,8 +13,6 @@ firestore.settings({
 })
 
 describe('[SCHOOL-INFO] School info parser', function () {
-  this.timeout(100000)
-
   it('parses text from school info', function (done) {
     const neisCrawler = new NeisCrawler()
       .setParameters('서울')
@@ -28,8 +26,6 @@ describe('[SCHOOL-INFO] School info parser', function () {
 })
 
 describe('[SCHOOL-INFO] School info service', function () {
-  this.timeout(50000)
-
   it('saves keywords or datas', function (done) {
     const searchKeyword = '서울'
 

@@ -6,7 +6,7 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc --build",
-        "test": "mocha test/test.ts -r ts-node/register --exit",
+        "test": "jest",
         "test-debug": "mocha test/test.ts --inspect-brk"
     },
     "dependencies": {
