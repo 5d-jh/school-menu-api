@@ -18,7 +18,7 @@
     },
     "devDependencies": {
         "@types/jquery": "^3.3.34",
-        "@types/jsdom": "^16.2.1",
+        "@types/jsdom": "^16.2.14",
         "@types/node-fetch": "^2.5.6"
     }
 }
