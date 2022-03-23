@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc --build",
         "local": "export NODE_ENV=local && ts-node src/index.local.ts",
-        "test": "mocha test/test.ts -r ts-node/register --exit"
+        "test": "jest"
     },
     "dependencies": {
         "@school-api/info": "1.0.0",
@@ -16,9 +16,7 @@
     "devDependencies": {
         "@types/supertest": "^2.0.4",
         "firebase-functions-test": "^0.3.3",
-        "mocha": "^9.1.3",
-        "supertest": "^6.1.3",
-        "ts-node": "^10.4.0"
+        "supertest": "^6.1.3"
     },
     "private": true
 }

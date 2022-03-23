@@ -6,12 +6,19 @@
     "license": "MIT",
     "scripts": {
         "build": "tsc --build",
-        "test": "mocha test/test.ts -r ts-node/register --exit",
-        "test-debug": "mocha test/test.ts --inspect-brk"
+        "test": "jest"
     },
     "dependencies": {
         "@school-api/common": "1.0.0",
         "iconv-lite": "^0.6.1",
-        "nunjucks": "^3.2.1"
+        "nunjucks": "^3.2.1",
+        "jquery": "^3.6.0",
+        "jsdom": "^19.0.0",
+        "node-fetch": "^2.6.1"
+    },
+    "devDependencies": {
+        "@types/jquery": "^3.3.34",
+        "@types/jsdom": "^16.2.1",
+        "@types/node-fetch": "^2.5.6"
     }
 }

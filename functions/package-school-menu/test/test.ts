@@ -5,21 +5,18 @@ import { SchoolType } from '@school-api/common'
 import { strictEqual } from 'assert'
 import * as admin from 'firebase-admin'
 
-const firebase = admin.initializeApp({
-  databaseURL: 'http://localhost:8080',
-  projectId: 'dummy-firestore-id'
-})
-
-console.log(`Database URL: ${firebase.options.databaseURL}`)
+const firebase = admin.initializeApp()
 
 describe('[SCHOOL-MENU] Service', function () {
-  this.timeout(50000)
-
-  const db = firebase.firestore()
+  const firestore = firebase.firestore()
+  firestore.settings({
+    host: 'localhost',
+    port: 8080
+  })
 
   it('fetches menus from NEIS or database properly', async (done) => {
     const neisCrawler = new NeisCrawler()
-    const firestoreAccessor = new MenuDataAccessor(db)
+    const firestoreAccessor = new MenuDataAccessor(firestore)
 
     const schoolMenuService = new SchoolMenuService(neisCrawler, firestoreAccessor)
 
