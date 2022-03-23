@@ -29,3 +29,4 @@ jobs:
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8080
           NODE_ENV: ci
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
