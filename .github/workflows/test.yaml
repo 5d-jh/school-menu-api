@@ -22,7 +22,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          working-directory: ${{ env.wd }}
+          cache-dependency-path: ${{ env.wd }}
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
