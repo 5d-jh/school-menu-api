@@ -1,0 +1,6 @@
+packages:
+  - 'package-common'
+  - 'package-school-menu'
+  - 'package-school-info'
+  - 'package-function'
+  - '!**/test/**'
