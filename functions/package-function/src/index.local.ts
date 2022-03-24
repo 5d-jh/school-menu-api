@@ -15,7 +15,7 @@ if (env.NODE_ENV === 'local') {
   fbApp = admin.initializeApp()
 }
 
-const app = express.default()
+const app = express()
 
 app.use(schoolMenuApp(fbApp))
 app.use(schoolInfoApp(fbApp))
