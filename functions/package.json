@@ -20,19 +20,13 @@
         "logs": "firebase functions:log",
         "local": "ts-node package-function/src/index.ts",
         "lint": "eslint --fix . --ext .ts",
-        "test": "firebase emulators:exec --only firestore 'npm run test --workspaces -- --forceExit=true'"
+        "test": "firebase emulators:exec --only firestore 'pnpm run test --workspace-root'"
     },
     "engines": {
         "node": "16",
         "npm": ">=7"
     },
     "private": true,
-    "workspaces": [
-        "package-common",
-        "package-school-menu",
-        "package-school-info",
-        "package-function"
-    ],
     "dependencies": {
         "firebase-admin": "^10.0.2",
         "firebase-functions": "^3.16.0"
