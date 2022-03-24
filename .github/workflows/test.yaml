@@ -24,18 +24,18 @@ jobs:
         with:
           cache-dependency-path: ${{ env.wd }}
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install
         working-directory: ${{ env.wd }}
 
       - name: Build
-        run: 'pnpm run build:function'
+        run: pnpm run build --filter @school-api/function
         working-directory: ${{ env.wd }}
 
       - name: Run tests
-        run: firebase emulators:exec --only firestore "pnpm --filter @school-api/* test"
+        run: pnpm run test:all
         working-directory: ${{ env.wd }}
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8080

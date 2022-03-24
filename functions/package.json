@@ -7,14 +7,12 @@
     "author": "5d-jh",
     "license": "MIT",
     "scripts": {
+        "lint:fix": "eslint --fix . --ext .ts",
+        "setup:emulator:firestore": "firebase setup:emulators:firestore",
         "build:all": "pnpm run build --workspaces",
-        "build:function": "pnpm run build --filter @school-api/function",
         "build:clean": "rm -rf ./*/tsconfig.tsbuildinfo ./*/dist/",
-        "emulator": "pnpm run build && firebase emulators:start --only database,functions",
-        "emulator-firestore": "firebase emulators:start --only firestore",
-        "setup-emulator-firestore": "firebase setup:emulators:firestore",
-        "deploy": "firebase deploy --only functions",
-        "lint": "eslint --fix . --ext .ts"
+        "test:all": "firebase emulators:exec --only firestore \"pnpm --filter @school-api/* test\"",
+        "deploy": "firebase deploy --only functions"
     },
     "engines": {
         "node": "16",
