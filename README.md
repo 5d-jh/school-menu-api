@@ -80,7 +80,7 @@ print(school_menu)
 
 `functions` 디렉토리 내에서 아래와 같이 명령어를 실행합니다.
 ```sh
-pnpm run build --filter @school-api/function
+pnpm run build:all
 ```
 
 테스트를 실행하기 위해서는 아래와 같이 명령어를 실행합니다.

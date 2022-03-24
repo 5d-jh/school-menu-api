@@ -10,6 +10,7 @@
         "lint:fix": "eslint --fix . --ext .ts",
         "setup:emulator:firestore": "firebase setup:emulators:firestore",
         "build:clean": "rm -rf ./*/tsconfig.tsbuildinfo ./*/dist/",
+        "build:all": "pnpm run build --filter @school-api/function",
         "test:all": "firebase emulators:exec --only firestore \"pnpm --filter @school-api/* test\"",
         "deploy": "firebase deploy --only functions"
     },

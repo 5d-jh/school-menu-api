@@ -31,7 +31,7 @@ jobs:
         working-directory: ${{ env.wd }}
 
       - name: Build
-        run: pnpm run build --filter @school-api/function
+        run: pnpm run build:all
         working-directory: ${{ env.wd }}
 
       - name: Run tests
