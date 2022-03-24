@@ -7,13 +7,15 @@
     "scripts": {
         "build": "tsc --build",
         "local": "export NODE_ENV=local && ts-node src/index.local.ts",
-        "test": "jest"
+        "test": "jest --forceExit"
     },
     "dependencies": {
         "@school-api/info": "1.0.0",
-        "@school-api/menu": "1.0.0"
+        "@school-api/menu": "1.0.0",
+        "express": "^4.17.3"
     },
     "devDependencies": {
+        "@types/express": "^4.17.13",
         "@types/supertest": "^2.0.4",
         "firebase-functions-test": "^0.3.3",
         "supertest": "^6.1.3"

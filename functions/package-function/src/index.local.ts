@@ -1,4 +1,4 @@
-import * as express from 'express'
+import express from 'express'
 import { schoolMenuApp } from '@school-api/menu'
 import { schoolInfoApp } from '@school-api/info'
 import admin from 'firebase-admin'
@@ -15,7 +15,7 @@ if (env.NODE_ENV === 'local') {
   fbApp = admin.initializeApp()
 }
 
-const app = express.default()
+const app = express()
 
 app.use(schoolMenuApp(fbApp))
 app.use(schoolInfoApp(fbApp))

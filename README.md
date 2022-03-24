@@ -75,12 +75,17 @@ print(school_menu)
 
 ## 기타 사항
 ### 빌드 관련
-`functions` 디렉토리 내에서 다음과 같이 명령어를 실행해야 빌드가 완료됩니다.
+* 런타임: Node.js 16
+* 패키지 매니저: [pnpm](https://pnpm.io/ko/)
+
+`functions` 디렉토리 내에서 아래와 같이 명령어를 실행합니다.
 ```sh
-yarn
+pnpm run build:all
 ```
+
+테스트를 실행하기 위해서는 아래와 같이 명령어를 실행합니다.
 ```sh
-yarn run build
+pnpm run test:all
 ```
 
 ### 저작권
