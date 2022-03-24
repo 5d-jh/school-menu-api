@@ -34,8 +34,8 @@ jobs:
         run: 'pnpm run build:function'
         working-directory: ${{ env.wd }}
 
-      - name: Run test
-        run: pnpm run test
+      - name: Run tests
+        run: firebase emulators:exec --only firestore "pnpm --filter @school-api/* test"
         working-directory: ${{ env.wd }}
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8080

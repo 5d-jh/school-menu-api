@@ -13,14 +13,8 @@
         "emulator": "pnpm run build && firebase emulators:start --only database,functions",
         "emulator-firestore": "firebase emulators:start --only firestore",
         "setup-emulator-firestore": "firebase setup:emulators:firestore",
-        "serve": "firebase serve --only functions",
-        "shell": "npm run build && firebase functions:shell",
-        "start": "npm run shell",
         "deploy": "firebase deploy --only functions",
-        "logs": "firebase functions:log",
-        "local": "ts-node package-function/src/index.ts",
-        "lint": "eslint --fix . --ext .ts",
-        "test": "firebase emulators:exec --only firestore 'pnpm run test --workspace-root'"
+        "lint": "eslint --fix . --ext .ts"
     },
     "engines": {
         "node": "16",
