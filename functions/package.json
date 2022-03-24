@@ -7,10 +7,10 @@
     "author": "5d-jh",
     "license": "MIT",
     "scripts": {
-        "build:all": "npm run build --workspaces",
-        "build:function": "npm run build --workspace=@school-api/function",
+        "build:all": "pnpm run build --workspaces",
+        "build:function": "pnpm run build --filter @school-api/function",
         "build:clean": "rm -rf ./*/tsconfig.tsbuildinfo ./*/dist/",
-        "emulator": "npm run build && firebase emulators:start --only database,functions",
+        "emulator": "pnpm run build && firebase emulators:start --only database,functions",
         "emulator-firestore": "firebase emulators:start --only firestore",
         "setup-emulator-firestore": "firebase setup:emulators:firestore",
         "serve": "firebase serve --only functions",
