@@ -12,6 +12,7 @@
         "test": "jest"
     },
     "dependencies": {
+        "express": "^4.17.3",
         "@school-api/common": "workspace:*",
         "entities": "^2.0.0",
         "joi": "^17.4.0",

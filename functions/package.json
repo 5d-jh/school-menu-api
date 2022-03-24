@@ -9,14 +9,13 @@
     "scripts": {
         "lint:fix": "eslint --fix . --ext .ts",
         "setup:emulator:firestore": "firebase setup:emulators:firestore",
-        "build:all": "pnpm run build --workspaces",
         "build:clean": "rm -rf ./*/tsconfig.tsbuildinfo ./*/dist/",
         "test:all": "firebase emulators:exec --only firestore \"pnpm --filter @school-api/* test\"",
         "deploy": "firebase deploy --only functions"
     },
     "engines": {
         "node": "16",
-        "npm": ">=7"
+        "pnpm": ">=3"
     },
     "private": true,
     "dependencies": {
