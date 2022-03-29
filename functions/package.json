@@ -7,18 +7,32 @@
     "author": "5d-jh",
     "license": "MIT",
     "scripts": {
-        "lint:fix": "eslint --fix . --ext .ts",
-        "setup:emulator:firestore": "firebase setup:emulators:firestore",
+        "build:all": "npm run build --workspaces",
+        "build:function": "npm run build --workspace=@school-api/function",
         "build:clean": "rm -rf ./*/tsconfig.tsbuildinfo ./*/dist/",
-        "build:all": "pnpm run build --filter @school-api/function",
-        "test:all": "firebase emulators:exec --only firestore \"pnpm --filter @school-api/* test\"",
-        "deploy": "firebase deploy --only functions"
+        "emulator": "npm run build && firebase emulators:start --only database,functions",
+        "emulator-firestore": "firebase emulators:start --only firestore",
+        "setup-emulator-firestore": "firebase setup:emulators:firestore",
+        "serve": "firebase serve --only functions",
+        "shell": "npm run build && firebase functions:shell",
+        "start": "npm run shell",
+        "deploy": "firebase deploy --only functions",
+        "logs": "firebase functions:log",
+        "local": "ts-node package-function/src/index.ts",
+        "lint": "eslint --fix . --ext .ts",
+        "test": "firebase emulators:exec --only firestore 'npm run test --workspaces -- --forceExit=true'"
     },
     "engines": {
         "node": "16",
-        "pnpm": ">=3"
+        "npm": ">=7"
     },
     "private": true,
+    "workspaces": [
+        "package-common",
+        "package-school-menu",
+        "package-school-info",
+        "package-function"
+    ],
     "dependencies": {
         "firebase-admin": "^10.0.2",
         "firebase-functions": "^3.16.0"
