@@ -8,12 +8,14 @@ jobs:
     env:
       wd: ./functions
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: functions/package-lock.json
 
       - name: Install dependencies
         run: npm i
