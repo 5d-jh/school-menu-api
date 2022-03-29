@@ -32,7 +32,8 @@
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" install",
       "npm --prefix \"$RESOURCE_DIR\" run build:clean",
-      "npm --prefix \"$RESOURCE_DIR\" run build:function"
+      "npm --prefix \"$RESOURCE_DIR\" run build:function",
+      "npm --prefix \"$RESOURCE_DIR\" install --production"
     ],
     "source": "functions"
   },
