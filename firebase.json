@@ -30,9 +30,9 @@
   },
   "functions": {
     "predeploy": [
-      "pnpm -C \"$RESOURCE_DIR\" install",
-      "pnpm -C \"$RESOURCE_DIR\" run build:clean",
-      "pnpm -C \"$RESOURCE_DIR\" --filter @school-api/function run build"
+      "npm --prefix \"$RESOURCE_DIR\" install",
+      "npm --prefix \"$RESOURCE_DIR\" run build:clean",
+      "npm --prefix \"$RESOURCE_DIR\" run build:function"
     ],
     "source": "functions"
   },

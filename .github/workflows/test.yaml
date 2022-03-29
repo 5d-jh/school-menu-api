@@ -10,32 +10,21 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v2
 
-      - uses: pnpm/action-setup@v2.0.1
-        with:
-          version: 6.32.3
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          cache-dependency-path: ${{ env.wd }}
-          node-version: ${{ matrix.node-version }}
-          cache: pnpm
-
       - name: Install dependencies
-        run: pnpm install
+        run: npm i
         working-directory: ${{ env.wd }}
 
       - name: Build
-        run: pnpm run build:all
+        run: 'npm run build:function'
         working-directory: ${{ env.wd }}
 
-      - name: Run tests
-        run: pnpm run test:all
+      - name: Run test
+        run: npm run test
         working-directory: ${{ env.wd }}
         env:
           FIRESTORE_EMULATOR_HOST: localhost:8080

@@ -1,7 +1,7 @@
-import express from 'express'
+import express = require('express');
 import { schoolMenuApp } from '@school-api/menu'
 import { schoolInfoApp } from '@school-api/info'
-import * as admin from 'firebase-admin'
+import admin from 'firebase-admin'
 import { AddressInfo } from 'net'
 
 const fbApp = admin.initializeApp({
