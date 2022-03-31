@@ -12,8 +12,11 @@ const service = (firebaseApp: admin.app.App): Handler => async (req, res, next) 
 
   const options: SchoolMenuOption = req.query
 
-  const menuYear = options.year
-  const menuMonth = options.month
+  const {
+    year: menuYear,
+    month: menuMonth,
+    date
+  } = options
 
   const neisCrawler = new NeisCrawler()
 
@@ -28,7 +31,8 @@ const service = (firebaseApp: admin.app.App): Handler => async (req, res, next) 
       schoolType,
       schoolCode,
       menuYear,
-      menuMonth
+      menuMonth,
+      date
     })
     const jsonResponseBody = new JsonResponseBody()
 
