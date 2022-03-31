@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import app from './server'
-import { equal } from 'assert/strict'
+import { equal, notEqual } from 'assert/strict'
 
 describe('[Integration] school-menu', function () {
   let request: supertest.SuperTest<supertest.Test>
@@ -13,7 +13,7 @@ describe('[Integration] school-menu', function () {
     const { body } = await request.get('/api/high/B100002365?year=2019&month=05&date=08')
       .expect(200)
 
-    equal(body.menu.length, 0)
+    notEqual(body.menu.length, 0)
   })
 
   it('Issue #126', async () => {
