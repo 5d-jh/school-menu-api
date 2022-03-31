@@ -1,0 +1,511 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<!-- 소셜로그인 정보 -->
+
+
+					
+					<script>
+                    
+				    //map height 변경
+				    $(".map").css('height','410px');
+				    
+					</script>
+                    <div class="basic_data">
+                        <p>
+                        <span class="mark ele_mark">초등</span><a href="javascript:searchSchul('B100000897')" title="서울가동초등학교 정보보기 새창">서울가동초등학교</a>
+                        
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<!-- 소셜로그인 정보 -->
+
+
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		//즐겨찾는 학교 전체 체크 표시 처리		
+		var schulCode = "B100000897";
+		var itemCode = $.cookie('cookieSchulCode');
+		if(itemCode != null && itemCode.indexOf(schulCode) != -1){
+			$("#fav"+schulCode).addClass("onoff");
+		}
+	});
+	
+	function favoriteSchul(schulCode,schulNm){
+		var resultItemNm = "";
+		var resultItemCode = "";
+		
+		var itemNm = $.cookie('cookieSchulNm');
+		var itemCode = $.cookie('cookieSchulCode');
+		
+		var itemNmArray = jQuery.type(itemNm) == "undefined" ? new Array() : itemNm.split(',');
+		var itemCodeArray = jQuery.type(itemCode) == "undefined" ? new Array() : itemCode.split(',');
+		if(itemCodeArray.length >= 10){
+			alert("즐겨찾는 학교는 최대 10개까지 등록 가능합니다.\n현재 나의 즐겨찾는 학교 개수는("+itemCodeArray.length+")개 입니다.");
+			return false;
+		}
+
+		if($("#fav"+schulCode).hasClass("onoff")==false){
+			//등록
+			if(itemCodeArray.length < 10){
+				itemNmArray[itemCodeArray.length] = schulNm;
+				itemCodeArray[itemCodeArray.length] = schulCode;
+			}
+			$("#fav"+schulCode).addClass("onoff");
+			$("#fav"+schulCode).text("즐겨찾기 선택됨");
+			$("#fav"+schulCode).focus();
+		}else{
+			//삭제
+			for(var i = 0; i<itemCodeArray.length; i++){
+				if(schulCode == itemCodeArray[i]){
+					itemNmArray[i] = null;
+					itemCodeArray[i] = null;
+				}
+			}
+			$("#fav"+schulCode).removeClass("onoff");			
+			$("#fav"+schulCode).text("즐겨찾기 선택안됨");
+			$("#fav"+schulCode).focus();
+		}
+		
+		var cnt = 0;
+		for(var i = 0; i<itemCodeArray.length; i++){
+			if(itemCodeArray[i] != null){//쿠기 재 배열
+				resultItemNm += cnt == 0 ? itemNmArray[i] : ","+itemNmArray[i]; 
+				resultItemCode += cnt == 0 ? itemCodeArray[i] : ","+itemCodeArray[i];
+				cnt++;
+			}
+		}
+		$.cookie.defaults.path = '/';
+		if(resultItemCode==null|| resultItemCode==""){
+			$.removeCookie("cookieSchulNm");
+			$.removeCookie("cookieSchulCode");			
+		}else{
+			$.cookie("cookieSchulNm", resultItemNm);
+			$.cookie("cookieSchulCode", resultItemCode);
+		}
+	}
+</script>
+<button class="fav_school hidden2" id="favB100000897" tabindex="0" onclick="javascript:favoriteSchul('B100000897','서울가동초등학교')" >즐겨찾기선택</button>
+                        </p>
+                        
+                        <div class="oh">
+                            <div class="l_box">
+                                <span class="md"><span class="mt">설립구분 :</span>공립</span><br>
+                                <span class="md"><span class="mt">설립유형 :</span>단설</span><br>
+                                
+                                <span class="md"><span class="mt">설립일자 :</span>
+								
+								1990년 04월 25일</span><br>
+                                <span class="md"><span class="mt">대표번호 :</span>02-448-5766</span><br>
+                                <span class="md" style="margin-right:0;"><span class="mt">홈페이지 :</span>
+                                
+									
+										
+										
+										
+										 
+										
+										<a href="http://gadong.sen.es.kr" target="_blank" class="alink" title="서울가동초등학교 홈페이지 새창">http://gadong.sen.es.kr</a>
+									
+									
+								
+								</span>
+                            </div>
+                            <div class="l_box">
+                                <span class="md"><span class="mt">학생수 :</span>
+								895명
+								(남 467명
+								, 여 428명)
+								</span><br>
+                                <span class="md"><span class="mt">교원수 :</span>
+								67명
+								
+								<!--	 (남 5명 
+								, 여 62명)-->
+								
+								(남 <span>5</span>명
+								, 여 <span>62</span>명)
+								
+								</span><br>
+                                <span class="md"><span class="mt">체육집회공간 :</span>2실</span><br>
+                                <span class="md"><span class="mt">주소 :</span>서울특별시 송파구 중대로20길 47</span>                                
+								<span class="md"><span class="mt">관할교육청 :</span>서울특별시강동송파교육지원청</span>
+                            </div>
+                        </div>
+                    
+                        
+                        <div class="oh">
+                            <div class="box l_box">
+                                <span class="boxtt">급식정보<!--<a href="javascript:;" class="search_tip"><img src="/images/new/common/tooltip.png" alt="식품 알레르기 정보"></a>--></span>
+                                <!--<div id="myTemplate"  class="tip_w" style="display:none; width:600px !important">
+									<span style="color:#ffcc00;">식단의 숫자는 식품 알레르기 정보입니다.</span><br>
+									 1.난류 2.우유 3.메밀 4.땅콩 5.대두 6.밀<br>
+									 7.고등어 8.게 9.새우 10.돼지고기 11.복숭아<br>
+									 12.토마토 13.아황산류 14.호두 15.닭고기<br>
+									 16.쇠고기 17.오징어 18.조개류(굴,정복,홍합 포함)
+								</div>
+								-->
+                                <div class="boxct">
+                                    <div class="owl-carousel owl-theme" id="mealInfoWrapperB100000897"></div>
+                                </div>
+                             </div>
+                            <div class="box l_box">
+                                <span class="boxtt">학급당 학생수</span>
+	                                <div class="boxct">
+                                    
+									
+										
+										
+										
+										
+										
+										
+										
+										
+										
+									
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<!-- 소셜로그인 정보 -->
+
+
+
+
+
+
+
+	
+	<div class="B100000897"></div>
+	<script type="text/javascript" src="/js/webponent.licenseKey.js"></script>
+	<script type="text/javascript" src="/js/raphael.js?ran=6151469"></script>
+	<script type="text/javascript" src="/js/webponent.comm.common.js?ran=1009972"></script>
+	<script type="text/javascript" src="/js/webponent.chart.js?ran=8867179"></script>
+	<script type="text/javascript">
+	$(".B100000897").css("height", "173px");
+	//<![CDATA[
+		var options = {
+			data: {
+				data: [
+					
+						{
+							Date: '교원1인당\n학생수',
+							Mprc: '17.5'
+						},
+					
+						{
+							Date: '학급당학생수',
+							Mprc: '21.8'
+						},
+					
+						{
+							Date: '전체학생수',
+							Mprc: '895'
+						}
+					
+				]
+			},
+			format: {
+				yAxis: 'priceDataFormat'
+			},
+			func: {
+				tip: function(tipElement, data, rect) {
+					var yaxis = String(data.yaxis).format().toString();
+					var tip = '<div><span>'+data.data.Date+'</span>'+
+						'<br/>' +
+						'<br/>  ' + yaxis.trim() + '명'+
+						'</div>';
+					tipElement.html(tip).show();
+					tipElement.html(tipElement.html()).css({
+						left: rect.x - (tipElement.width() /2),
+						top: rect.y -35
+					});
+				
+				}
+			},
+			use : {
+				animate: true,
+				aCrossLine: false,
+				reSize: true
+			},
+			toolTip: {
+				use: false
+			}
+		};
+		var styles = {
+			main: {
+				layout: {
+					color: 'white',
+					line : { width: 0 },
+					paddingTop: 10, paddingBottom: 0
+				},
+				graph: {
+					color: 'white'
+				},
+				yAxis: {
+					width: 10,
+					minNumber: 0,
+					text: {
+						family: "Noto Sans KR",
+						align: 'right'
+					}
+				},
+				xAxis: {
+					line: false,
+					gap: 1,
+					text: {
+						family: "Noto Sans KR"
+					}
+				},
+				tip : {
+					className: 'tooltip'
+				},
+				series: {
+					s1: {
+						area: {
+							items: [
+								{
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}, {
+									color: '#7292ed',
+									opacity: 1,
+									over: {
+										color: '#7292ed',
+										opacity: 0.7
+									}
+								}
+							]
+						},
+						text:{
+							use:true,
+							family: "Noto Sans KR",
+							style:'bold',
+							format:'priceDataFormat'
+						}
+					}
+				}
+			}  
+		};
+		var series = {
+			"main": {
+				"s1": {
+					series: 'column',
+					xaxis: 'Date',
+					yaxis: 'Mprc'
+				}
+			}
+		};
+		var chart = webponent.chart.init($('.B100000897'), options, styles, series);
+	//]]>
+	</script>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                    <div class="map" id="mapB100000897"></div>

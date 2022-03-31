@@ -6,6 +6,7 @@ node_modules/
 **/*.js
 **/*.js.map
 !**/*/*.config.js
+!**/*/jest.*.js
 
 # Typescript v1 declaration files
 typings/
