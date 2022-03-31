@@ -18,7 +18,7 @@ jobs:
           cache-dependency-path: functions/package-lock.json
 
       - name: Install dependencies
-        run: npm i
+        run: npm ci
         working-directory: ${{ env.wd }}
 
       - name: Build
