@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import app from './server'
-import { notStrictEqual } from 'assert'
+import { equal } from 'assert/strict'
 
 describe('[Integration] school-menu', function () {
   let request: supertest.SuperTest<supertest.Test>
@@ -13,6 +13,13 @@ describe('[Integration] school-menu', function () {
     const { body } = await request.get('/api/high/B100002365?year=2019&month=05&date=08')
       .expect(200)
 
-    notStrictEqual(body.menu.length, 0)
+    equal(body.menu.length, 0)
+  })
+
+  it('Issue #126', async () => {
+    const { body } = await request.get('/api/high/G100000170?year=2022&month=3&date=30')
+      .expect(200)
+
+    equal(body.menu.length, 1)
   })
 })
