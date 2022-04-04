@@ -22,4 +22,12 @@ describe('[Integration] school-menu', function () {
 
     equal(body.menu.length, 1)
   })
+
+  it('Issue #130', async () => {
+    const { body } = await request.get('/api/high/G100000170?year=2022&month=3&allergy=formed')
+      .expect(200)
+
+    expect(body.menu[1].breakfast.allergy).toBeTruthy()
+    expect(body.menu[1].breakfast.allergy.length).toBeGreaterThan(0)
+  })
 })
