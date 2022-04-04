@@ -15,7 +15,7 @@
         "@school-api/menu": "1.0.0"
     },
     "devDependencies": {
-        "@types/supertest": "^2.0.4",
+        "@types/supertest": "^2.0.12",
         "firebase-functions-test": "^0.3.3",
         "supertest": "^6.1.3"
     },
