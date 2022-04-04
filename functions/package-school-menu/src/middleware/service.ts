@@ -15,7 +15,8 @@ const service = (firebaseApp: admin.app.App): Handler => async (req, res, next) 
   const {
     year: menuYear,
     month: menuMonth,
-    date
+    date,
+    allergy
   } = options
 
   const neisCrawler = new NeisCrawler()
@@ -32,7 +33,8 @@ const service = (firebaseApp: admin.app.App): Handler => async (req, res, next) 
       schoolCode,
       menuYear,
       menuMonth,
-      date
+      date,
+      allergy
     })
     const jsonResponseBody = new JsonResponseBody()
 
