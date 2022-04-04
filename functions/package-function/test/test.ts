@@ -27,7 +27,7 @@ describe('[Integration] school-menu', function () {
     const { body } = await request.get('/api/high/G100000170?year=2022&month=3&allergy=formed')
       .expect(200)
 
-    expect(body.menu[1].breakfast.allergy).toBeTruthy()
-    expect(body.menu[1].breakfast.allergy.length).toBeGreaterThan(0)
+    expect(body.menu[1].breakfast[0].allergy).toBeTruthy()
+    expect(body.menu[1].breakfast[0].allergy.length).toBeGreaterThan(0)
   })
 })
