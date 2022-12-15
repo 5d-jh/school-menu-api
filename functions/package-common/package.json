@@ -12,7 +12,7 @@
     "private": true,
     "description": "Common package for school-menu-api packages",
     "dependencies": {
-        "express": "^4.17.1"
+        "express": "^4.17.3"
     },
     "devDependencies": {
         "@types/express": "4.11.1",
