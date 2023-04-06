@@ -1,5 +1,4 @@
 # 학교식단 API
-[![Build Status](https://travis-ci.org/5d-jh/school-menu-api.svg?branch=master)](https://travis-ci.org/5d-jh/school-menu-api)
 
 ## 개요 및 특징
 **더욱 정확한 정보를 보장하는 [나이스 교육정보 개방포털](https://open.neis.go.kr/portal/mainPage.do) 사용을 권장합니다.**
@@ -17,15 +16,15 @@
  * 고등학교: `high`
 
 ## 학교 코드
-[여기](https://schoolmenukr.ml/code/app)에서 학교 코드를 확인할 수 있습니다.
+[여기](https://school-api.xyz/code/app)에서 학교 코드를 확인할 수 있습니다.
 
 ## 식단 불러오기
-`https://schoolmenukr.ml/api/[학교유형]/[학교코드]`</code>`로 현재 달의 식단을 불러올 수 있습니다. 응답 데이터는 JSON 입니다.
+`https://school-api.xyz/api/[학교유형]/[학교코드]`로 현재 달의 식단을 불러올 수 있습니다. 응답 데이터는 JSON 입니다.
 
 ### 매개변수(선택사항)
 다음과 같이 주소 끝에 변수명과 값을 적어 사용합니다.
 
-<code>https://<span></span>schoolmenukr.<span></span>ml/api/[학교유형]/[학교코드]<strong>?[변수명1]=[값1]&[변수명2]=[값2]</strong></code>
+<code>https://<span></span>school-api.<span></span>xyz/api/[학교유형]/[학교코드]<strong>?[변수명1]=[값1]&[변수명2]=[값2]</strong></code>
 
 | 변수명 | 설명 | 기본값 |
 | :------: | ------ | ------ |
@@ -39,7 +38,7 @@
 ```javascript
 const request = require('request');
 
-const url = 'https://schoolmenukr.ml/api/high/X123456789?date=23';
+const url = 'https://school-api.xyz/api/high/X123456789?date=23';
 request(url, (err, res, body) => {
     var json = JSON.parse(body);
     console.log(json);
@@ -50,7 +49,7 @@ request(url, (err, res, body) => {
 import requests
 import json
 
-url = 'https://schoolmenukr.ml/api/middle/X123456789?year=2018&month=5'
+url = 'https://school-api.xyz/api/middle/X123456789?year=2018&month=5'
 response = requests.get(url)
 school_menu = json.loads(response.text)
 print(school_menu)
@@ -74,13 +73,15 @@ print(school_menu)
 ```
 
 ## 기타 사항
-### 빌드 관련
-`functions` 디렉토리 내에서 다음과 같이 명령어를 실행해야 빌드가 완료됩니다.
+### 직접 빌드 및 배포하기
+준비사항
+* Node.js 16
+* Firebase CLI
+* Firebase Console에서 생성한 프로젝트
+
+프로젝트 루트에 위치한 `.firebaserc` 파일에서 firebase project id를 수정한 후, 다음과 같이 명령어를 실행하면 배포할 수 있습니다.
 ```sh
-yarn
-```
-```sh
-yarn run build
+firebase deploy
 ```
 
 ### 저작권
