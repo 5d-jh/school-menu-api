@@ -2,7 +2,7 @@ import express from 'express'
 import path from 'path'
 import nunjucks from 'nunjucks'
 import * as admin from 'firebase-admin'
-import { JsonResponseBody, ErrorResponseBody } from '@school-api/common'
+import { JsonResponseBody, ErrorResponseBody, requestLogger } from '@school-api/common'
 import { NeisCrawler } from './data/NeisCrawler'
 import { SchoolInfoDataAccessor } from './data/SchoolInfoDataAccessor'
 import { SchoolInfoService } from './service/SchoolInfoService'
@@ -16,6 +16,8 @@ nunjucks.configure(path.resolve(__dirname, '../view'), {
 
 export const schoolInfoApp = (firebaseApp: admin.app.App) => {
   const firestore = firebaseApp.firestore()
+
+  app.use(requestLogger)
 
   app.use('/code/static', express.static(path.resolve(__dirname, '../static')))
 

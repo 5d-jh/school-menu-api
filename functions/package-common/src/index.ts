@@ -4,6 +4,7 @@ export { SchoolType } from './type/SchoolType'
 
 export { JsonResponseBody } from './util/JsonResponseBody'
 export { ErrorResponseBody } from './util/ErrorResponseBody'
+export { requestLogger } from './util/requestLogger'
 
 export { InvalidResponseBodyError } from './error/InvalidResponseBodyError'
 export { BadRequestError } from './error/BadRequestError'
