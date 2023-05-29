@@ -1,14 +1,14 @@
 {
     "name": "@school-api/function",
     "version": "1.0.0",
-    "main": "dist/index.js",
-    "typings": "dist/index.d.ts",
+    "main": "dist/index.min.js",
     "license": "MIT",
     "scripts": {
-        "build": "tsc --build",
+        "build": "node build.js",
         "local": "export NODE_ENV=local && ts-node src/index.local.ts",
         "test": "jest",
-        "test:self": "firebase emulators:exec --only firestore 'jest'"
+        "test:self": "firebase emulators:exec --only firestore 'jest'",
+        "typecheck": "tsc --noEmit"
     },
     "dependencies": {
         "@school-api/info": "1.0.0",

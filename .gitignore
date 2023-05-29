@@ -3,7 +3,7 @@ node_modules/
 *.cache
 
 ## Compiled JavaScript files
-**/*.js
+**/*.min.js
 **/*.js.map
 !**/*/*.config.js
 !**/*/jest.*.js
