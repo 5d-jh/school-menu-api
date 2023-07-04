@@ -12,7 +12,7 @@
         "iconv-lite": "^0.6.1",
         "nunjucks": "^3.2.1",
         "jquery": "^3.6.0",
-        "jsdom": "^19.0.0",
+        "jsdom": "^22.1.0",
         "node-fetch": "^2.6.1"
     },
     "devDependencies": {
