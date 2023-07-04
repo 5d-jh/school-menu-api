@@ -1,5 +1,6 @@
 # 학교식단 API
-
+**[학교식단 API, 학교정보 API는 2023년 8월 1일부로 종료됩니다. 
+](https://github.com/5d-jh/school-menu-api/issues/216)**
 ## 개요 및 특징
 **더욱 정확한 정보를 보장하는 [나이스 교육정보 개방포털](https://open.neis.go.kr/portal/mainPage.do) 사용을 권장합니다.**
 
