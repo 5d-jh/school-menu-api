@@ -9,7 +9,7 @@
     },
     "dependencies": {
         "@school-api/common": "1.0.0",
-        "iconv-lite": "^0.6.1",
+        "iconv-lite": "^0.6.3",
         "nunjucks": "^3.2.1",
         "jquery": "^3.6.0",
         "jsdom": "^19.0.0",
