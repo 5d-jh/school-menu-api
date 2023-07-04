@@ -12,7 +12,7 @@
     },
     "dependencies": {
         "@school-api/common": "1.0.0",
-        "entities": "^2.0.0",
+        "entities": "^4.5.0",
         "joi": "^17.4.0",
         "jquery": "^3.6.0",
         "jsdom": "^19.0.0",
